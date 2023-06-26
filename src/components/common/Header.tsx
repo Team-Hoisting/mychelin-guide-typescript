@@ -10,6 +10,8 @@ import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
 import { useOnClickOutside } from '../../hooks/index.js';
+import { User } from 'types';
+import { AxiosError } from 'axios';
 
 const Container = styled.div`
   position: fixed;
@@ -111,7 +113,11 @@ const RegisterButton = styled.button`
   }
 `;
 
-const UserDropdown = styled.nav`
+interface UserDropdownProps {
+  opened: boolean;
+}
+
+const UserDropdown = styled.nav<UserDropdownProps>`
   display: ${({ opened }) => (opened ? 'block' : 'none')};
   border: 1px solid #ababab;
   border-radius: 5px;
@@ -145,12 +151,12 @@ const Spacer = styled.div`
 `;
 
 const Header = () => {
-  const [user, setUser] = useRecoilState(userState);
+  const [user, setUser] = useRecoilState<User | null>(userState);
   const setSearchInput = useSetRecoilState(searchInputState);
   const setCategoryState = useSetRecoilState(categoryState);
   const [theme, setTheme] = useRecoilState(themeState);
   const [openDropdown, setOpenDropdown] = React.useState(false);
-  const searchBarRef = React.useRef(null);
+  const searchBarRef = React.useRef<HTMLInputElement>();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -170,7 +176,7 @@ const Header = () => {
 
   const resetMainPage = () => {
     setSearchInput('');
-    searchBarRef.current.value = '';
+    if (searchBarRef.current) searchBarRef.current.value = '';
     setCategoryState('AL00');
   };
 
@@ -220,7 +226,7 @@ const Header = () => {
                 <UserImage
                   src={`/img/users/${user.nickname}`}
                   onError={e => {
-                    e.target.src = '/img/default/user.png';
+                    if (e.target instanceof HTMLImageElement) e.target.src = '/img/default/user.png';
                   }}
                 />
               )}
@@ -246,7 +252,7 @@ const Header = () => {
                     toast.success('로그아웃 되었습니다.');
                     navigate('/');
                   } catch (e) {
-                    throw new Error(e);
+                    if (e instanceof AxiosError) throw new Error(e.message);
                   }
                 }}>
                 Sign Out
