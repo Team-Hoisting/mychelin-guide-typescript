@@ -22,7 +22,11 @@ const Container = styled.div`
   background-color: var(--bg-secondary-color);
 `;
 
-const Wrapper = styled(Responsive)`
+interface WrapperProps {
+  hasSearchBar: boolean;
+}
+
+const Wrapper = styled(Responsive)<WrapperProps>`
   height: 4rem;
   min-width: 1024px;
   align-items: center;
@@ -156,7 +160,7 @@ const Header = () => {
   const setCategoryState = useSetRecoilState(categoryState);
   const [theme, setTheme] = useRecoilState(themeState);
   const [openDropdown, setOpenDropdown] = React.useState(false);
-  const searchBarRef = React.useRef<HTMLInputElement>();
+  const searchBarRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -203,7 +207,7 @@ const Header = () => {
               />
             </Link>
           </div>
-          {hasSearchBar && <SearchBar hasDropdown inputRef={searchBarRef} />}
+          {hasSearchBar ? <SearchBar hasDropdown={true} inputRef={searchBarRef} /> : <></>}
           <ConfigsContainer>
             <Link to="/searchmap">
               <RegisterButton>당신만의 맛집을 알려주세요</RegisterButton>
