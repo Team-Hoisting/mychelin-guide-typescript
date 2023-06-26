@@ -70,7 +70,7 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   margin-right: 1rem;
 `;
 
-const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase, setTaskQueue }) => {
+const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) => {
   const { nickname, voteStatus } = useRecoilValue(userState);
   const { storeId: votedPrevStoreId } = voteStatus.find(vote => vote.categoryCode === categoryCode);
 
