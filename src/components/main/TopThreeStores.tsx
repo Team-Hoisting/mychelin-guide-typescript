@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { StoreItem } from '.';
+import { StoresDataType } from 'types';
 
 const Container = styled.div`
   display: grid;
@@ -8,7 +9,11 @@ const Container = styled.div`
   grid-gap: 20px;
 `;
 
-const TopThreeStores = ({ stores }) => (
+interface TopThreeStoresProps {
+  stores: StoresDataType;
+}
+
+const TopThreeStores = ({ stores }: TopThreeStoresProps) => (
   <Container>
     {stores.map((store, idx) => (
       <StoreItem key={store.storeId} place={idx + 1} store={store} />

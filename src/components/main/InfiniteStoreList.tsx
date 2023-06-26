@@ -12,11 +12,11 @@ const StoresContainer = styled.div`
 
 const InfiniteStoreList = () => {
   const { data, fetchNextPage, hasNextPage } = useFetchStores();
-  const searchedStores = data.pages.flat();
-  const [topThree, remaining] = [searchedStores.slice(0, 3), searchedStores.slice(3)];
+  const searchedStores = data?.pages.flat();
+  const [topThree, remaining] = [searchedStores?.slice(0, 3), searchedStores?.slice(3)];
   const searchedInput = useRecoilValue(searchInputState);
 
-  return searchedInput && !searchedStores.length ? (
+  return searchedInput && !searchedStores ? (
     <NoResultMessage />
   ) : (
     <StoresContainer>
