@@ -10,5 +10,4 @@ export { default as ScrollObserver } from './ScrollObserver';
 export { default as SkinnyContainer } from './SkinnyContainer';
 export { default as Footer } from './Footer';
 export { default as Responsive } from './Responsive';
-export { default as Toast } from './Toast';
 export { default as ModalBox } from './ModalBox';
