@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { storeQueryKey } from '../constants/index';
 import { fetchStore } from '../api/stores';
+import { AxiosError } from 'axios';
 
-const storeQuery = storeid => ({
+const storeQuery = (storeid: string) => ({
   queryKey: [...storeQueryKey, storeid],
   queryFn: fetchStore(storeid),
-  onError: error => console.error(error),
+  onError: (error: AxiosError) => console.error(error),
 });
 
-const useStore = id => useQuery(storeQuery(id));
+const useStore = (id: string) => useQuery(storeQuery(id));
 
 export default useStore;

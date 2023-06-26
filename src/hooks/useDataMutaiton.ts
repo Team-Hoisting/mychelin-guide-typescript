@@ -1,6 +1,12 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
-const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }) => {
+interface MutationPropsType {
+  // mutationFn: ;
+  // onMutate: ;
+  queryKey: Array<string | number>;
+}
+
+const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }: MutationPropsType) => {
   const queryClient = useQueryClient();
 
   return useMutation({

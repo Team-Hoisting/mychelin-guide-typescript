@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { StoreDataType } from '../types';
 
 const url = `/api/stores`;
 
@@ -14,7 +15,7 @@ const fetchSearchedStores = async keyword => {
   return response.data;
 };
 
-const fetchStore = storeid => async () => {
+const fetchStore = (storeid: string) => async (): Promise<StoreDataType> => {
   const response = await axios.get(`${url}/${storeid}`);
 
   return response.data;
