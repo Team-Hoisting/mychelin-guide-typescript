@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { CategoryCode } from 'types';
 import { categoryInfo } from '../../constants';
 
 const Container = styled.div`
@@ -34,13 +35,19 @@ const VotedCnt = styled.span`
   line-height: 1.5;
 `;
 
-const CategoryTag = ({ categoryCode, votedCnt, renderName = true }) => {
-  const imgSrc = `/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
+interface CategoryTagProps {
+  categoryCode: string;
+  votedCnt: number;
+  renderName: boolean | undefined;
+}
+
+const CategoryTag = ({ categoryCode, votedCnt, renderName = true }: CategoryTagProps) => {
+  const imgSrc = `/categoryIcons/${categoryInfo[categoryCode as CategoryCode].imgFile}.png`;
 
   return (
     <Container>
       <CategoryIcon src={imgSrc} alt="" />
-      {renderName && <CatagoryName>{categoryInfo[categoryCode].ko}</CatagoryName>}
+      {renderName && <CatagoryName>{categoryInfo[categoryCode as CategoryCode].ko}</CatagoryName>}
       <VotedCnt>{votedCnt}</VotedCnt>
     </Container>
   );
