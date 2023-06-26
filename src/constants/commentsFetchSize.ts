@@ -1,0 +1,3 @@
+const COMMENTS_FETCH_SIZE = 5;
+
+export default COMMENTS_FETCH_SIZE;

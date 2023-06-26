@@ -1,0 +1,10 @@
+export { default as StorePositionMap } from './StorePositionMap';
+export { default as Title } from './Title';
+export { default as Main } from './Main';
+export { default as StoreDetail } from './StoreDetail';
+export { default as Votes } from './Votes';
+export { default as CommentsList } from './CommentsList';
+export { default as CommentsTextArea } from './CommentsTextArea';
+export { default as Comment } from './Comment';
+export { default as Pagination } from './Pagination';
+export { default as StoreImgUpload } from './StoreImgUpload';
