@@ -70,15 +70,7 @@ const Selected = styled.div`
   }
 `;
 
-const CategorySelector = ({
-  setIsOpened,
-  setPhase,
-  setTaskQueue,
-  storeId,
-  store: storeInfo,
-  categoryCode,
-  setCategoryCode,
-}) => {
+const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, categoryCode, setCategoryCode }) => {
   const { email, voteStatus } = useRecoilValue(userState);
 
   const { data: store } = useQuery({

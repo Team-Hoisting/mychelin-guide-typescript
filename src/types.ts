@@ -27,4 +27,24 @@ export interface StoreDataType {
   firstVoteUser: string;
   archivesCount: number;
   starsCount: number;
+  starCount?: number;
+  voteCntArr?: [CategoryCode, number][] | [];
 }
+
+export interface User {
+  email: string;
+  nickname: string;
+  archived: Array<{
+    archiveId: number;
+    email: string;
+    storeId: string;
+  }>;
+  voteStatus: Array<{
+    storeId: string;
+    email: string;
+    categoryCode: CategoryCode;
+    votedAt: number;
+  }>;
+}
+
+export type StoresDataType = Array<StoreDataType>;

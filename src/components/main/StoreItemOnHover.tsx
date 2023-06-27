@@ -38,7 +38,11 @@ const RoundedButton = styled(Button)`
   font-size: 16px;
 `;
 
-const StoreItemOnHover = ({ storeId }) => (
+interface StoreItemOnHoverProps {
+  storeId: string;
+}
+
+const StoreItemOnHover = ({ storeId }: StoreItemOnHoverProps) => (
   <Container>
     <HoverItemIcon />
     <ButtonContainer>

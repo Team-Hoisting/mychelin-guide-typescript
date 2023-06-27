@@ -1,7 +1,8 @@
-import { atom } from 'recoil';
+import { atom, AtomEffect } from 'recoil';
+import { User } from 'types';
 
 const localStorageEffect =
-  key =>
+  (key: string): AtomEffect<User | null> =>
   ({ setSelf, onSet }) => {
     const savedValue = localStorage.getItem(key);
 
@@ -15,7 +16,7 @@ const localStorageEffect =
     });
   };
 
-const userState = atom({
+const userState = atom<User | null>({
   key: 'userState',
   default: null,
   effects: [localStorageEffect('user')],

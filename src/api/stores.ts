@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { StoreDataType } from '../types';
+import { StoreDataType, StoresDataType } from '../types';
 
 const url = `/api/stores`;
 
-const fetchStores = async url => {
+const fetchStores = async (url: string): Promise<StoresDataType> => {
   const response = await axios.get(url);
 
   return response.data;
