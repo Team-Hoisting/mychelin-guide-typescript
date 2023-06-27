@@ -55,7 +55,7 @@ const Container = styled.div<ContainerProps>`
 
 interface StoreItemProps {
   store: StoreDataType;
-  place: number | null;
+  place?: number | null;
 }
 
 const StoreItem = ({ store, place = null }: StoreItemProps) => {

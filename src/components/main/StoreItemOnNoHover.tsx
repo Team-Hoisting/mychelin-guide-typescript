@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MychelinStars } from '.';
 import { CategoryTag } from '../common';
+import { CategoryCode } from 'types';
 
 const Container = styled.div`
   width: 100%;
@@ -42,7 +43,7 @@ const StoreInfoMain = styled.div`
   justify-content: space-between;
 `;
 
-const Name = styled(Link)`
+const Name = styled.p`
   padding: 8px 2px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -63,14 +64,21 @@ const Placeholder = styled.div`
   width: 100px;
 `;
 
-const StoreItemOnNoHover = ({ storeId, storeName, starCount, voteCntArr }) => (
+interface StoreItemOnNoHoverProps {
+  storeId: string;
+  storeName: string;
+  starCount: number;
+  voteCntArr: [CategoryCode, number][];
+}
+
+const StoreItemOnNoHover = ({ storeId, storeName, starCount, voteCntArr }: StoreItemOnNoHoverProps) => (
   <Container>
     <Link to="/detail">
       <ImageContainer>
         <Img
           src={`img/stores/${storeId}`}
-          onError={e => {
-            e.target.src = 'img/default/store.png';
+          onError={(e: SyntheticEvent<HTMLImageElement>) => {
+            e.currentTarget.src = 'img/default/store.png';
           }}
         />
       </ImageContainer>
@@ -86,7 +94,7 @@ const StoreItemOnNoHover = ({ storeId, storeName, starCount, voteCntArr }) => (
             <CategoryTag
               key={idx}
               categoryCode={Object.keys(ctg)[0]}
-              votedCnt={Object.values(ctg)[0]}
+              votedCnt={Object.values(ctg)[0] as number}
               renderName={false}
             />
           ))

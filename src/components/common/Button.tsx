@@ -82,6 +82,7 @@ const buttonStyle = css<ButtonStyleProps>`
 `;
 
 type ButtonProps = {
+  children?: string;
   to?: string;
   full?: boolean;
   gray?: boolean;

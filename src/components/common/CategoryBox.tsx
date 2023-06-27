@@ -69,8 +69,8 @@ interface CategoryBoxProps {
   clickHandler: () => void;
   categoryImgFile: string;
   categoryName: string;
-  colored?: boolean;
   selected: boolean;
+  colored?: boolean;
   changeOnHover?: boolean;
   underlineOnHover?: boolean;
   iconWidth?: string;

@@ -37,7 +37,7 @@ const VotedCnt = styled.span`
 
 interface CategoryTagProps {
   categoryCode: string;
-  votedCnt: number;
+  votedCnt?: number;
   renderName: boolean | undefined;
 }
 
