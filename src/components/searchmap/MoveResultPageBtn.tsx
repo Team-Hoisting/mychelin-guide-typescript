@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -16,7 +17,13 @@ const Container = styled.div`
   }
 `;
 
-const MoveResultPageBtn = ({ hasPage, clickHandler, children }) => (
+interface MoveResultPageBtnProps {
+  hasPage: boolean | undefined;
+  clickHandler: (e: MouseEvent) => void;
+  children: JSX.Element;
+}
+
+const MoveResultPageBtn = ({ hasPage, clickHandler, children }: MoveResultPageBtnProps) => (
   <Container onClick={clickHandler} hidden={!hasPage}>
     {children}
   </Container>

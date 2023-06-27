@@ -42,7 +42,7 @@ const NextIcon = styled(RiArrowDownSLine)`
 
 const SearchMapPage = () => {
   const [params] = useSearchParams();
-  const keyword = params.get('keyword');
+  const keyword = params.get('keyword') ?? '';
 
   const {
     mapContainerRef,
@@ -79,9 +79,9 @@ const SearchMapPage = () => {
                 <PrevIcon />
               </MoveResultPageBtn>
               <ResultList
-                keyword={inputRef.current.value}
+                keyword={inputRef.current?.value as string}
                 result={result}
-                curPage={curPage}
+                curPage={curPage as number}
                 drawMarkers={drawMarkers}
                 clickedIdx={clickedIdx}
               />

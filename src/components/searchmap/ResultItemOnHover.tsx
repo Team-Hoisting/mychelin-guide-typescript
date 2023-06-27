@@ -30,29 +30,22 @@ const InfoText = styled.p`
   color: white;
 `;
 
-const ResultItemOnHover = ({ storeId, isRegistered, storeName, address, phoneNumber, x, y }) => (
+interface ResultItemOnHoverProps {
+  storeId: string;
+  isRegistered: boolean;
+}
+
+const ResultItemOnHover = ({ storeId, isRegistered }: ResultItemOnHoverProps) => (
   <Container>
     <ButtonContainer>
       {isRegistered ? (
         <Link to={`/store/${storeId}`}>
-          <RoundedButton gray>상세보기</RoundedButton>
+          <RoundedButton gray={true}>상세보기</RoundedButton>
         </Link>
       ) : (
         <InfoText>등록되지 않은 식당입니다.</InfoText>
       )}
-
-      <ModalBox
-        store={{
-          storeName,
-          address,
-          phoneNumber,
-          x,
-          y,
-        }}
-        storeId={storeId}
-        width="120px">
-        투표하기
-      </ModalBox>
+      <ModalBox storeId={storeId} width="120px" />
     </ButtonContainer>
   </Container>
 );

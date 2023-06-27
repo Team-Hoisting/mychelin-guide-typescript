@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ResultItem, ResultItemOnHover } from '.';
 
 import { fetchIsRegisteredByStoreIds } from '../../api/stores';
+import { KakaoResultType, ResultItemType } from './types';
 
 const Container = styled.ul`
   margin: auto;
@@ -13,7 +14,7 @@ const Container = styled.ul`
   flex-direction: column;
 `;
 
-const ResultItemContainer = styled.li`
+const ResultItemContainer = styled.li<{ selected: boolean }>`
   position: relative;
   transition: 0.2s ease-in-out;
   list-style: none;
@@ -49,11 +50,19 @@ const ZeroResultText = styled.span`
   font-size: 20px;
 `;
 
-const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }) => {
+interface ResultListProps {
+  keyword: string;
+  result: Array<KakaoResultType>;
+  curPage: number;
+  drawMarkers: (resultList: Array<ResultItemType> | undefined) => void;
+  clickedIdx: number | null;
+}
+
+const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }: ResultListProps) => {
   const { data: resultList } = useQuery({
     queryKey: ['isRegistered', keyword, curPage],
     queryFn: fetchIsRegisteredByStoreIds(result.map(({ id }) => id)),
-    select(data) {
+    select(data: Array<boolean>) {
       return result.map((store, idx) => ({ store, isRegistered: data[idx] }));
     },
   });
@@ -67,12 +76,12 @@ const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }) => {
           <ResultItemContainer key={store.id} selected={clickedIdx === idx}>
             <ResultItemOnHover
               storeId={store.id}
-              storeName={store.place_name}
+              // storeName={store.place_name}
               isRegistered={isRegistered}
-              address={store.road_address_name}
-              phoneNumber={store.phone}
-              x={store.x}
-              y={store.y}
+              // address={store.road_address_name}
+              // phoneNumber={store.phone}
+              // x={store.x}
+              // y={store.y}
             />
             <ResultItem
               key={store.id}
