@@ -1,4 +1,4 @@
-type CategoryCode =
+export type CategoryCode =
   | 'AL00'
   | 'KO01'
   | 'CH02'
@@ -13,7 +13,7 @@ type CategoryCode =
   | 'VG11'
   | 'PB12';
 
-interface StoreDataType {
+export interface StoreDataType {
   storeId: string;
   firstUserId: string;
   imgUrl?: string;
@@ -29,4 +29,9 @@ interface StoreDataType {
   starsCount: number;
 }
 
-export { CategoryCode, StoreDataType };
+export type defaultValues = {
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  nickname?: string;
+};

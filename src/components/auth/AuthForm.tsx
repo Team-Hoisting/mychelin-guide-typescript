@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signinSchema, signupSchema } from '../../schema';
 import palette from '../../lib/palette';
 import InputField from './InputField';
 import Button from '../common/Button';
+import { defaultValues } from '../../types';
 
 const Container = styled.div`
   h3 {
@@ -44,7 +46,14 @@ const formTitle = {
   register: '회원가입',
 };
 
-const AuthForm = ({ type, formSchema, defaultValues, request }) => {
+interface AuthForm {
+  type: 'login' | 'register';
+  formSchema: signinSchema | signupSchema;
+  defaultValues: defaultValues;
+  request: (defaultValues: defaultValues) => Promise<void>;
+}
+
+const AuthForm = ({ type, formSchema, defaultValues, request }: AuthForm) => {
   const {
     control,
     handleSubmit,
@@ -52,7 +61,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
     trigger,
     formState: { isValid },
   } = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema as any),
     defaultValues,
   });
 

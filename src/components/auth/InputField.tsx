@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useController } from 'react-hook-form';
+import { useController, Control, UseFormTrigger } from 'react-hook-form';
+import { defaultValues } from '../../types';
 import { useDebounce } from '../../hooks/index.js';
 import palette from '../../lib/palette';
 import Button from '../common/Button';
 import { checkEmail, checkNickname } from '../../api/auth';
 
-const Hint = styled.span`
+interface HintProps {
+  readonly isValid: boolean | null;
+}
+
+const Hint = styled.span<HintProps>`
   margin-left: 1rem;
   font-size: 0.5rem;
   color: ${props => (props.isValid ? 'green' : 'red')};
@@ -26,7 +31,11 @@ const FlexBox = styled.div`
   }
 `;
 
-const Input = styled.input`
+interface InputProps {
+  readonly full?: boolean;
+}
+
+const Input = styled.input<InputProps>`
   font-size: 1rem;
   border: none;
   border-bottom: 1px solid ${palette.gray[5]};
@@ -62,7 +71,27 @@ const DoubleCheckButton = styled(Button)`
   }
 `;
 
-const InputField = ({ control, trigger, name, autoComplete, label, type, doubleCheck, setIsDuplicateField }) => {
+interface InputField {
+  control: Control<defaultValues, any>;
+  trigger: UseFormTrigger<defaultValues>;
+  name: 'email' | 'password' | 'confirmPassword' | 'nickname';
+  autoComplete?: string;
+  label: string;
+  type: string;
+  doubleCheck?: boolean;
+  setIsDuplicateField?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const InputField = ({
+  control,
+  trigger,
+  name,
+  autoComplete,
+  label,
+  type,
+  doubleCheck,
+  setIsDuplicateField,
+}: InputField) => {
   const {
     field: { value, onChange },
     fieldState: { isDirty, error },
@@ -71,7 +100,7 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
     control,
   });
 
-  const [isDuplicate, setIsDuplicate] = React.useState(null);
+  const [isDuplicate, setIsDuplicate] = React.useState<null | boolean>(null);
   const [isDisabled, setIsDisabled] = React.useState(false);
 
   const debounceOnChange = useDebounce(() => {
@@ -79,12 +108,12 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
   }, 200);
   const debounceOnChangeForCP = useDebounce(() => trigger('confirmPassword'), 200);
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
 
     setIsDuplicate(null);
     setIsDisabled(false);
-    if (doubleCheck) setIsDuplicateField(false);
+    if (doubleCheck) setIsDuplicateField!(false);
 
     debounceOnChange();
 
@@ -99,12 +128,12 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
 
       if (status === 200) {
         setIsDuplicate(true);
-        if (doubleCheck) setIsDuplicateField(true);
+        if (doubleCheck) setIsDuplicateField!(true);
       }
     } catch (e) {
       setIsDuplicate(false);
       setIsDisabled(true);
-      if (doubleCheck) setIsDuplicateField(false);
+      if (doubleCheck) setIsDuplicateField!(false);
     }
   };
 

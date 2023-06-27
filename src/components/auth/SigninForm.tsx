@@ -6,6 +6,7 @@ import userState from '../../recoil/atoms/userState';
 import { signIn } from '../../api/auth';
 import { signinSchema } from '../../schema';
 import AuthForm from './AuthForm';
+import { defaultValues } from '../../types';
 
 const defaultValues = {
   email: '',
@@ -17,7 +18,7 @@ const SigninForm = () => {
   const setUser = useSetRecoilState(userState);
   const { state } = useLocation();
 
-  const onSubmit = async data => {
+  const onSubmit = async (data: defaultValues) => {
     try {
       const user = await signIn(data);
 
@@ -34,7 +35,7 @@ const SigninForm = () => {
 
   return (
     <>
-      <AuthForm type="login" formSchema={signinSchema} defaultValues={defaultValues} request={onSubmit} />
+      <AuthForm type="login" formSchema={signinSchema as any} defaultValues={defaultValues} request={onSubmit} />
     </>
   );
 };
