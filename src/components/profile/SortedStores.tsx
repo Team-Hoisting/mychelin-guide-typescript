@@ -9,6 +9,8 @@ import userState from '../../recoil/atoms/userState';
 import { changeVotedCategoryOrder } from '../../api/users';
 import useDragAndDrop from '../../hooks/useDragAndDrop';
 
+import { SortedStoresProps } from './types';
+
 const Container = styled.div`
   text-align: right;
 `;
@@ -27,7 +29,7 @@ const StoresGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
-const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
+const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }: SortedStoresProps) => {
   const user = useRecoilValue(userState);
 
   const { order: votedStoreOrder, dragStartHandler, swap } = useDragAndDrop(voteStores);
@@ -37,7 +39,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
 
   return (
     <Container>
-      {user.nickname === profileUserNickname && voteStores?.length >= 2 && (
+      {user?.nickname === profileUserNickname && voteStores?.length >= 2 && (
         <>
           {isEditing ? (
             <EditButton

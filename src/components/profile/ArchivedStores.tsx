@@ -17,12 +17,15 @@ const NoArchivedItemContainer = styled.div`
   height: 500px;
 `;
 
-const ArchivedStores = ({ profileUserNickname }) => {
+interface ArchiveStoresProps {
+  profileUserNickname: string;
+}
+const ArchivedStores = ({ profileUserNickname }: ArchiveStoresProps) => {
   const { data, fetchNextPage, hasNextPage } = useArchivedInfiniteQuery(profileUserNickname);
 
   return (
     <>
-      {data.pages.flat().length === 0 ? (
+      {data!.pages.flat().length === 0 ? (
         <>
           <NoArchivedItemContainer>
             <span>{profileUserNickname}님은 아직 저장한 식당이 없습니다.</span>
@@ -31,7 +34,7 @@ const ArchivedStores = ({ profileUserNickname }) => {
       ) : (
         <>
           <StoresGrid>
-            {data.pages.flat().map(({ storeId, storeName }) => (
+            {data!.pages.flat().map(({ storeId, storeName }) => (
               <ProfileStoreItem key={storeId} storeId={storeId} storeName={storeName} />
             ))}
           </StoresGrid>

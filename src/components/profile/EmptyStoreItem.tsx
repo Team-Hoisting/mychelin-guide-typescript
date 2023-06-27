@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import categoryInfo from '../../constants/categoryInfo';
+import { CategoryCode } from 'types';
 
 const Container = styled.div`
   padding: 15px;
@@ -33,7 +34,11 @@ const CategoryName = styled.h5`
   color: #ababab;
 `;
 
-const EmptyStoreItem = ({ categoryCode }) => (
+interface EmptyStoreItemProps {
+  categoryCode: CategoryCode;
+}
+
+const EmptyStoreItem = ({ categoryCode }: EmptyStoreItemProps) => (
   <Container>
     <CategoryTitle>
       <CategoryIcon src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
