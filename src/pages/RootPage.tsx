@@ -21,7 +21,7 @@ const RootPage = () => {
   return (
     <>
       <Header />
-      {user && <SideBanner />}
+      {user && <SideBanner user={user} />}
       <React.Suspense fallback={<Loader />}>
         <Outlet />
       </React.Suspense>

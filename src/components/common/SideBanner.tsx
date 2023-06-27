@@ -12,6 +12,7 @@ import userState from '../../recoil/atoms/userState';
 import categoryCodes from '../../constants/categoryCodes';
 
 import VotedCategoryItem from '../sidebanner/VotedCategoryItem';
+import { User, CategoryCode } from '../../types';
 
 const PAGEITEMNUM = 4;
 
@@ -62,17 +63,19 @@ const PrevPageBtn = styled(RiArrowUpSLine)`
   height: 30px;
 `;
 
-const SideBanner = () => {
-  const { voteStatus } = useRecoilValue(userState);
+interface SideBannerProps {
+  user: User;
+}
+
+const SideBanner = ({ user }: SideBannerProps) => {
+  const { voteStatus } = user;
 
   const { pathname } = useLocation();
   const { id } = useParams();
   const hasSideBanner = pathname === '/' || pathname === `/store/${id}`;
 
-  const voteStoreId = voteStatus.reduce((acc, { storeId, categoryCode }) => {
-    acc[categoryCode] = storeId;
-    return acc;
-  }, {});
+  const voteStoreId: { [key: string]: string } = {};
+  voteStatus.forEach(({ storeId, categoryCode }) => (voteStoreId[categoryCode] = storeId));
 
   return (
     <>
