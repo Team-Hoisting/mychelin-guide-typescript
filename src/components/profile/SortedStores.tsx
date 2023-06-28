@@ -54,7 +54,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }: Sort
               확인
             </EditButton>
           ) : (
-            <EditButton onClick={() => setIsEditing(true)} red>
+            <EditButton onClick={() => setIsEditing(true)} red={true}>
               순서 변경
             </EditButton>
           )}
