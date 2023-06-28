@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { UserProfileInfoByNicknameReturnType } from '../components/profile/types';
 
 const url = `/api/users`;
 
-const fetchUserProfileInfoByNickname = (nickname: string) => async () => {
+const fetchUserProfileInfoByNickname = (nickname: string) => async (): Promise<UserProfileInfoByNicknameReturnType> => {
   const response = await axios.get(`${url}/${nickname}`);
 
   return response.data;

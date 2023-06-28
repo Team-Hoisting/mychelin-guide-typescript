@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { StoreItem } from '.';
+import { StoresDataType } from 'types';
 
 const Container = styled.div`
   margin-top: 20px;
@@ -8,9 +9,13 @@ const Container = styled.div`
   grid-template-columns: repeat(4, 1fr);
 `;
 
-const UnrankedStores = ({ stores }) => (
+interface UnrankedStoresProps {
+  stores?: StoresDataType;
+}
+
+const UnrankedStores = ({ stores }: UnrankedStoresProps) => (
   <Container>
-    {stores.map(store => (
+    {stores?.map(store => (
       <StoreItem key={store.storeId} store={store} />
     ))}
   </Container>

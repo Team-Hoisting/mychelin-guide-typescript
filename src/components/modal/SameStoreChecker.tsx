@@ -87,7 +87,7 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
           하나의 매장에는 <span className="em">하나의 투표만</span> 부여할 수 있습니다.
         </Text>
         <Text>
-          <span className="em">&quot;{store.storeName}&quot;</span> 의 투표 카테고리를 변경합니다.
+          <span className="em">&quot;{store?.storeName}&quot;</span> 의 투표 카테고리를 변경합니다.
         </Text>
       </Inner>
       <Changes>

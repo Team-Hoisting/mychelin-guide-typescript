@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchArchivedStoreByNickname } from '../api/stores';
 import { storesQueryKey, ARCHIVED_STORES_FETCH_SIZE } from '../constants';
 
-const useArchivedInfiniteQuery = nickname => {
+const useArchivedInfiniteQuery = (nickname: string) => {
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [...storesQueryKey, 'archived', nickname],
     queryFn: ({ pageParam = 1 }) => fetchArchivedStoreByNickname(nickname, pageParam, ARCHIVED_STORES_FETCH_SIZE)(),

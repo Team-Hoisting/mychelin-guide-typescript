@@ -31,21 +31,27 @@ export interface StoreDataType {
   voteCntArr?: [CategoryCode, number][] | [];
 }
 
-export interface VoteDataType {
-  storeId: string,
-  email: string,
-  categoryCode: CategoryCode,
-  votedAt: number,
+export interface UserDataType {
+  email: string;
+  password: string;
+  nickname: string;
+  isCertified: boolean;
+  votedCategoryOrder: Array<CategoryCode>;
 }
 
-<<<<<<< HEAD
+export interface VoteDataType {
+  storeId: string;
+  email: string;
+  categoryCode: CategoryCode;
+  votedAt: number;
+}
+
 export type defaultValues = {
   email: string;
   password: string;
   confirmPassword?: string;
   nickname?: string;
 };
-=======
 export interface User {
   email: string;
   nickname: string;
@@ -63,5 +69,3 @@ export interface User {
 }
 
 export type StoresDataType = Array<StoreDataType>;
->>>>>>> 3f9b4531999feef10957643deee333cb912e39fc
-
