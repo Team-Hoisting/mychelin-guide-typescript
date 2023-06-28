@@ -1,45 +1,43 @@
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
 import useDataMutation from './useDataMutaiton';
-import userState from '../recoil/atoms/userState';
 import { archiveQueryKey } from '../constants/index';
 
 const archiveURL = '/api/archives';
 
-const useArchivesMutation = ({ storeId, setArchiveCntState }) => {
-  const [user, setUser] = useRecoilState(userState);
+interface ArchiveType {
+  storeId: string;
+  email: string;
+}
 
-  const { mutate: addBookMark } = useDataMutation({
-    mutationFn: newBookMark => axios.post(`${archiveURL}`, newBookMark),
-    onMutate: newBookMark => () => {
-      // eslint-disable-next-line no-unsafe-optional-chaining
-      const newUser = { ...user, archived: [...user?.archived, newBookMark] };
-      setUser(newUser);
-      setArchiveCntState(prev => prev + 1);
-      return newUser;
+interface ArchivesType {
+  archivesData: ArchiveType[];
+  totalArchivesCnt: number;
+  isUserArchived: boolean;
+}
+
+const useArchivesMutation = (storeId: string) => {
+  const { mutate: addBookMark } = useDataMutation<ArchiveType, ArchivesType>({
+    mutationFn: newArchive => axios.post(`${archiveURL}`, newArchive),
+    // eslint-disable-next-line consistent-return
+    onMutate: newArchive => archives => {
+      if (archives) return { ...archives, archivesData: [...archives.archivesData, newArchive] };
     },
-    queryKey: [...archiveQueryKey, storeId, user?.email],
+    queryKey: [...archiveQueryKey, storeId],
   });
 
-  const { mutate: deleteBookMark } = useDataMutation({
-    mutationFn: bookMarkToDelete => axios.delete(`${archiveURL}`, { data: bookMarkToDelete }),
-    onMutate: bookMarkToDelete => () => {
-      // eslint-disable-next-line no-unsafe-optional-chaining
-      const [{ archiveId: deleteSeq }] = user?.archived.filter(
-        arc => arc.storeId === bookMarkToDelete.storeId && arc.email === user?.email
-      );
-
-      const newUserData = {
-        ...user,
-        archived: user?.archived?.filter(({ archiveId }) => archiveId !== deleteSeq),
-      };
-
-      setUser(newUserData);
-      setArchiveCntState(prev => prev - 1);
-
-      return newUserData;
+  const { mutate: deleteBookMark } = useDataMutation<ArchiveType, ArchivesType>({
+    mutationFn: archiveToDelete => axios.delete(`${archiveURL}`, { data: archiveToDelete }),
+    onMutate: archiveToDelete => archives => {
+      if (archives)
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        return {
+          ...archives,
+          archiveData: archives?.archivesData.filter(
+            archive => archive.email !== archiveToDelete.email && archive.storeId !== archiveToDelete.storeId
+          ),
+        };
     },
-    queryKey: [...archiveQueryKey, storeId, user?.email],
+    queryKey: [...archiveQueryKey, storeId],
   });
 
   return { addBookMark, deleteBookMark };

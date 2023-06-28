@@ -60,13 +60,18 @@ const FillBookMarkIcon = styled(BsFillBookmarkFill)`
   color: #fe9602;
 `;
 
-const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, deleteBookMark }) => {
+// archive 데이터는 storeId를 넘겨주면 storeId에 해당하는 archives만 리턴
+const Header = ({
+  storeData: { storeName, storeId, starCnt },
+  archivesData: { isUserArchived },
+  addBookMark,
+  deleteBookMark,
+}) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
 
   const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(storeId);
-  const isUserArchived = user?.archived.map(({ storeId }) => storeId).includes(storeId);
 
   const handleAddArchiveClick = () => {
     if (!user) {
@@ -77,7 +82,7 @@ const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delet
   };
 
   const handleDeleteArchiveClick = () => {
-    deleteBookMark({ email: user?.email, storeId });
+    deleteBookMark({ storeId, email: user?.email });
   };
 
   const theme = useRecoilValue(themeState);

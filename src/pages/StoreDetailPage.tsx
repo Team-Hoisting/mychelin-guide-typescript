@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useArchivesMutation } from '../hooks/index.js';
+import { useArchivesMutation } from '../hooks/index';
 import { CommentsList, StoreDetail } from '../components/store/index';
 import { SkinnyContainer } from '../components/common';
 
@@ -17,24 +17,15 @@ const Center = styled.div`
 `;
 
 const StoreDetailPage = () => {
-  const [archivedCntState, setArchiveCntState] = React.useState(0);
   const { storeId } = useParams();
 
-  const { addBookMark, deleteBookMark } = useArchivesMutation({
-    storeId,
-    setArchiveCntState,
-  });
+  const { addBookMark, deleteBookMark } = useArchivesMutation(storeId);
 
   return (
     <SkinnyContainer>
       <Container>
         <Center>
-          <StoreDetail
-            addBookMark={addBookMark}
-            deleteBookMark={deleteBookMark}
-            archivedCntState={archivedCntState}
-            setArchiveCntState={setArchiveCntState}
-          />
+          <StoreDetail addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
           <CommentsList />
         </Center>
       </Container>

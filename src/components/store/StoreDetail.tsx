@@ -1,8 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../hooks/index.js';
+import { useQueries } from '@tanstack/react-query';
 import { Title, Votes, Main } from './index';
+import { archiveQueryKey, storeQueryKey } from '../../constants/index';
+import { fetchStore } from '../../api/stores';
+import fetchArchives from '../../api/archive';
 
 const Container = styled.div`
   width: 100%;
@@ -63,18 +66,26 @@ const VoteCntMsg = styled.span`
   }
 `;
 
-const StoreDetail = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {
+const StoreDetail = ({ addBookMark, deleteBookMark }) => {
   const { storeId } = useParams();
-  const { data: storeData } = useStore(storeId);
-  const { firstVoteUser, totalVotesCnt, voteCnt } = storeData;
 
-  React.useEffect(() => {
-    setArchiveCntState(storeData?.archivesCount);
-  }, []);
+  const [{ data: archivesData }, { data: storeData }] = useQueries({
+    queries: [
+      { queryKey: [...archiveQueryKey, storeId], queryFn: fetchArchives(storeId) },
+      { queryKey: [...storeQueryKey, storeId], queryFn: fetchStore(storeId) },
+    ],
+  });
+
+  const { firstVoteUser, totalVotesCnt, voteCnt } = storeData;
 
   return (
     <Container>
-      <Title storeData={storeData} addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
+      <Title
+        storeData={storeData}
+        archivesData={archivesData}
+        addBookMark={addBookMark}
+        deleteBookMark={deleteBookMark}
+      />
       <SubTitle>
         <FirstVoteUser>
           최초 투표자 : <UserName>{firstVoteUser}</UserName>
@@ -85,7 +96,7 @@ const StoreDetail = ({ archivedCntState, setArchiveCntState, addBookMark, delete
         </VoteCntMsg>
         <VerticalHr />
         <ArchivedCntMsg>
-          저장 <span>{archivedCntState}</span>개
+          저장 <span>{archivesData.totalArchivesCnt}</span>개
         </ArchivedCntMsg>
       </SubTitle>
       <Main store={storeData} />
