@@ -82,13 +82,15 @@ const buttonStyle = css<ButtonStyleProps>`
 `;
 
 type ButtonProps = {
-  children?: string;
   to?: string;
   full?: boolean;
+  red?: boolean;
   gray?: boolean;
   thirty?: boolean;
   small?: boolean;
   disabled?: boolean;
+  children?: string;
+  onClick?: () => void;
 };
 
 const CommonButton = styled.button<ButtonProps>`
