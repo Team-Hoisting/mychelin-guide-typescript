@@ -8,6 +8,7 @@ import { fetchStore } from '../../api/stores';
 import { removeVote } from '../../api/votes';
 import categoryInfo from '../../constants/categoryInfo';
 import Controller from './Controller';
+import { CategoryCode, User } from 'types';
 
 const Container = styled.div`
   background-color: var(--bg-color);
@@ -64,9 +65,24 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   margin-right: 4rem;
 `;
 
-const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, setPhase }) => {
-  const { nickname, voteStatus } = useRecoilValue(userState);
-  const { categoryCode: prevCategoryCode } = voteStatus.find(vote => vote.storeId === storeId);
+interface SameStoreCheckerType {
+  storeId: string;
+  categoryCode: CategoryCode | 'none';
+  setIsOpened: (state: boolean) => void;
+  setTaskQueue: (state: any) => void;
+  setPhase: (state: string) => void;
+}
+
+interface VoteType {
+  storeId: string;
+  email: string;
+  categoryCode: CategoryCode | 'none';
+  votedAt: number;
+}
+
+const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, setPhase }: SameStoreCheckerType) => {
+  const { nickname, voteStatus } = useRecoilValue(userState) as User;
+  const { categoryCode: prevCategoryCode } = voteStatus.find(vote => vote.storeId === storeId) as VoteType;
 
   const { data: store } = useQuery({
     queryKey: ['storeInfo', storeId],
@@ -74,7 +90,7 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
   });
 
   const onNext = () => {
-    setTaskQueue(taskQueue => [...taskQueue, () => removeVote(nickname, prevCategoryCode)]);
+    setTaskQueue((taskQueue: any) => [...taskQueue, () => removeVote(nickname, prevCategoryCode)]);
 
     setPhase('success');
   };
@@ -92,13 +108,13 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
       </Inner>
       <Changes>
         <Box>
-          <Image src={`/categoryIcons/${categoryInfo[prevCategoryCode].imgFile}.png`} alt="logo" />
-          {categoryInfo[prevCategoryCode].ko}
+          <Image src={`/categoryIcons/${categoryInfo[prevCategoryCode as CategoryCode].imgFile}.png`} alt="logo" />
+          {categoryInfo[prevCategoryCode as CategoryCode].ko}
         </Box>
         <ArrowIcon />
         <Box>
-          <Image src={`/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`} alt="logo" />
-          {categoryInfo[categoryCode].ko}
+          <Image src={`/categoryIcons/${categoryInfo[categoryCode as CategoryCode].imgFile}.png`} alt="logo" />
+          {categoryInfo[categoryCode as CategoryCode].ko}
         </Box>
       </Changes>
       <Controller

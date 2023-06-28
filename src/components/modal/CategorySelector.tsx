@@ -9,6 +9,7 @@ import { fetchStore } from '../../api/stores';
 import { vote } from '../../api/votes';
 import { CategoryBox } from '../common/index';
 import Controller from './Controller';
+import { CategoryCode, User } from 'types';
 
 const Container = styled.div`
   padding: 0rem 0.5rem;
@@ -76,7 +77,7 @@ interface CategorySelector {
   setTaskQueue: (state: any) => void;
   storeId: string;
   categoryCode: string;
-  setCategoryCode: (state: string) => void;
+  setCategoryCode: (state: CategoryCode | 'none') => void;
 }
 
 const CategorySelector = ({
@@ -87,7 +88,7 @@ const CategorySelector = ({
   categoryCode,
   setCategoryCode,
 }: CategorySelector) => {
-  const { email, voteStatus } = useRecoilValue(userState);
+  const { email, voteStatus } = useRecoilValue(userState) as User;
 
   const { data: store } = useQuery({
     queryKey: ['storeInfo', storeId],
@@ -99,7 +100,7 @@ const CategorySelector = ({
     email: string;
     storeId: string;
     votedAt: number;
-  } 
+  }
 
   const onNext = () => {
     const sameCategoryCount = voteStatus.filter((vote: Vote) => vote.categoryCode === categoryCode).length;
@@ -127,8 +128,10 @@ const CategorySelector = ({
       <Selected>
         {categoryCode !== 'none' ? (
           <CategoryBox
-            categoryName={categoryInfo[categoryCode].ko}
-            categoryImgFile={categoryInfo[categoryCode].imgFile}
+            selected={false}
+            clickHandler={() => {}}
+            categoryName={categoryInfo[categoryCode as CategoryCode].ko}
+            categoryImgFile={categoryInfo[categoryCode as CategoryCode].imgFile}
             changeOnHover={false}
             underlineOnHover={false}
             colored
@@ -143,6 +146,7 @@ const CategorySelector = ({
 
           return (
             <CategoryBox
+              selected={false}
               categoryName={categoryInfo[code].ko}
               categoryImgFile={categoryInfo[code].imgFile}
               colored={categoryCode === code}

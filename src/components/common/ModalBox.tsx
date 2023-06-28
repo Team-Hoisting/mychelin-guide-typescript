@@ -6,7 +6,7 @@ import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
 import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier, ToggleButton } from '../modal';
 import { Loader } from '.';
-import { VoteDataType, StoreDataType } from 'types';
+import { VoteDataType, StoreDataType, CategoryCode } from 'types';
 
 interface PopupModalProps {
   isOpened: boolean;
@@ -23,7 +23,7 @@ interface responseType {
 
 const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId }: PopupModalProps) => {
   const theme = useRecoilValue(themeState);
-  const [categoryCode, setCategoryCode] = React.useState('none');
+  const [categoryCode, setCategoryCode] = React.useState<CategoryCode | 'none'>('none');
   const [taskQueue, setTaskQueue] = React.useState<Array<() => Promise<responseType>>>([]);
 
   return (
@@ -99,7 +99,7 @@ const ModalBox = ({ storeId, width }: ModalBoxProps) => {
             setPhase('select');
           }
         }}
-        width={width}
+        width={width as string}
       />
     );
 

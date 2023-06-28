@@ -7,7 +7,7 @@ const GroupWithMarginTop = styled(Group)`
 `;
 
 interface ControllerType {
-  isDisable: boolean;
+  isDisable?: boolean;
   leftText: string;
   rightText: string;
   onClose: () => void;

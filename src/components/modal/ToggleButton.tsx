@@ -1,7 +1,12 @@
 import React from 'react';
 import { Group, Button } from '@mantine/core';
 
-const ToggleButton = ({ onClick, width }) => (
+interface ToggleButtonType {
+  onClick: () => void;
+  width: string;
+}
+
+const ToggleButton = ({ onClick, width }: ToggleButtonType) => (
   <Group position="center">
     <Button
       onClick={onClick}
