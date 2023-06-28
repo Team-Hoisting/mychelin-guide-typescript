@@ -70,15 +70,23 @@ const Selected = styled.div`
   }
 `;
 
+interface CategorySelector {
+  setIsOpened: (state: boolean) => void;
+  setPhase: (state: string) => void;
+  setTaskQueue: (state: any) => void;
+  storeId: string;
+  categoryCode: string;
+  setCategoryCode: (state: string) => void;
+}
+
 const CategorySelector = ({
   setIsOpened,
   setPhase,
   setTaskQueue,
   storeId,
-  store: storeInfo,
   categoryCode,
   setCategoryCode,
-}) => {
+}: CategorySelector) => {
   const { email, voteStatus } = useRecoilValue(userState);
 
   const { data: store } = useQuery({
@@ -86,28 +94,35 @@ const CategorySelector = ({
     queryFn: fetchStore(storeId),
   });
 
+  interface Vote {
+    categoryCode: string;
+    email: string;
+    storeId: string;
+    votedAt: number;
+  } 
+
   const onNext = () => {
-    const sameCategoryCount = voteStatus.filter(vote => vote.categoryCode === categoryCode).length;
-    const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;
+    const sameCategoryCount = voteStatus.filter((vote: Vote) => vote.categoryCode === categoryCode).length;
+    const sameStoreCount = voteStatus.filter((vote: Vote) => vote.storeId === storeId).length;
 
     if (sameCategoryCount !== 0) setPhase('category');
     else {
-      setTaskQueue(taskQueue => [
+      setTaskQueue((taskQueue: any) => [
         ...taskQueue,
-        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
+        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf(), store }),
       ]);
 
       setPhase(sameStoreCount !== 0 ? 'store' : 'success');
     }
   };
 
-  const isDuplicate = storeId === voteStatus.find(vote => vote.categoryCode === categoryCode)?.storeId;
+  const isDuplicate = storeId === voteStatus.find((vote: Vote) => vote.categoryCode === categoryCode)?.storeId;
 
   return (
     <Container>
       <StoreInfo>
-        <StoreName>{store.storeName ?? storeInfo.storeName}</StoreName>
-        <span className="address">{store.address ?? storeInfo.address}</span>
+        <StoreName>{store?.storeName ?? store?.storeName}</StoreName>
+        <span className="address">{store?.address}</span>
       </StoreInfo>
       <Selected>
         {categoryCode !== 'none' ? (

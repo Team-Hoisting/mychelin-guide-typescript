@@ -1,16 +1,19 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { useQueryClient, useMutation, MutationFunction } from '@tanstack/react-query';
 
-interface MutationPropsType {
-  // mutationFn: ;
-  // onMutate: ;
+interface MutationPropsType<TData, TVariables> {
+  mutationFn: (variables: TVariables) => Promise<TData>;
+  onMutate: (variables: TVariables) => (variable?: TData) => TData;
   queryKey: Array<string | number>;
 }
 
-const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }: MutationPropsType) => {
+const useDataMutation = <TData, TVariables>({
+  mutationFn,
+  onMutate: expected,
+  queryKey,
+}: MutationPropsType<TData, TVariables>) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    queryKey,
     mutationFn,
     onMutate(variable) {
       // 낙관적 업데이트를 덮어쓰지 않도록 refetch 모두 취소
@@ -25,7 +28,9 @@ const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }: MutationP
     },
     onError(error, newComment, context) {
       // 서버 요청 실패 시 롤백
-      queryClient.setQueryData(queryKey, context.previousData);
+      if (context !== undefined) {
+        queryClient.setQueryData(queryKey, context.previousData);
+      }
     },
     onSuccess() {
       // 서버 요청 실패 또는 성공 시 refetch하기

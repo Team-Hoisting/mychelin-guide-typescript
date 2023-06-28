@@ -26,7 +26,14 @@ const AdditionalInfo = styled.span`
   margin: 5px 0;
 `;
 
-const ResultItem = ({ storeName, address, phoneNumber, currentIdx }) => (
+interface ResultItemProps {
+  storeName: string;
+  address: string;
+  phoneNumber: string;
+  currentIdx: string;
+}
+
+const ResultItem = ({ storeName, address, phoneNumber, currentIdx }: ResultItemProps) => (
   <Container>
     <StoreName>
       <Number>{`${currentIdx}. `}</Number>

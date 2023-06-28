@@ -1,6 +1,20 @@
 import styled from 'styled-components';
 
-const EachCategoryBox = styled.div`
+interface EachCategoryBoxProps {
+  readonly selected: boolean;
+  readonly underlineOnHover: boolean;
+  readonly changeOnHover: boolean;
+}
+
+interface CategoryNameProps {
+  readonly selected: boolean;
+}
+
+interface CategoryIconProps {
+  readonly width: string;
+}
+
+const EachCategoryBox = styled.div<EachCategoryBoxProps>`
   padding: 5px;
   text-align: center;
   cursor: pointer;
@@ -17,7 +31,7 @@ const EachCategoryBox = styled.div`
     underlineOnHover &&
     `
         :hover {
-          ${({ selected }) =>
+          ${({ selected }: { selected: boolean }) =>
             !selected &&
             `
             transition: none;
@@ -41,31 +55,37 @@ const EachCategoryBox = styled.div`
     `};
 `;
 
-const CategoryIcon = styled.img`
+const CategoryIcon = styled.img<CategoryIconProps>`
   width: ${({ width }) => width && width};
   transition: 0.1s ease-in-out;
 `;
 
-const CategoryName = styled.p`
+const CategoryName = styled.p<CategoryNameProps>`
   margin: 0;
   font-weight: ${({ selected }) => selected && '600'};
 `;
 
-/**
- *
- * @param {} Props: Required: { categoryImgFile, categoryName, colored }, Optional: { selected, clickHandler, changeOnHover }
- * @returns Component that contains the appropriate icon and name of the category
- */
+interface CategoryBoxProps {
+  clickHandler: () => void;
+  categoryImgFile: string;
+  categoryName: string;
+  colored?: boolean;
+  selected: boolean;
+  changeOnHover?: boolean;
+  underlineOnHover?: boolean;
+  iconWidth?: string;
+}
+
 const CategoryBox = ({
   clickHandler,
   categoryImgFile,
   categoryName,
-  colored,
+  colored = false,
   selected,
   changeOnHover = true,
   underlineOnHover = true,
   iconWidth = '50%',
-}) => {
+}: CategoryBoxProps) => {
   const imgSrc = `/categoryIcons/${colored ? '' : 'noColor/'}${categoryImgFile}.png`;
 
   return (
@@ -74,7 +94,6 @@ const CategoryBox = ({
       onClick={clickHandler}
       changeOnHover={changeOnHover}
       underlineOnHover={underlineOnHover}>
-      {/* <SelectedIcon /> */}
       <CategoryIcon src={imgSrc} alt={`${categoryName}`} width={iconWidth} />
       <CategoryName selected={selected}>{categoryName}</CategoryName>
     </EachCategoryBox>

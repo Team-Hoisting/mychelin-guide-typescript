@@ -70,7 +70,7 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   margin-right: 1rem;
 `;
 
-const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase, setTaskQueue }) => {
+const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) => {
   const { nickname, voteStatus } = useRecoilValue(userState);
   const { storeId: votedPrevStoreId } = voteStatus.find(vote => vote.categoryCode === categoryCode);
 
@@ -86,7 +86,7 @@ const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase
   const onNext = () => {
     setTaskQueue(taskQueue => [
       ...taskQueue,
-      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
+      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf(), store }),
     ]);
 
     const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;

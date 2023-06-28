@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import categoryInfo from '../../constants/categoryInfo';
+import { CategoryCode } from 'types';
 
 const Container = styled.div`
   margin: 15px auto;
@@ -26,14 +27,19 @@ const CategoryName = styled.p`
   font-weight: 500;
 `;
 
-const VotedCategoryItem = ({ categoryCode, storeId }) => (
+interface VotedCategoryItemProps {
+  categoryCode: CategoryCode;
+  storeId: string | undefined;
+}
+
+const VotedCategoryItem = ({ categoryCode, storeId }: VotedCategoryItemProps) => (
   <Container>
     {storeId ? (
       <Link to={`/store/${storeId}`}>
         <StoreImg
           src={`/img/stores/${storeId}`}
-          onError={e => {
-            e.target.src = '/img/default/store.png';
+          onError={(e: SyntheticEvent<HTMLImageElement, ErrorEvent>) => {
+            e.currentTarget.src = '/img/default/store.png';
           }}
         />
       </Link>

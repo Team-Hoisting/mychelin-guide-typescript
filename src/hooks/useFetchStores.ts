@@ -8,7 +8,7 @@ const useFetchStores = () => {
   const category = useRecoilValue(categoryState);
   const keyword = useRecoilValue(searchInputState);
 
-  const storeFetcher = async pageParams => {
+  const storeFetcher = async (pageParams: number) => {
     const url = `/api/stores?keyword=${keyword}&categoryCode=${
       category === 'AL00' ? '' : category
     }&page=${pageParams}&page_size=${STORES_FETCH_SIZE}`;

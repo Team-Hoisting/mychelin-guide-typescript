@@ -1,12 +1,39 @@
+import { ResultItemType } from 'components/searchmap/types';
 import React from 'react';
 
-const { kakao } = window;
+const { kakao } = window as any;
 
-const useMarkeredMap = markerClickHandler => {
-  const mapRef = React.useRef(null);
+type LatLngBounds = {};
+
+type map = {
+  setCenter: (latlng: latlng) => void;
+  setBounds: (
+    bounds: LatLngBounds,
+    paddingTop: Number,
+    paddingRight: Number,
+    paddingBottom: Number,
+    paddingLeft: Number
+  ) => void;
+};
+type marker = {
+  setMap: (map: map | null) => void;
+};
+type infowindow = {
+  close: () => void;
+};
+type position = {
+  coords: {
+    latitude: number;
+    longitude: number;
+  };
+};
+type latlng = {};
+
+const useMarkeredMap = (markerClickHandler: (idx: number) => void) => {
+  const mapRef = React.useRef<map>();
   const mapContainerRef = React.useRef(null);
-  const initialMarker = React.useRef(null);
-  const markersRef = React.useRef([]);
+  const initialMarker = React.useRef<marker>();
+  const markersRef = React.useRef<{ marker: marker; infowindow: infowindow }[]>([]);
 
   React.useEffect(() => {
     if (mapRef.current) return;
@@ -16,7 +43,7 @@ const useMarkeredMap = markerClickHandler => {
       level: 3,
     });
 
-    const successGeolocation = position => {
+    const successGeolocation = (position: position) => {
       const { latitude, longitude } = position.coords;
       const currentLatLng = new kakao.maps.LatLng(latitude, longitude);
 
@@ -26,7 +53,7 @@ const useMarkeredMap = markerClickHandler => {
         image: new kakao.maps.MarkerImage(`/images/marker.png`, new kakao.maps.Size(45, 45)),
       });
 
-      mapRef.current.setCenter(currentLatLng);
+      mapRef.current?.setCenter(currentLatLng);
     };
 
     const errorGeolocation = () => {};
@@ -34,7 +61,7 @@ const useMarkeredMap = markerClickHandler => {
     if ('geolocation' in navigator) navigator.geolocation.getCurrentPosition(successGeolocation, errorGeolocation);
   }, []);
 
-  const drawMarkers = (markerInfos = []) => {
+  const drawMarkers = (markerInfos: Array<ResultItemType> | undefined) => {
     if (initialMarker.current) initialMarker.current.setMap(null);
     markersRef.current.forEach(({ marker, infowindow }) => {
       marker.setMap(null);
@@ -43,7 +70,7 @@ const useMarkeredMap = markerClickHandler => {
 
     markersRef.current = [];
 
-    if (markerInfos.length === 0) return;
+    if (markerInfos === undefined || markerInfos?.length === 0) return;
 
     const bounds = new kakao.maps.LatLngBounds();
 
@@ -84,7 +111,7 @@ const useMarkeredMap = markerClickHandler => {
       bounds.extend(new kakao.maps.LatLng(store.y, store.x));
     });
 
-    mapRef.current.setBounds(bounds, 60, 60, 60, 60);
+    mapRef.current?.setBounds(bounds, 60, 60, 60, 60);
   };
 
   return { mapContainerRef, drawMarkers };

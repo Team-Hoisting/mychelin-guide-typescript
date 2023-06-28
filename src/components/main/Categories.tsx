@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { categoryState } from '../../recoil/atoms';
 import { categoryInfo, categoryCodes } from '../../constants';
 import { CategoryBox } from '../common';
+import { CategoryCode } from 'types';
 
 const Container = styled.div`
   height: 80px;
@@ -23,10 +24,10 @@ const Categories = () => {
     <Container>
       {fullCategoryCodes.map(code => (
         <CategoryBox
-          categoryName={categoryInfo[code].ko}
-          categoryImgFile={categoryInfo[code].imgFile}
+          categoryName={categoryInfo[code as CategoryCode].ko}
+          categoryImgFile={categoryInfo[code as CategoryCode].imgFile}
           colored
-          key={categoryInfo[code].ko}
+          key={categoryInfo[code as CategoryCode].ko}
           clickHandler={() => setCategory(code)}
           selected={category === code}
           iconWidth="35%"

@@ -3,7 +3,15 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/palette';
 
-const buttonStyle = css`
+interface ButtonStyleProps {
+  red?: boolean;
+  full?: boolean;
+  gray?: boolean;
+  thirty?: boolean;
+  small?: boolean;
+}
+
+const buttonStyle = css<ButtonStyleProps>`
   border: none;
   border-radius: 6px;
   font-size: 0.7rem;
@@ -73,14 +81,24 @@ const buttonStyle = css`
   }
 `;
 
-const CommonButton = styled.button`
+type ButtonProps = {
+  to?: string;
+  full?: boolean;
+  gray?: boolean;
+  thirty?: boolean;
+  small?: boolean;
+  disabled?: boolean;
+};
+
+const CommonButton = styled.button<ButtonProps>`
   ${buttonStyle}
 `;
 
-const CommonLink = styled(Link)`
+const CommonLink = styled(Link)<ButtonProps>`
   ${buttonStyle}
 `;
 
-const Button = props => (props.to ? <CommonLink {...props} $red={props.red} /> : <CommonButton {...props} />);
+const Button = (props: ButtonProps) =>
+  props.to ? <CommonLink to={props.to} {...props} /* $red={props.red} */ /> : <CommonButton {...props} />;
 
 export default Button;

@@ -16,6 +16,10 @@ const Container = styled.div`
   }
 `;
 
-const Responsive = ({ children, ...rest }) => <Container {...rest}>{children}</Container>;
+interface ResponsiveProps {
+  children: JSX.Element[];
+}
+
+const Responsive = ({ children }: ResponsiveProps) => <Container>{children}</Container>;
 
 export default Responsive;

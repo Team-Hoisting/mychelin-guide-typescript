@@ -1,12 +1,12 @@
 import React from 'react';
 import { useKeywordSearch, useMarkeredMap } from './index.js';
 
-const useMapSearch = initialKeyword => {
+const useMapSearch = (initialKeyword: string) => {
   const { keywordSearch, result, paginationRef } = useKeywordSearch();
-  const { mapContainerRef, drawMarkers } = useMarkeredMap(idx => setClickedIdx(idx));
+  const { mapContainerRef, drawMarkers } = useMarkeredMap((idx: number) => setClickedIdx(idx));
 
-  const inputRef = React.useRef(null);
-  const [clickedIdx, setClickedIdx] = React.useState(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [clickedIdx, setClickedIdx] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     if (initialKeyword) keywordSearch(initialKeyword);
@@ -17,15 +17,15 @@ const useMapSearch = initialKeyword => {
   }, [result]);
 
   const gotoPreviousPage = () => {
-    if (paginationRef.current.hasPrevPage) paginationRef.current.prevPage();
+    if (paginationRef.current?.hasPrevPage) paginationRef.current.prevPage();
   };
 
   const gotoNextPage = () => {
-    if (paginationRef.current.hasNextPage) paginationRef.current.nextPage();
+    if (paginationRef.current?.hasNextPage) paginationRef.current.nextPage();
   };
 
   const search = () => {
-    keywordSearch(inputRef.current.value);
+    keywordSearch(inputRef.current?.value as string);
   };
 
   return {

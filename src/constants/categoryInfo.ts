@@ -1,4 +1,13 @@
-const categoryInfo = {
+import { CategoryCode } from 'types';
+
+type CategoryInfoType = {
+  [key in CategoryCode]: {
+    ko: string;
+    imgFile: string;
+  };
+};
+
+const categoryInfo: CategoryInfoType = {
   AL00: { ko: '전체', imgFile: '00-all' },
   KO01: { ko: '한식', imgFile: '01-korean' },
   CH02: { ko: '중식', imgFile: '02-chinese' },

@@ -1,17 +1,30 @@
 import React from 'react';
+import { KakaoResultType } from 'components/searchmap/types';
 
-const { kakao } = window;
+const { kakao } = window as any;
+
+interface KakaoPaginationType {
+  nextPage: () => void;
+  prevPage: () => void;
+  gotoPage: (page: number) => void;
+  gotoFirst: () => void;
+  gotoLast: () => void;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  current: number;
+}
 
 const useKeywordSearch = (size = 4, page = 1) => {
-  const [result, setResult] = React.useState(null);
-  const paginationRef = React.useRef(null);
+  const [result, setResult] = React.useState<Array<KakaoResultType>>();
+  const paginationRef = React.useRef<KakaoPaginationType>();
 
   const ps = new kakao.maps.services.Places();
 
-  const keywordSearch = keyword => {
+  const keywordSearch = (keyword: string) => {
     ps.keywordSearch(
       keyword,
-      (result, status, pagination) => {
+      (result: Array<KakaoResultType>, status: any, pagination: KakaoPaginationType) => {
         // kakao.maps.services.Status.ERROR 일 때
         if (status === kakao.maps.services.Status.ERROR) return;
 

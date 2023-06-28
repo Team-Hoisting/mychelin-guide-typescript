@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { StoreItemOnNoHover, StoreItemOnHover } from '.';
+import { StoreDataType } from '../../types';
 
-const Container = styled.div`
+interface ContainerProps {
+  place: number | null;
+}
+
+const Container = styled.div<ContainerProps>`
   overflow: hidden;
   height: 360px;
   background-color: #fff;
@@ -48,7 +53,12 @@ const Container = styled.div`
   }
 `;
 
-const StoreItem = ({ store, place = null }) => {
+interface StoreItemProps {
+  store: StoreDataType;
+  place: number | null;
+}
+
+const StoreItem = ({ store, place = null }: StoreItemProps) => {
   const { storeId, storeName, starCount = 0, voteCntArr = [] } = store;
 
   return (
