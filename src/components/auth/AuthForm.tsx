@@ -3,11 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useForm, DefaultValues, Path } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signinSchema, signupSchema } from '../../schema';
 import palette from '../../lib/palette';
 import InputField from './InputField';
 import Button from '../common/Button';
-// import { defaultValues } from '../../types';
 import { ZodType } from 'zod';
 
 const Container = styled.div`

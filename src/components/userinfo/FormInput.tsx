@@ -6,8 +6,6 @@ import { userState } from '../../recoil/atoms';
 import { checkNickname } from '../../api/auth';
 import Button from '../common/Button';
 import { User } from 'types';
-import { nicknameSchema, passwordSchema } from 'schema';
-import { AnyAaaaRecord } from 'dns';
 
 const Container = styled.div`
   position: relative;

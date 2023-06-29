@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../api/auth';
 import { signupSchema } from '../../schema';
 import AuthForm from './AuthForm';
-import type { defaultValues } from '../../types';
 
 const defaultValues = {
   email: '',
@@ -16,7 +15,7 @@ const defaultValues = {
 const SignupForm = () => {
   const navigate = useNavigate();
 
-  const onSubmit = async (data: defaultValues) => {
+  const onSubmit = async (data: signupSchema) => {
     try {
       await signUp(data);
 

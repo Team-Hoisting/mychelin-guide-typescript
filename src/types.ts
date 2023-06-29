@@ -44,13 +44,6 @@ export interface VoteDataType {
   votedAt: number;
 }
 
-// export type defaultValues = {
-//   email: string;
-//   password: string;
-//   confirmPassword?: string;
-//   nickname?: string;
-// };
-
 export interface User {
   email: string;
   nickname: string;
