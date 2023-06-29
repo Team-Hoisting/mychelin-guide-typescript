@@ -40,12 +40,7 @@ interface UnitType {
   type: string;
   title: string;
   formSchema: typeof nicknameSchema | typeof passwordSchema;
-  defaultValues: {
-    nickname?: string;
-    password?: string;
-    confirmPassword?: string;
-  };
-  // defaultValues: DefaultValues<typeof nicknameSchema | typeof passwordSchema>;
+  defaultValues: nicknameSchema | passwordSchema;
 }
 
 const Unit = ({ type, title, formSchema, defaultValues }: UnitType) => {

@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, DefaultValues, Path } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signinSchema, signupSchema } from '../../schema';
 import palette from '../../lib/palette';
 import InputField from './InputField';
 import Button from '../common/Button';
-import { defaultValues } from '../../types';
-import { z } from 'zod';
+// import { defaultValues } from '../../types';
+import { ZodType } from 'zod';
 
 const Container = styled.div`
   h3 {
@@ -47,14 +47,19 @@ const formTitle = {
   register: '회원가입',
 };
 
-interface AuthForm {
+interface AuthForm<ZTSchema, TSchema> {
   type: 'login' | 'register';
-  formSchema: typeof signinSchema | typeof signupSchema;
-  defaultValues: defaultValues;
-  request: (defaultValues: defaultValues) => Promise<void>;
+  formSchema: ZTSchema;
+  defaultValues: DefaultValues<TSchema>;
+  request: (defaultValues: TSchema) => Promise<void>;
 }
 
-const AuthForm = ({ type, formSchema, defaultValues, request }: AuthForm) => {
+const AuthForm = <ZTSchema extends ZodType, TSchema extends {}>({
+  type,
+  formSchema,
+  defaultValues,
+  request,
+}: AuthForm<ZTSchema, TSchema>) => {
   const {
     control,
     handleSubmit,
@@ -83,7 +88,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }: AuthForm) => {
         <InputField
           type="text"
           label="이메일 주소"
-          name="email"
+          name={'email' as Path<TSchema>}
           autoComplete="off"
           control={control}
           trigger={trigger}
@@ -94,7 +99,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }: AuthForm) => {
           <InputField
             type="text"
             label="닉네임"
-            name="nickname"
+            name={'nickname' as Path<TSchema>}
             autoComplete="off"
             control={control}
             trigger={trigger}
@@ -106,7 +111,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }: AuthForm) => {
           control={control}
           trigger={trigger}
           autoComplete="new-password"
-          name="password"
+          name={'password' as Path<TSchema>}
           label="비밀번호"
           type="password"
         />
@@ -116,7 +121,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }: AuthForm) => {
               control={control}
               trigger={trigger}
               autoComplete="new-password"
-              name="confirmPassword"
+              name={'confirmPassword' as Path<TSchema>}
               label="비밀번호 확인"
               type="password"
             />

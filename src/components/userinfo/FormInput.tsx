@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { useController, Control, UseFormTrigger } from 'react-hook-form';
+import { useController, Control, FieldValues, Path, UseFormTrigger } from 'react-hook-form';
 import { userState } from '../../recoil/atoms';
 import { checkNickname } from '../../api/auth';
 import Button from '../common/Button';
@@ -81,22 +81,20 @@ const Hint = styled.span<HintProps>`
   left: 70px;
 `;
 
-interface FromInputType {
+interface FromInputType<TSchema extends FieldValues> {
   type: string;
   title: string;
   placeholder: string;
-  name: string;
-  control: any;
-  // control: Control<typeof nicknameSchema | typeof passwordSchema>;
-  // trigger: UseFormTrigger<typeof nicknameSchema | typeof passwordSchema>;
-  trigger: any;
+  name: Path<TSchema>;
+  control: Control<TSchema, any>;
+  trigger: UseFormTrigger<TSchema>;
   isSamePrevious?: boolean;
   isNicknameDuplicate?: boolean;
   setIsSamePrevious?: React.Dispatch<React.SetStateAction<boolean | null>>;
   setIsNicknameDuplicate?: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
 
-const FormInput = ({
+const FormInput = <TSchema extends {}>({
   type,
   title,
   placeholder,
@@ -107,7 +105,7 @@ const FormInput = ({
   setIsSamePrevious,
   isNicknameDuplicate,
   setIsNicknameDuplicate,
-}: FromInputType) => {
+}: FromInputType<TSchema>) => {
   const { nickname } = useRecoilValue(userState) as User;
   const {
     field: { value, onChange },
@@ -129,7 +127,7 @@ const FormInput = ({
     if (isNicknameInput && inputValue !== nickname) setIsSamePrevious!(false);
 
     trigger(name);
-    if (name === 'password') trigger('confirmPassword');
+    if (name === 'password') trigger('confirmPassword' as Path<TSchema>);
   };
 
   const handleDoubleCheck = async () => {

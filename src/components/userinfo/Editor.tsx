@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useForm, DefaultValues } from 'react-hook-form';
+import { useForm, DefaultValues, Path } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms';
@@ -12,7 +12,7 @@ import Button from '../common/Button';
 import FormInput from './FormInput';
 import { User } from 'types';
 import { AxiosError } from 'axios';
-import { nicknameSchema, passwordSchema } from 'schema';
+import { ZodType } from 'zod';
 
 const Form = styled.form`
   padding-top: 1.5rem;
@@ -52,19 +52,19 @@ const ButtonWithIncreased = styled(Button)`
   }
 `;
 
-interface EditorType {
+interface EditorType<ZTSchema, TSchema> {
   type: string;
   onClose: () => void;
-  formSchema: typeof nicknameSchema | typeof passwordSchema;
-  defaultValues: {
-    nickname?: string;
-    password?: string;
-    confirmPassword?: string;
-  };
-  // defaultValues: DefaultValues<typeof nicknameSchema | typeof passwordSchema>;
+  formSchema: ZTSchema;
+  defaultValues: DefaultValues<TSchema>;
 }
 
-const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
+const Editor = <ZTSchema extends ZodType, TSchema extends {}>({
+  type,
+  onClose,
+  formSchema,
+  defaultValues,
+}: EditorType<ZTSchema, TSchema>) => {
   const {
     control,
     handleSubmit,
@@ -113,7 +113,7 @@ const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
           type="text"
           title="새로운 닉네임"
           placeholder="원하는 닉네임을 입력하세요"
-          name="nickname"
+          name={'nickname' as Path<TSchema>}
           control={control}
           trigger={trigger}
           isSamePrevious={isSamePrevious as boolean}
@@ -126,7 +126,7 @@ const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
           type="password"
           title="새로운 비밀번호"
           placeholder="변경할 비밀번호를 입력하세요"
-          name="password"
+          name={'password' as Path<TSchema>}
           control={control}
           trigger={trigger}
         />
@@ -136,7 +136,7 @@ const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
           type="password"
           title="비밀번호 확인"
           placeholder="비밀번호를 확인해주세요"
-          name="confirmPassword"
+          name={'confirmPassword' as Path<TSchema>}
           control={control}
           trigger={trigger}
         />

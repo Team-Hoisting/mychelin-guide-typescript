@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useController, Control, UseFormTrigger } from 'react-hook-form';
-import { defaultValues } from '../../types';
+import { useController, Control, UseFormTrigger, Path, FieldValues } from 'react-hook-form';
 import { useDebounce } from '../../hooks/index.js';
 import palette from '../../lib/palette';
 import Button from '../common/Button';
@@ -71,10 +70,10 @@ const DoubleCheckButton = styled(Button)`
   }
 `;
 
-interface InputField {
-  control: Control<defaultValues, any>;
-  trigger: UseFormTrigger<defaultValues>;
-  name: 'email' | 'password' | 'confirmPassword' | 'nickname';
+interface InputField<TSchema extends FieldValues> {
+  control: Control<TSchema, any>;
+  trigger: UseFormTrigger<TSchema>;
+  name: Path<TSchema>;
   autoComplete?: string;
   label: string;
   type: string;
@@ -82,7 +81,7 @@ interface InputField {
   setIsDuplicateField?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const InputField = ({
+const InputField = <TSchema extends {}>({
   control,
   trigger,
   name,
@@ -91,7 +90,7 @@ const InputField = ({
   type,
   doubleCheck,
   setIsDuplicateField,
-}: InputField) => {
+}: InputField<TSchema>) => {
   const {
     field: { value, onChange },
     fieldState: { isDirty, error },
@@ -106,7 +105,7 @@ const InputField = ({
   const debounceOnChange = useDebounce(() => {
     trigger(name);
   }, 200);
-  const debounceOnChangeForCP = useDebounce(() => trigger('confirmPassword'), 200);
+  const debounceOnChangeForCP = useDebounce(() => trigger('confirmPassword' as Path<TSchema>), 200);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
