@@ -45,6 +45,7 @@ const StoreInfoMain = styled.div`
 
 const Name = styled.p`
   padding: 8px 2px;
+  margin: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
   word-wrap: normal;
