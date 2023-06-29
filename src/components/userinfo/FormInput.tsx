@@ -5,6 +5,7 @@ import { useController } from 'react-hook-form';
 import { userState } from '../../recoil/atoms';
 import { checkNickname } from '../../api/auth';
 import Button from '../common/Button';
+import { User } from 'types';
 
 const Container = styled.div`
   position: relative;
@@ -65,7 +66,11 @@ const ButtonWithPosition = styled(Button)`
   }
 `;
 
-const Hint = styled.span`
+interface HintProps {
+  isValid: boolean;
+}
+
+const Hint = styled.span<HintProps>`
   margin-left: 1rem;
   font-size: 0.5rem;
   color: ${props => (props.isValid ? 'green' : 'red')};
@@ -73,6 +78,19 @@ const Hint = styled.span`
   top: 2px;
   left: 70px;
 `;
+
+interface FromInputType {
+  type: string;
+  title: string;
+  placeholder: string;
+  name: string;
+  control: any;
+  trigger: any;
+  isSamePrevious: boolean;
+  isNicknameDuplicate: boolean;
+  setIsSamePrevious: (state: boolean | null) => void;
+  setIsNicknameDuplicate: (state: boolean | null) => void;
+}
 
 const FormInput = ({
   type,
@@ -85,8 +103,8 @@ const FormInput = ({
   setIsSamePrevious,
   isNicknameDuplicate,
   setIsNicknameDuplicate,
-}) => {
-  const { nickname } = useRecoilValue(userState);
+}: FromInputType) => {
+  const { nickname } = useRecoilValue(userState) as User;
   const {
     field: { value, onChange },
     fieldState: { isDirty, error },
@@ -97,7 +115,7 @@ const FormInput = ({
 
   const isNicknameInput = name === 'nickname';
 
-  const handleChange = e => {
+  const handleChange = (e: any) => {
     const inputValue = e.target.value;
     onChange(inputValue);
 
@@ -136,7 +154,7 @@ const FormInput = ({
           type="button"
           className="confirm"
           red
-          disabled={!isDirty || error || isSamePrevious || !(isNicknameDuplicate === null)}
+          disabled={(!isDirty || error || isSamePrevious || !(isNicknameDuplicate === null)) as boolean}
           onClick={handleDoubleCheck}>
           중복 확인
         </ButtonWithPosition>

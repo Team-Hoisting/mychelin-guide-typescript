@@ -10,6 +10,8 @@ import { editUserInfo } from '../../api/users';
 import { logout } from '../../api/auth';
 import Button from '../common/Button';
 import FormInput from './FormInput';
+import { User } from 'types';
+import { AxiosError } from 'axios';
 
 const Form = styled.form`
   padding-top: 1.5rem;
@@ -49,7 +51,18 @@ const ButtonWithIncreased = styled(Button)`
   }
 `;
 
-const Editor = ({ type, onClose, formSchema, defaultValues }) => {
+interface EditorType {
+  type: string;
+  onClose: () => void;
+  formSchema: any;
+  defaultValues: {
+    nickname?: string;
+    password?: string;
+    confirmPassword?: string;
+  };
+}
+
+const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
   const {
     control,
     handleSubmit,
@@ -63,15 +76,15 @@ const Editor = ({ type, onClose, formSchema, defaultValues }) => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
-  const [isSamePrevious, setIsSamePrevious] = React.useState(false);
-  const [isNicknameDuplicate, setIsNicknameDuplicate] = React.useState(null);
+  const [isSamePrevious, setIsSamePrevious] = React.useState<boolean | null>(false);
+  const [isNicknameDuplicate, setIsNicknameDuplicate] = React.useState<boolean | null>(null);
 
   const onSubmit = async () => {
     const values = getValues();
     delete values.confirmPassword;
 
     try {
-      const editedUser = await editUserInfo(user.nickname, values);
+      const editedUser = await editUserInfo((user as User).nickname, values);
 
       if (type !== 'nickname') {
         await logout();
@@ -85,8 +98,8 @@ const Editor = ({ type, onClose, formSchema, defaultValues }) => {
 
       onClose();
     } catch (error) {
-      if (error.response.status === 409) toast.warn('기존 비밀번호와 동일합니다.');
-      throw new Error(error);
+      if ((error as AxiosError)?.response?.status === 409) toast.warn('기존 비밀번호와 동일합니다.');
+      throw new Error('error');
     }
   };
 
@@ -100,9 +113,9 @@ const Editor = ({ type, onClose, formSchema, defaultValues }) => {
           name="nickname"
           control={control}
           trigger={trigger}
-          isSamePrevious={isSamePrevious}
+          isSamePrevious={isSamePrevious as boolean}
           setIsSamePrevious={setIsSamePrevious}
-          isNicknameDuplicate={isNicknameDuplicate}
+          isNicknameDuplicate={isNicknameDuplicate as boolean}
           setIsNicknameDuplicate={setIsNicknameDuplicate}
         />
       ) : (

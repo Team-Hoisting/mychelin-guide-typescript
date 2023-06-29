@@ -34,7 +34,18 @@ const ButtonWithPosition = styled(Button)`
   bottom: 16px;
 `;
 
-const Unit = ({ type, title, formSchema, defaultValues }) => {
+interface UnitType {
+  type: string;
+  title: string;
+  formSchema: any;
+  defaultValues: {
+    nickname?: string;
+    password?: string;
+    confirmPassword?: string;
+  };
+}
+
+const Unit = ({ type, title, formSchema, defaultValues }: UnitType) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const user = useRecoilValue(userState);
 
