@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { StorePositionMap } from './index';
+import { StoreDataType } from 'types';
 
 const Container = styled.div`
   display: flex;
@@ -84,7 +85,7 @@ const ImageSkeleton = styled.div`
   }
 `;
 
-const Image = styled.img`
+const Image = styled.img<{ isImgLoading: boolean }>`
   display: ${({ isImgLoading }) => (isImgLoading ? 'none' : 'block')};
   width: 70%;
   height: 500px;
@@ -93,7 +94,11 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const Main = ({ store: { storeId, x, y, address, phoneNumber } }) => {
+interface MainProps {
+  store: StoreDataType | undefined;
+}
+
+const Main = ({ store }: MainProps) => {
   const [isImgLoading, setisImgLoading] = React.useState(true);
 
   const handleLoad = () => {
@@ -104,25 +109,25 @@ const Main = ({ store: { storeId, x, y, address, phoneNumber } }) => {
     <Container>
       {isImgLoading && <ImageSkeleton />}
       <Image
-        src={`/img/stores/${storeId}`}
+        src={`/img/stores/${store?.storeId}`}
         isImgLoading={isImgLoading}
         draggable={false}
         onLoad={handleLoad}
         onError={e => {
-          e.target.src = '/img/default/store.png';
+          (e.target as HTMLImageElement).src = '/img/default/store.png';
         }}
       />
       <DetailSide>
         <MapContainer className="map">
-          <StorePositionMap x={x} y={y} />
+          <StorePositionMap x={store?.x} y={store?.y} />
         </MapContainer>
         <InfoContainer>
           <Info>
             <AddressTitle>
-              <span>주소</span> : {address}
+              <span>주소</span> : {store?.address}
             </AddressTitle>
             <PhoneTitle>
-              <span>전화번호</span> : {phoneNumber || '없음'}
+              <span>전화번호</span> : {store?.phoneNumber || '없음'}
             </PhoneTitle>
           </Info>
         </InfoContainer>

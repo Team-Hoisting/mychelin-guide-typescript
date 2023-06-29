@@ -19,13 +19,13 @@ const Center = styled.div`
 const StoreDetailPage = () => {
   const { storeId } = useParams();
 
-  const { addBookMark, deleteBookMark } = useArchivesMutation(storeId);
+  const { addArchive, deleteArchive } = useArchivesMutation(storeId!);
 
   return (
     <SkinnyContainer>
       <Container>
         <Center>
-          <StoreDetail addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
+          <StoreDetail addArchive={addArchive} deleteArchive={deleteArchive} />
           <CommentsList />
         </Center>
       </Container>

@@ -6,6 +6,8 @@ import { Title, Votes, Main } from './index';
 import { archiveQueryKey, storeQueryKey } from '../../constants/index';
 import { fetchStore } from '../../api/stores';
 import fetchArchives from '../../api/archive';
+import { ArchiveType, ArchivesType } from '../../hooks/useArchivesMutation';
+import { StoreDataType } from 'types';
 
 const Container = styled.div`
   width: 100%;
@@ -66,41 +68,42 @@ const VoteCntMsg = styled.span`
   }
 `;
 
-const StoreDetail = ({ addBookMark, deleteBookMark }) => {
+export interface StoreDetailProps {
+  addArchive: (newArchive: ArchiveType) => void;
+  deleteArchive: (archiveToDelete: ArchiveType) => void;
+}
+
+const StoreDetail = ({ addArchive, deleteArchive }: StoreDetailProps) => {
   const { storeId } = useParams();
 
-  const [{ data: archivesData }, { data: storeData }] = useQueries({
+  const [{ data: archivesData }, { data: storeData }]: [
+    { data: ArchivesType | undefined },
+    { data: StoreDataType | undefined }
+  ] = useQueries({
     queries: [
       { queryKey: [...archiveQueryKey, storeId], queryFn: fetchArchives(storeId) },
-      { queryKey: [...storeQueryKey, storeId], queryFn: fetchStore(storeId) },
+      { queryKey: [...storeQueryKey, storeId], queryFn: fetchStore(storeId!) },
     ],
   });
 
-  const { firstVoteUser, totalVotesCnt, voteCnt } = storeData;
-
   return (
     <Container>
-      <Title
-        storeData={storeData}
-        archivesData={archivesData}
-        addBookMark={addBookMark}
-        deleteBookMark={deleteBookMark}
-      />
+      <Title storeData={storeData} archivesData={archivesData} addArchive={addArchive} deleteArchive={deleteArchive} />
       <SubTitle>
         <FirstVoteUser>
-          최초 투표자 : <UserName>{firstVoteUser}</UserName>
+          최초 투표자 : <UserName>{storeData?.firstVoteUser}</UserName>
         </FirstVoteUser>
         <VerticalHr />
         <VoteCntMsg>
-          투표 <span>{totalVotesCnt}</span>개
+          투표 <span>{storeData?.totalVotesCnt}</span>개
         </VoteCntMsg>
         <VerticalHr />
         <ArchivedCntMsg>
-          저장 <span>{archivesData.totalArchivesCnt}</span>개
+          저장 <span>{archivesData?.totalArchivesCnt}</span>개
         </ArchivedCntMsg>
       </SubTitle>
       <Main store={storeData} />
-      <Votes voteCnt={voteCnt} />
+      <Votes voteCnt={storeData?.voteCnt} />
     </Container>
   );
 };

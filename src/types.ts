@@ -23,11 +23,13 @@ export interface StoreDataType {
   x: string;
   y: string;
   voteCount: [CategoryCode, number][];
+  voteCnt?: [CategoryCode, number][]; // 여기
   totalVotesCnt: number;
   firstVoteUser: string;
   archivesCount: number;
   starsCount: number;
   starCount?: number;
+  starCnt?: number; // 여기
   voteCntArr?: [CategoryCode, number][] | [];
 }
 

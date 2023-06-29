@@ -4,19 +4,19 @@ import { archiveQueryKey } from '../constants/index';
 
 const archiveURL = '/api/archives';
 
-interface ArchiveType {
-  storeId: string;
-  email: string;
+export interface ArchiveType {
+  storeId: string | undefined;
+  email: string | undefined;
 }
 
-interface ArchivesType {
+export interface ArchivesType {
   archivesData: ArchiveType[];
   totalArchivesCnt: number;
   isUserArchived: boolean;
 }
 
 const useArchivesMutation = (storeId: string) => {
-  const { mutate: addBookMark } = useDataMutation<ArchiveType, ArchivesType>({
+  const { mutate: addArchive } = useDataMutation<ArchiveType, ArchivesType>({
     mutationFn: newArchive => axios.post(`${archiveURL}`, newArchive),
     // eslint-disable-next-line consistent-return
     onMutate: newArchive => archives => {
@@ -25,7 +25,7 @@ const useArchivesMutation = (storeId: string) => {
     queryKey: [...archiveQueryKey, storeId],
   });
 
-  const { mutate: deleteBookMark } = useDataMutation<ArchiveType, ArchivesType>({
+  const { mutate: deleteArchive } = useDataMutation<ArchiveType, ArchivesType>({
     mutationFn: archiveToDelete => axios.delete(`${archiveURL}`, { data: archiveToDelete }),
     onMutate: archiveToDelete => archives => {
       if (archives)
@@ -40,7 +40,7 @@ const useArchivesMutation = (storeId: string) => {
     queryKey: [...archiveQueryKey, storeId],
   });
 
-  return { addBookMark, deleteBookMark };
+  return { addArchive, deleteArchive };
 };
 
 export default useArchivesMutation;

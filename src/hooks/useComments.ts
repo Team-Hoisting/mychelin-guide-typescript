@@ -1,14 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import commentQueryKey from '../constants/commentQueryKey';
 import { fetchComments } from '../api/comment';
+import { AxiosError } from 'axios';
 
-const commentsQuery = ({ storeId, currentPage }) => ({
+interface CommentsQueryProps {
+  storeId: string;
+  currentPage: number;
+}
+
+const commentsQuery = ({ storeId, currentPage }: CommentsQueryProps) => ({
   queryKey: [...commentQueryKey, storeId, currentPage],
   queryFn: fetchComments(storeId, currentPage),
-  onError: error => console.error(error),
+  onError: (error: AxiosError) => console.error(error),
   keepPreviousData: true,
 });
 
-const useComments = ({ storeId, currentPage }) => useQuery(commentsQuery({ storeId, currentPage }));
+const useComments = ({ storeId, currentPage }: CommentsQueryProps) => useQuery(commentsQuery({ storeId, currentPage }));
 
 export default useComments;

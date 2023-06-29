@@ -7,6 +7,8 @@ import ModalBox from '../common/ModalBox';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
 import ImgUploadModal from './ImgUploadModal';
+import { StoreDataType } from 'types';
+import { ArchiveType, ArchivesType } from 'hooks/useArchivesMutation';
 
 const Container = styled.div`
   display: flex;
@@ -60,29 +62,30 @@ const FillBookMarkIcon = styled(BsFillBookmarkFill)`
   color: #fe9602;
 `;
 
-// archive 데이터는 storeId를 넘겨주면 storeId에 해당하는 archives만 리턴
-const Header = ({
-  storeData: { storeName, storeId, starCnt },
-  archivesData: { isUserArchived },
-  addBookMark,
-  deleteBookMark,
-}) => {
+interface TitleProps {
+  storeData: StoreDataType | undefined;
+  archivesData: ArchivesType | undefined;
+  addArchive: (newArchive: ArchiveType) => void;
+  deleteArchive: (archiveToDelete: ArchiveType) => void;
+}
+
+const Title = ({ storeData, archivesData, addArchive, deleteArchive }: TitleProps) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
 
-  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(storeId);
+  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(storeData?.storeId!);
 
   const handleAddArchiveClick = () => {
     if (!user) {
       navigate('/signin', { state: pathname });
       return;
     }
-    addBookMark({ storeId, email: user?.email });
+    addArchive({ storeId: storeData?.storeId, email: user?.email });
   };
 
   const handleDeleteArchiveClick = () => {
-    deleteBookMark({ storeId, email: user?.email });
+    deleteArchive({ storeId: storeData?.storeId, email: user?.email! });
   };
 
   const theme = useRecoilValue(themeState);
@@ -90,17 +93,17 @@ const Header = ({
   return (
     <Container>
       <StoreTitle>
-        <TitleText>{storeName}</TitleText>
+        <TitleText>{storeData?.storeName}</TitleText>
         <StarContainer>
-          {[...Array(starCnt).keys()].map(val => (
+          {[...Array(storeData?.starCnt).keys()].map(val => (
             <Star key={val} src={`/images/star-${theme}.png`} />
           ))}
         </StarContainer>
       </StoreTitle>
       <Side>
         {isUserVoted && <ImgUploadModal user={user} />}
-        <ModalBox storeId={storeId} width="120px" />
-        {isUserArchived ? (
+        <ModalBox storeId={storeData?.storeId!} width="120px" />
+        {archivesData?.isUserArchived ? (
           <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
         ) : (
           <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
@@ -110,4 +113,4 @@ const Header = ({
   );
 };
 
-export default Header;
+export default Title;
