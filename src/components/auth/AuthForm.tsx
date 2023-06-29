@@ -8,6 +8,7 @@ import palette from '../../lib/palette';
 import InputField from './InputField';
 import Button from '../common/Button';
 import { defaultValues } from '../../types';
+import { z } from 'zod';
 
 const Container = styled.div`
   h3 {
@@ -48,7 +49,7 @@ const formTitle = {
 
 interface AuthForm {
   type: 'login' | 'register';
-  formSchema: signinSchema | signupSchema;
+  formSchema: typeof signinSchema | typeof signupSchema;
   defaultValues: defaultValues;
   request: (defaultValues: defaultValues) => Promise<void>;
 }
@@ -61,7 +62,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }: AuthForm) => {
     trigger,
     formState: { isValid },
   } = useForm({
-    resolver: zodResolver(formSchema as any),
+    resolver: zodResolver(formSchema),
     defaultValues,
   });
 

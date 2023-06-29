@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { useController } from 'react-hook-form';
+import { useController, Control, UseFormTrigger } from 'react-hook-form';
 import { userState } from '../../recoil/atoms';
 import { checkNickname } from '../../api/auth';
 import Button from '../common/Button';
 import { User } from 'types';
+import { nicknameSchema, passwordSchema } from 'schema';
+import { AnyAaaaRecord } from 'dns';
 
 const Container = styled.div`
   position: relative;
@@ -85,11 +87,13 @@ interface FromInputType {
   placeholder: string;
   name: string;
   control: any;
+  // control: Control<typeof nicknameSchema | typeof passwordSchema>;
+  // trigger: UseFormTrigger<typeof nicknameSchema | typeof passwordSchema>;
   trigger: any;
-  isSamePrevious: boolean;
-  isNicknameDuplicate: boolean;
-  setIsSamePrevious: (state: boolean | null) => void;
-  setIsNicknameDuplicate: (state: boolean | null) => void;
+  isSamePrevious?: boolean;
+  isNicknameDuplicate?: boolean;
+  setIsSamePrevious?: React.Dispatch<React.SetStateAction<boolean | null>>;
+  setIsNicknameDuplicate?: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
 
 const FormInput = ({
@@ -119,10 +123,10 @@ const FormInput = ({
     const inputValue = e.target.value;
     onChange(inputValue);
 
-    if (name === 'nickname') setIsNicknameDuplicate(null);
+    if (name === 'nickname') setIsNicknameDuplicate!(null);
 
-    if (isNicknameInput && inputValue === nickname) setIsSamePrevious(true);
-    if (isNicknameInput && inputValue !== nickname) setIsSamePrevious(false);
+    if (isNicknameInput && inputValue === nickname) setIsSamePrevious!(true);
+    if (isNicknameInput && inputValue !== nickname) setIsSamePrevious!(false);
 
     trigger(name);
     if (name === 'password') trigger('confirmPassword');
@@ -133,10 +137,10 @@ const FormInput = ({
       const { status } = await checkNickname(value);
       if (status === 200) {
         console.log(status);
-        setIsNicknameDuplicate(true);
+        setIsNicknameDuplicate!(true);
       }
     } catch (e) {
-      setIsNicknameDuplicate(false);
+      setIsNicknameDuplicate!(false);
     }
   };
 
@@ -144,7 +148,7 @@ const FormInput = ({
     <Container>
       <Title>{title}</Title>
       {isNicknameInput && isDirty && !error && (
-        <Hint isValid={isNicknameDuplicate}>
+        <Hint isValid={!!isNicknameDuplicate}>
           {isNicknameDuplicate === null ? '확인 필요' : isNicknameDuplicate ? '사용 가능' : '중복'}
         </Hint>
       )}

@@ -91,6 +91,7 @@ type ButtonProps = {
   disabled?: boolean;
   children?: string;
   onClick?: () => void;
+  [key: string]: any;
 };
 
 const CommonButton = styled.button<ButtonProps>`

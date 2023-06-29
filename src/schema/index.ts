@@ -1,4 +1,4 @@
-import z from 'zod';
+import z, { ZodObject, ZodType } from 'zod';
 
 const nicknameSchema = z.object({
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }).max(8, { message: '최대 8글자까지 가능합니다.' }),
@@ -28,7 +28,8 @@ const signinSchema = z.object({
     .regex(/^[A-Za-z0-9]{6,20}$/, { message: '영문 또는 숫자를 6~20자 입력하세요.' }),
 });
 
-type signinSchema = z.infer<typeof signinSchema>;
+// type signinSchema = z.infer<typeof signinSchema>;
+// type signinSchema = ZodType<typeof signinSchema>;
 
 const signupSchema = signinSchema
   .and(
@@ -45,6 +46,7 @@ const signupSchema = signinSchema
     message: '패스워드가 일치하지 않습니다.',
   });
 
-type signupSchema = z.infer<typeof signupSchema>;
+// type signupSchema = z.infer<typeof signupSchema>;
+// type signupSchema = ZodType<typeof signupSchema>;
 
 export { nicknameSchema, passwordSchema, signinSchema, signupSchema };

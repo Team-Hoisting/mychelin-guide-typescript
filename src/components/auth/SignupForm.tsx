@@ -28,7 +28,7 @@ const SignupForm = () => {
     }
   };
 
-  return <AuthForm type="register" formSchema={signupSchema as any} defaultValues={defaultValues} request={onSubmit} />;
+  return <AuthForm type="register" formSchema={signupSchema} defaultValues={defaultValues} request={onSubmit} />;
 };
 
 export default SignupForm;
