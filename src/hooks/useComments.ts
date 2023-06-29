@@ -4,7 +4,7 @@ import { fetchComments } from '../api/comment';
 import { AxiosError } from 'axios';
 
 interface CommentsQueryProps {
-  storeId: string;
+  storeId: string | undefined;
   currentPage: number;
 }
 

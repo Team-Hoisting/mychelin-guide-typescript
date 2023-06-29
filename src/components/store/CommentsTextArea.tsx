@@ -4,6 +4,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Button } from '../common/index';
 import userState from '../../recoil/atoms/userState';
+import { CommentType } from '../../hooks/useCommentsMutation';
 
 const Container = styled.div`
   position: relative;
@@ -32,7 +33,13 @@ const TextArea = styled.textarea.attrs(({ content }) => ({
   }
 `;
 
-const CommentButton = styled(Button)`
+interface ButtonProps {
+  $disabled: boolean;
+  children: React.ReactNode;
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+const CommentButton = styled(Button)<ButtonProps>`
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -46,14 +53,19 @@ const CommentButton = styled(Button)`
   }
 `;
 
-const CommentsTextArea = ({ addComment, setCurrentPage }) => {
+interface CommentsTextAreaProps {
+  addComment: (newComment: CommentType) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const CommentsTextArea = ({ addComment, setCurrentPage }: CommentsTextAreaProps) => {
   const [content, setContent] = React.useState('');
   const { storeId } = useParams();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 

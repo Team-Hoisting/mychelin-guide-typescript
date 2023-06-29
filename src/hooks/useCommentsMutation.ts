@@ -5,12 +5,12 @@ import { commentQueryKey } from '../constants/index';
 const url = `/api/comments`;
 
 interface CommentsMutationProps {
-  storeId: string;
+  storeId: string | undefined;
   currentPage: number;
 }
 
 export interface CommentType {
-  storeId: string;
+  storeId: string | undefined;
   content: string;
   email: string;
   isCertified: boolean;

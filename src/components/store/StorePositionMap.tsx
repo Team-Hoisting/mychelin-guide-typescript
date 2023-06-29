@@ -6,9 +6,9 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const { kakao } = window;
+const { kakao } = window as any;
 
-const StorePositionMap = ({ x, y }) => {
+const StorePositionMap = ({ x, y }: { x: number; y: number }) => {
   const mapContainerRef = useRef(null);
 
   useEffect(() => {

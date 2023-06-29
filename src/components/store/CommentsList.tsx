@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { CommentsTextArea, Comment, Pagination } from './index';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 import { useCommentsMutation, useComments } from '../../hooks/index.js';
+import { CommentType } from 'hooks/useCommentsMutation';
 
 const CommentsContainer = styled.div`
   font-size: 18px;
@@ -17,13 +18,18 @@ const Label = styled.label`
   font-weight: 800;
 `;
 
+interface CommentsDataType {
+  data: CommentType[];
+  totalPages: number;
+}
+
 const CommentsList = () => {
   const { storeId } = useParams();
   const [currentPage, setCurrentPage] = React.useState(1);
   const { addComment, deleteComment } = useCommentsMutation({ storeId, currentPage });
 
   const { data } = useComments({ storeId, currentPage });
-  const { data: commentsData, totalPages } = data;
+  const { data: commentsData, totalPages }: CommentsDataType = data;
 
   return (
     <CommentsContainer>

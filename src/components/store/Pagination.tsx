@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button, rem } from '@mantine/core';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
+import { CommentType } from '../../hooks/useCommentsMutation';
 
 const ButtonContainer = styled.div`
   width: 100%;
@@ -15,7 +16,14 @@ const ButtonGroup = styled.div`
   margin: 0 auto;
 `;
 
-const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages }) => {
+interface PaginationProps {
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  commentsData: CommentType[];
+  totalPages: number;
+}
+
+const Pagination = ({ currentPage, setCurrentPage, commentsData, totalPages }: PaginationProps) => {
   const page = Math.ceil(currentPage / COMMENTS_FETCH_SIZE);
   const startIndex = (page - 1) * COMMENTS_FETCH_SIZE;
   const endIndex = startIndex + +COMMENTS_FETCH_SIZE;
@@ -25,7 +33,7 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
     (_, i) => startIndex + 1 + i
   );
 
-  const handlePageBtnClick = page => () => {
+  const handlePageBtnClick = (page: number) => () => {
     setCurrentPage(page);
   };
 
@@ -46,7 +54,7 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
           color="gray"
           styles={theme => ({
             root: {
-              visibility: commentsData?.length > 0 && page !== 1 ? 'visible;' : 'hidden;',
+              visibility: commentsData?.length > 0 && page !== 1 ? 'visible' : 'hidden',
               '&:hover': { backgroundColor: 'var(--button-hover-color);' },
               border: 0,
               height: rem(42),
@@ -68,7 +76,7 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
                     pageNum === currentPage ? 'var(--button-click-color);' : 'var(--button-hover-color);',
                 },
                 color: 'var(--font-color)',
-                visibility: pageNum <= totalPages ? 'visible;' : 'hidden;',
+                visibility: pageNum <= totalPages ? 'visible' : 'hidden',
                 border: 0,
                 height: rem(42),
               },
@@ -83,9 +91,7 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
           styles={theme => ({
             root: {
               visibility:
-                commentsData?.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE)
-                  ? 'visible;'
-                  : 'hidden;',
+                commentsData?.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE) ? 'visible' : 'hidden',
               '&:hover': { backgroundColor: 'var(--button-hover-color);' },
               border: 0,
               height: rem(42),
@@ -99,4 +105,4 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
   );
 };
 
-export default CommentsButtons;
+export default Pagination;

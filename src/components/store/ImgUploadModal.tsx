@@ -9,6 +9,8 @@ import { BiUpload } from 'react-icons/bi';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button as CommonButton } from '../common/index';
+import { User } from '../../types';
+import { FileWithPath } from '@mantine/dropzone';
 
 const iconSize = css`
   width: 100px;
@@ -34,9 +36,14 @@ const Preview = styled.img.attrs({
   object-fit: cover;
 `;
 
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
 const UploadButton = styled(CommonButton).attrs({
   type: 'button',
-})`
+})<ButtonProps>`
   margin-right: 0;
   margin-left: auto;
   margin-top: 12px;
@@ -46,7 +53,7 @@ const Right = styled.div`
   display: flex;
 `;
 
-const BeforeUploadButton = styled(Button)`
+const BeforeUploadButton = styled(Button)<ButtonProps>`
   width: 120px;
   height: 44px;
   border-radius: 12px;
@@ -59,7 +66,11 @@ const BeforeUploadButton = styled(Button)`
   }
 `;
 
-const ImgUploadModal = ({ user }) => {
+interface ImgUploadModalProps {
+  user: User | null;
+}
+
+const ImgUploadModal = ({ user }: ImgUploadModalProps) => {
   const { storeId } = useParams();
 
   const navigate = useNavigate();
@@ -69,9 +80,9 @@ const ImgUploadModal = ({ user }) => {
     },
     onClose: () => setFile(null),
   });
-  const [file, setFile] = React.useState(null);
+  const [file, setFile] = React.useState<FileWithPath | null>(null);
 
-  const handleImageDrop = files => {
+  const handleImageDrop = (files: FileWithPath[]) => {
     // 프리뷰
     const [file] = files;
     setFile(file);
@@ -81,8 +92,8 @@ const ImgUploadModal = ({ user }) => {
   const handleUploadButtonClick = async () => {
     try {
       const formData = new FormData();
-      formData.append('img', file);
-      formData.append('filename', storeId);
+      formData.append('img', file!);
+      formData.append('filename', storeId!);
 
       const res = await axios.post('/api/upload/store', formData);
 
@@ -105,7 +116,7 @@ const ImgUploadModal = ({ user }) => {
         opened={opened}
         onClose={close}
         transitionProps={{ transition: 'slide-up', duration: 300, timingFunction: 'linear' }}
-        zIndex="9999"
+        zIndex={9999}
         size="lg"
         centered>
         <Dropzone

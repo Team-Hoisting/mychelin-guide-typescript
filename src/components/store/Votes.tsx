@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CategoryTag } from '../common/index';
+import { CategoryCode } from 'types';
 
 const Container = styled.div`
   display: flex;
@@ -8,10 +9,14 @@ const Container = styled.div`
   padding: 10px 0;
 `;
 
-const Votes = ({ voteCnt }) => (
+interface VotesProps {
+  voteCnt: [CategoryCode, number][] | [];
+}
+
+const Votes = ({ voteCnt }: VotesProps) => (
   <Container>
-    {voteCnt.map((ctg, idx) => (
-      <CategoryTag key={idx} categoryCode={Object.keys(ctg)[0]} votedCnt={Object.values(ctg)[0]} renderName={true} />
+    {voteCnt.map(([code, cnt]) => (
+      <CategoryTag key={code} categoryCode={code} votedCnt={cnt} renderName={true} />
     ))}
   </Container>
 );
