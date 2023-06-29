@@ -59,12 +59,12 @@ interface StoreItemProps {
 }
 
 const StoreItem = ({ store, place = null }: StoreItemProps) => {
-  const { storeId, storeName, starCount = 0, voteCntArr = [] } = store;
+  const { storeId, storeName, starsCount = 0, votesCount } = store;
 
   return (
     <Container place={place}>
       <StoreItemOnHover storeId={store.storeId} />
-      <StoreItemOnNoHover storeId={storeId} storeName={storeName} starCount={starCount} voteCntArr={voteCntArr} />
+      <StoreItemOnNoHover storeId={storeId} storeName={storeName} starsCount={starsCount} votesCount={votesCount} />
     </Container>
   );
 };

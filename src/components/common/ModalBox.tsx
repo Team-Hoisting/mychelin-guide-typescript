@@ -15,7 +15,7 @@ interface PopupModalProps {
   phase: string;
   setPhase: (state: string) => void;
   storeId: string;
-  store: StoreType;
+  store?: StoreType;
 }
 
 interface responseType {
@@ -49,7 +49,7 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }: 
             setPhase={setPhase}
             setTaskQueue={setTaskQueue}
             storeId={storeId}
-            store={store}
+            store={store as StoreType}
             categoryCode={categoryCode}
             setCategoryCode={setCategoryCode}
           />
@@ -59,7 +59,7 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }: 
             setPhase={setPhase}
             setTaskQueue={setTaskQueue}
             storeId={storeId}
-            store={store}
+            store={store as StoreType}
             categoryCode={categoryCode}
           />
         )}
@@ -79,7 +79,7 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }: 
 };
 
 interface ModalBoxProps {
-  store: StoreType;
+  store?: StoreType;
   storeId: string;
   width?: string;
 }

@@ -12,6 +12,7 @@ export type CategoryCode =
   | 'DS10'
   | 'VG11'
   | 'PB12';
+
 export interface StoreDataType {
   storeId: string;
   firstUserId: string;
@@ -27,6 +28,7 @@ export interface StoreDataType {
   archivesCount: number;
   starsCount: number;
 }
+
 export interface UserDataType {
   email: string;
   password: string;
@@ -34,18 +36,21 @@ export interface UserDataType {
   isCertified: boolean;
   votedCategoryOrder: Array<CategoryCode>;
 }
+
 export interface VoteDataType {
   storeId: string;
   email: string;
   categoryCode: CategoryCode;
   votedAt: number;
 }
+
 export type defaultValues = {
   email: string;
   password: string;
   confirmPassword?: string;
   nickname?: string;
 };
+
 export interface User {
   email: string;
   nickname: string;
@@ -56,4 +61,5 @@ export interface User {
     votedAt: number;
   }>;
 }
+
 export type StoresDataType = Array<StoreDataType>;
