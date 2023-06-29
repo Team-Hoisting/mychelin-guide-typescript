@@ -7,7 +7,6 @@ import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState, searchInputState, categoryState, themeState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
-import Responsive from './Responsive';
 import { SearchBar } from './index';
 import { useOnClickOutside } from '../../hooks/index.js';
 import { User } from 'types';
@@ -20,26 +19,39 @@ const Container = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   z-index: 10;
   background-color: var(--bg-secondary-color);
+  border: 1px solid red;
 `;
 
 interface WrapperProps {
   hasSearchBar: boolean;
 }
 
-const Wrapper = styled(Responsive)<WrapperProps>`
+// prettier-ignore
+const Wrapper = styled.div<WrapperProps>`
   height: 4rem;
   min-width: 1024px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 1300px;
+  margin: 0 auto;
   align-items: center;
-  ${({ hasSearchBar }) =>
-    hasSearchBar
-      ? `
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    `
-      : `
-      display: flex;
-      justify-content: space-between;
-    `}
+  
+  @media (max-width: 1024px) {
+    width: 768px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  ${({ hasSearchBar }) => hasSearchBar ? `
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  ` : `
+    display: flex;
+    justify-content: space-between;
+  `}
+
 `;
 
 const LogoImage = styled.img`
@@ -160,7 +172,7 @@ const Header = () => {
   const setCategoryState = useSetRecoilState(categoryState);
   const [theme, setTheme] = useRecoilState(themeState);
   const [openDropdown, setOpenDropdown] = React.useState(false);
-  const searchBarRef = React.useRef<HTMLInputElement>(null);
+  const searchBarRef = React.useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -186,6 +198,7 @@ const Header = () => {
 
   const { pathname } = useLocation();
   const { id } = useParams();
+
   const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
 
   const userDropdownRef = useOnClickOutside(() => setOpenDropdown(false));
