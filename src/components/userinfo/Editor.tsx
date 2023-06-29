@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, DefaultValues } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms';
@@ -12,6 +12,7 @@ import Button from '../common/Button';
 import FormInput from './FormInput';
 import { User } from 'types';
 import { AxiosError } from 'axios';
+import { nicknameSchema, passwordSchema } from 'schema';
 
 const Form = styled.form`
   padding-top: 1.5rem;
@@ -54,12 +55,13 @@ const ButtonWithIncreased = styled(Button)`
 interface EditorType {
   type: string;
   onClose: () => void;
-  formSchema: any;
+  formSchema: typeof nicknameSchema | typeof passwordSchema;
   defaultValues: {
     nickname?: string;
     password?: string;
     confirmPassword?: string;
   };
+  // defaultValues: DefaultValues<typeof nicknameSchema | typeof passwordSchema>;
 }
 
 const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
@@ -73,6 +75,7 @@ const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
@@ -81,7 +84,7 @@ const Editor = ({ type, onClose, formSchema, defaultValues }: EditorType) => {
 
   const onSubmit = async () => {
     const values = getValues();
-    delete values.confirmPassword;
+    // delete values.confirmPassword;
 
     try {
       const editedUser = await editUserInfo((user as User).nickname, values);

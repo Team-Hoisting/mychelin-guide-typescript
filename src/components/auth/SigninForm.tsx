@@ -35,7 +35,7 @@ const SigninForm = () => {
 
   return (
     <>
-      <AuthForm type="login" formSchema={signinSchema as any} defaultValues={defaultValues} request={onSubmit} />
+      <AuthForm type="login" formSchema={signinSchema} defaultValues={defaultValues} request={onSubmit} />
     </>
   );
 };

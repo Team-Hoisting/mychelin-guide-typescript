@@ -152,7 +152,7 @@ const InputField = ({
             type="button"
             small
             red
-            disabled={!isDirty || error || isDuplicate || isDisabled}
+            disabled={(!isDirty || error || isDuplicate || isDisabled) as boolean}
             onClick={confirm}>
             중복 확인
           </DoubleCheckButton>

@@ -27,7 +27,11 @@ const WhiteArea = styled.div`
   background-color: var(--bg-dark-color);
 `;
 
-const AuthTemplate = ({ children }) => (
+interface AuthTemplateProps {
+  children?: JSX.Element;
+}
+
+const AuthTemplate = ({ children }: AuthTemplateProps) => (
   <Container>
     <WhiteArea>{children}</WhiteArea>
   </Container>

@@ -4,6 +4,8 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms';
 import Button from './Button';
 import Editor from './Editor';
+import { nicknameSchema, passwordSchema } from 'schema';
+import { DefaultValues } from 'react-hook-form';
 
 const Container = styled.div`
   padding: 25px 0 18px 0;
@@ -37,12 +39,13 @@ const ButtonWithPosition = styled(Button)`
 interface UnitType {
   type: string;
   title: string;
-  formSchema: any;
+  formSchema: typeof nicknameSchema | typeof passwordSchema;
   defaultValues: {
     nickname?: string;
     password?: string;
     confirmPassword?: string;
   };
+  // defaultValues: DefaultValues<typeof nicknameSchema | typeof passwordSchema>;
 }
 
 const Unit = ({ type, title, formSchema, defaultValues }: UnitType) => {
