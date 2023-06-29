@@ -9,6 +9,7 @@ import { removeVote } from '../../api/votes';
 import categoryInfo from '../../constants/categoryInfo';
 import Controller from './Controller';
 import { CategoryCode, User } from 'types';
+import { StoreType } from 'components/searchmap/types';
 
 const Container = styled.div`
   background-color: var(--bg-color);
