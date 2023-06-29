@@ -13,11 +13,11 @@ const Star = styled.img`
 `;
 
 interface MychelinStarsProps {
-  starCount: number;
+  starsCount: number;
   propsTheme?: string;
 }
 
-const MychelinStars = ({ starCount, propsTheme }: MychelinStarsProps) => {
+const MychelinStars = ({ starsCount, propsTheme }: MychelinStarsProps) => {
   const globalTheme = useRecoilValue(themeState);
   const theme = !propsTheme ? globalTheme : propsTheme;
 
@@ -27,7 +27,7 @@ const MychelinStars = ({ starCount, propsTheme }: MychelinStarsProps) => {
    */
   return (
     <Container>
-      {[...Array.from({ length: starCount }).keys()].map(val => (
+      {[...Array.from({ length: starsCount }).keys()].map(val => (
         <Star key={val} src={`/images/star-${theme}.png`} />
       ))}
     </Container>

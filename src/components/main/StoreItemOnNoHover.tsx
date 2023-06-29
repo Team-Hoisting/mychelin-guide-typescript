@@ -68,43 +68,45 @@ const Placeholder = styled.div`
 interface StoreItemOnNoHoverProps {
   storeId: string;
   storeName: string;
-  starCount: number;
-  voteCntArr: [CategoryCode, number][];
+  starsCount: number;
+  votesCount: [CategoryCode, number][];
 }
 
-const StoreItemOnNoHover = ({ storeId, storeName, starCount, voteCntArr }: StoreItemOnNoHoverProps) => (
-  <Container>
-    <Link to="/detail">
-      <ImageContainer>
-        <Img
-          src={`img/stores/${storeId}`}
-          onError={(e: SyntheticEvent<HTMLImageElement>) => {
-            e.currentTarget.src = 'img/default/store.png';
-          }}
-        />
-      </ImageContainer>
-    </Link>
-    <Contents>
-      <StoreInfoMain>
-        <Name>{storeName}</Name>
-        <MychelinStars starCount={starCount} />
-      </StoreInfoMain>
-      <VotesContainer>
-        {voteCntArr.length ? (
-          voteCntArr.map((ctg, idx) => (
-            <CategoryTag
-              key={idx}
-              categoryCode={Object.keys(ctg)[0]}
-              votedCnt={Object.values(ctg)[0] as number}
-              renderName={false}
-            />
-          ))
-        ) : (
-          <Placeholder />
-        )}
-      </VotesContainer>
-    </Contents>
-  </Container>
-);
+const StoreItemOnNoHover = ({ storeId, storeName, starsCount, votesCount }: StoreItemOnNoHoverProps) => {
+  return (
+    <Container>
+      <Link to="/detail">
+        <ImageContainer>
+          <Img
+            src={`img/stores/${storeId}`}
+            onError={(e: SyntheticEvent<HTMLImageElement>) => {
+              e.currentTarget.src = 'img/default/store.png';
+            }}
+          />
+        </ImageContainer>
+      </Link>
+      <Contents>
+        <StoreInfoMain>
+          <Name>{storeName}</Name>
+          <MychelinStars starsCount={starsCount} />
+        </StoreInfoMain>
+        <VotesContainer>
+          {votesCount.length ? (
+            votesCount.map((ctg, idx) => (
+              <CategoryTag
+                key={idx}
+                categoryCode={Object.keys(ctg)[0]}
+                votedCnt={Object.values(ctg)[0] as number}
+                renderName={false}
+              />
+            ))
+          ) : (
+            <Placeholder />
+          )}
+        </VotesContainer>
+      </Contents>
+    </Container>
+  );
+};
 
 export default StoreItemOnNoHover;

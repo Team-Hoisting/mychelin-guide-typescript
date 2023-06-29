@@ -95,7 +95,7 @@ const Title = ({ storeData, archivesData, addArchive, deleteArchive }: TitleProp
       <StoreTitle>
         <TitleText>{storeData?.storeName}</TitleText>
         <StarContainer>
-          {[...Array(storeData?.starCnt).keys()].map(val => (
+          {[...Array(storeData?.starsCount).keys()].map(val => (
             <Star key={val} src={`/images/star-${theme}.png`} />
           ))}
         </StarContainer>
