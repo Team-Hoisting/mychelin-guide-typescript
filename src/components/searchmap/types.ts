@@ -6,8 +6,8 @@ export interface KakaoResultType {
   phone: string;
   address_name: string;
   road_address_name: string;
-  x: string;
-  y: string;
+  x: number;
+  y: number;
   place_url: string;
   distance: string;
 }
@@ -17,8 +17,8 @@ export interface StoreType {
   storeName: string;
   address: string;
   phoneNumber: string;
-  x: string;
-  y: string;
+  x: number;
+  y: number;
 }
 
 export interface ResultItemType {

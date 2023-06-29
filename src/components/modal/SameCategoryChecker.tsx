@@ -113,7 +113,7 @@ const SameCategoryChecker = ({
   const onNext = () => {
     setTaskQueue((taskQueue: any) => [
       ...taskQueue,
-      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf(), store: store.data }),
+      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
     ]);
 
     const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;
