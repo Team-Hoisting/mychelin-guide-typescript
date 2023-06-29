@@ -31,9 +31,9 @@ const EachCategoryBox = styled.div<EachCategoryBoxProps>`
           ${({ selected }: { selected: boolean }) =>
             !selected &&
             `
-            transition: none;
-            border-bottom: 2px solid #ababab;
-          `}
+              transition: none;
+              border-bottom: 2px solid #ababab;
+            `}
         }
     `}
 
