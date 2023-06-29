@@ -16,7 +16,7 @@ const RootPage = () => {
     window.scrollTo({ top: 0 });
   }, [location]);
 
-  if (isLoading) <></>;
+  if (isLoading) return <></>;
 
   return (
     <>
