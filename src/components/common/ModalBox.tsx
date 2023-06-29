@@ -7,6 +7,7 @@ import themeState from '../../recoil/atoms/themeState';
 import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier, ToggleButton } from '../modal';
 import { Loader } from '.';
 import { VoteDataType, StoreDataType, CategoryCode } from 'types';
+import { StoreType } from 'components/searchmap/types';
 
 interface PopupModalProps {
   isOpened: boolean;
@@ -14,14 +15,14 @@ interface PopupModalProps {
   phase: string;
   setPhase: (state: string) => void;
   storeId: string;
+  store: StoreType;
 }
 
 interface responseType {
-  voteStatus: VoteDataType[];
   newStore?: StoreDataType;
 }
 
-const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId }: PopupModalProps) => {
+const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }: PopupModalProps) => {
   const theme = useRecoilValue(themeState);
   const [categoryCode, setCategoryCode] = React.useState<CategoryCode | 'none'>('none');
   const [taskQueue, setTaskQueue] = React.useState<Array<() => Promise<responseType>>>([]);
@@ -48,6 +49,7 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId }: PopupMo
             setPhase={setPhase}
             setTaskQueue={setTaskQueue}
             storeId={storeId}
+            store={store}
             categoryCode={categoryCode}
             setCategoryCode={setCategoryCode}
           />
@@ -57,6 +59,7 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId }: PopupMo
             setPhase={setPhase}
             setTaskQueue={setTaskQueue}
             storeId={storeId}
+            store={store}
             categoryCode={categoryCode}
           />
         )}
@@ -76,11 +79,12 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId }: PopupMo
 };
 
 interface ModalBoxProps {
+  store: StoreType;
   storeId: string;
   width?: string;
 }
 
-const ModalBox = ({ storeId, width }: ModalBoxProps) => {
+const ModalBox = ({ store, storeId, width }: ModalBoxProps) => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -104,7 +108,14 @@ const ModalBox = ({ storeId, width }: ModalBoxProps) => {
     );
 
   return (
-    <PopupModal isOpened={isOpened} setIsOpened={setIsOpened} phase={phase} setPhase={setPhase} storeId={storeId} />
+    <PopupModal
+      isOpened={isOpened}
+      setIsOpened={setIsOpened}
+      phase={phase}
+      setPhase={setPhase}
+      storeId={storeId}
+      store={store}
+    />
   );
 };
 

@@ -10,6 +10,7 @@ import { vote } from '../../api/votes';
 import { CategoryBox } from '../common/index';
 import Controller from './Controller';
 import { CategoryCode, User } from 'types';
+import { StoreType } from 'components/searchmap/types';
 
 const Container = styled.div`
   padding: 0rem 0.5rem;
@@ -76,6 +77,7 @@ interface CategorySelector {
   setPhase: (state: string) => void;
   setTaskQueue: (state: any) => void;
   storeId: string;
+  store: StoreType;
   categoryCode: string;
   setCategoryCode: (state: CategoryCode | 'none') => void;
 }
@@ -85,6 +87,7 @@ const CategorySelector = ({
   setPhase,
   setTaskQueue,
   storeId,
+  store: storeInfo,
   categoryCode,
   setCategoryCode,
 }: CategorySelector) => {
@@ -122,8 +125,8 @@ const CategorySelector = ({
   return (
     <Container>
       <StoreInfo>
-        <StoreName>{store?.storeName ?? store?.storeName}</StoreName>
-        <span className="address">{store?.address}</span>
+        <StoreName>{store?.storeName ?? storeInfo.storeName}</StoreName>
+        <span className="address">{store?.address ?? storeInfo.address}</span>
       </StoreInfo>
       <Selected>
         {categoryCode !== 'none' ? (

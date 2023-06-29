@@ -76,12 +76,12 @@ const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }: Resul
           <ResultItemContainer key={store.id} selected={clickedIdx === idx}>
             <ResultItemOnHover
               storeId={store.id}
-              // storeName={store.place_name}
+              storeName={store.place_name}
               isRegistered={isRegistered}
-              // address={store.road_address_name}
-              // phoneNumber={store.phone}
-              // x={store.x}
-              // y={store.y}
+              address={store.road_address_name}
+              phoneNumber={store.phone}
+              x={store.x}
+              y={store.y}
             />
             <ResultItem
               key={store.id}

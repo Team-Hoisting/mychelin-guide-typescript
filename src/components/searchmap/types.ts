@@ -12,6 +12,15 @@ export interface KakaoResultType {
   distance: string;
 }
 
+export interface StoreType {
+  storeId: string;
+  storeName: string;
+  address: string;
+  phoneNumber: string;
+  x: string;
+  y: string;
+}
+
 export interface ResultItemType {
   store: KakaoResultType;
   isRegistered: boolean;

@@ -9,6 +9,7 @@ import { reVote } from '../../api/votes';
 import categoryInfo from '../../constants/categoryInfo';
 import Controller from './Controller';
 import { CategoryCode, StoreDataType, User } from 'types';
+import { StoreType } from 'components/searchmap/types';
 
 const Container = styled.div`
   padding: 2rem 2rem;
@@ -76,6 +77,7 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
 `;
 
 interface SameCategoryCheckerType {
+  store: StoreType;
   storeId: string;
   categoryCode: CategoryCode | 'none';
   setPhase: (state: string) => void;
@@ -89,7 +91,13 @@ interface VoteType {
   votedAt: number;
 }
 
-const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }: SameCategoryCheckerType) => {
+const SameCategoryChecker = ({
+  storeId,
+  store: storeInfo,
+  categoryCode,
+  setPhase,
+  setTaskQueue,
+}: SameCategoryCheckerType) => {
   const { nickname, voteStatus } = useRecoilValue(userState) as User;
   const { storeId: votedPrevStoreId } = voteStatus.find(vote => vote.categoryCode === categoryCode) as VoteType;
 
@@ -121,7 +129,7 @@ const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }: 
       <Changes>
         <span className="bold">{votedPrevStore.data?.storeName}</span>
         <ArrowIcon />
-        <span className="blue bold">{store.data?.storeName}</span>
+        <span className="blue bold">{store.data?.storeName ?? storeInfo.storeName}</span>
       </Changes>
       <Text center>
         <span className="bold">변경</span>하시겠습니까?

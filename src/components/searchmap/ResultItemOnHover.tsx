@@ -33,9 +33,22 @@ const InfoText = styled.p`
 interface ResultItemOnHoverProps {
   storeId: string;
   isRegistered: boolean;
+  storeName: string;
+  address: string;
+  phoneNumber: string;
+  x: number;
+  y: number;
 }
 
-const ResultItemOnHover = ({ storeId, isRegistered }: ResultItemOnHoverProps) => (
+const ResultItemOnHover = ({
+  storeId,
+  isRegistered,
+  storeName,
+  address,
+  phoneNumber,
+  x,
+  y,
+}: ResultItemOnHoverProps) => (
   <Container>
     <ButtonContainer>
       {isRegistered ? (
@@ -45,7 +58,7 @@ const ResultItemOnHover = ({ storeId, isRegistered }: ResultItemOnHoverProps) =>
       ) : (
         <InfoText>등록되지 않은 식당입니다.</InfoText>
       )}
-      <ModalBox storeId={storeId} width="120px" />
+      <ModalBox storeId={storeId} store={{ storeId, storeName, address, phoneNumber, x, y }} width="120px" />
     </ButtonContainer>
   </Container>
 );
