@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../api/auth';
 import { signupSchema } from '../../schema';
 import AuthForm from './AuthForm';
-import { defaultValues } from '../../types';
+import type { defaultValues } from '../../types';
 
 const defaultValues = {
   email: '',
