@@ -18,17 +18,14 @@ const EachCategoryBox = styled.div<EachCategoryBoxProps>`
   padding: 5px;
   text-align: center;
   cursor: pointer;
-  transition: 0.3s ease-in;
+  transition: 0.1s ease-in;
   position: relative;
 
-  ${({ selected }) =>
-    selected &&
-    `
-      border-bottom: 2px solid var(--primary-color);
-    `}
+  ${({ selected }) => selected && `border-bottom: 2px solid var(--primary-color);`}
 
-  ${({ underlineOnHover }) =>
+  ${({ underlineOnHover, selected }) =>
     underlineOnHover &&
+    !selected &&
     `
         :hover {
           ${({ selected }: { selected: boolean }) =>
