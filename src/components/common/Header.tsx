@@ -19,7 +19,6 @@ const Container = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   z-index: 10;
   background-color: var(--bg-secondary-color);
-  border: 1px solid red;
 `;
 
 interface WrapperProps {
