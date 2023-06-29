@@ -14,8 +14,6 @@ interface VotesProps {
 }
 
 const Votes = ({ votesCount }: VotesProps) => {
-  console.log('cnt: ', votesCount);
-
   return (
     <Container>
       {votesCount?.map(([code, cnt]) => (
