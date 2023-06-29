@@ -57,11 +57,6 @@ export type defaultValues = {
 export interface User {
   email: string;
   nickname: string;
-  archived: Array<{
-    archiveId: number;
-    email: string;
-    storeId: string;
-  }>;
   voteStatus: Array<{
     storeId: string;
     email: string;
