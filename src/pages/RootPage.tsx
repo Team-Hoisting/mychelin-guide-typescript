@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { ToastContainer } from 'react-toastify';
+import { Theme, ToastContainer } from 'react-toastify';
 import { Header, Footer, SideBanner, Loader } from '../components/common';
 import { userState, themeState } from '../recoil/atoms';
 import useCheckSignin from '../hooks/useCheckSignin';
@@ -34,7 +34,7 @@ const RootPage = () => {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        theme={theme}
+        theme={theme as Theme}
       />
       <Footer />
     </>
