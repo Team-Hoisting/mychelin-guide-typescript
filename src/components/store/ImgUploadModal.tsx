@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Modal, Group, Button, Text, rem, Center } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
@@ -6,7 +7,6 @@ import styled, { css } from 'styled-components';
 import { HiOutlinePhotograph } from 'react-icons/hi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload } from 'react-icons/bi';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button as CommonButton } from '../common/index';
 import { User } from '../../types';

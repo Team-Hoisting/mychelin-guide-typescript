@@ -10,12 +10,12 @@ const Container = styled.div`
 `;
 
 interface VotesProps {
-  voteCnt: [CategoryCode, number][] | [];
+  voteCnt: [CategoryCode, number][] | undefined;
 }
 
 const Votes = ({ voteCnt }: VotesProps) => (
   <Container>
-    {voteCnt.map(([code, cnt]) => (
+    {voteCnt?.map(([code, cnt]) => (
       <CategoryTag key={code} categoryCode={code} votedCnt={cnt} renderName={true} />
     ))}
   </Container>

@@ -8,7 +8,7 @@ const Container = styled.div`
 
 const { kakao } = window as any;
 
-const StorePositionMap = ({ x, y }: { x: number; y: number }) => {
+const StorePositionMap = ({ x, y }: { x: string | undefined; y: string | undefined }) => {
   const mapContainerRef = useRef(null);
 
   useEffect(() => {
