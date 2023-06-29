@@ -28,7 +28,6 @@ const useDataMutation = <TVariables, TData>({
       queryClient.cancelQueries();
       // 롤백 위한 이전 상태 저장
       const previousData = queryClient.getQueryData<TData>(queryKey);
-      console.log('previous: ', queryClient.getQueryData(queryKey));
       // 낙관적 업데이트
       queryClient.setQueryData<TData>(queryKey, expected(variable));
       // 반환값은 onError의 context로 사용
