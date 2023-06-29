@@ -21,15 +21,11 @@ export interface StoreDataType {
   phoneNumber: string;
   x: string;
   y: string;
-  voteCount: [CategoryCode, number][];
-  voteCnt?: [CategoryCode, number][];
+  votesCount: [CategoryCode, number][];
   totalVotesCnt: number;
   firstVoteUser: string;
   archivesCount: number;
   starsCount: number;
-  starCount?: number;
-  starCnt?: number;
-  voteCntArr?: [CategoryCode, number][] | [];
 }
 export interface UserDataType {
   email: string;

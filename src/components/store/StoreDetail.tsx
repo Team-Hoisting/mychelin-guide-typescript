@@ -103,7 +103,7 @@ const StoreDetail = ({ addArchive, deleteArchive }: StoreDetailProps) => {
         </ArchivedCntMsg>
       </SubTitle>
       <Main store={storeData} />
-      <Votes voteCnt={storeData?.voteCnt} />
+      <Votes votesCount={storeData?.votesCount} />
     </Container>
   );
 };

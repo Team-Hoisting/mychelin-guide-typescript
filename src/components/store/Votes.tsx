@@ -10,15 +10,19 @@ const Container = styled.div`
 `;
 
 interface VotesProps {
-  voteCnt: [CategoryCode, number][] | undefined;
+  votesCount: [CategoryCode, number][] | undefined;
 }
 
-const Votes = ({ voteCnt }: VotesProps) => (
-  <Container>
-    {voteCnt?.map(([code, cnt]) => (
-      <CategoryTag key={code} categoryCode={code} votedCnt={cnt} renderName={true} />
-    ))}
-  </Container>
-);
+const Votes = ({ votesCount }: VotesProps) => {
+  console.log('cnt: ', votesCount);
+
+  return (
+    <Container>
+      {votesCount?.map(([code, cnt]) => (
+        <CategoryTag key={code} categoryCode={code} votedCnt={cnt} renderName={true} />
+      ))}
+    </Container>
+  );
+};
 
 export default Votes;
