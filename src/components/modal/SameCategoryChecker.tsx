@@ -8,6 +8,7 @@ import { fetchStore } from '../../api/stores';
 import { reVote } from '../../api/votes';
 import categoryInfo from '../../constants/categoryInfo';
 import Controller from './Controller';
+import { CategoryCode, StoreDataType, User } from 'types';
 
 const Container = styled.div`
   padding: 2rem 2rem;
@@ -44,7 +45,11 @@ const Changes = styled.div`
   }
 `;
 
-const Text = styled.p`
+interface TextProps {
+  readonly center?: boolean;
+}
+
+const Text = styled.p<TextProps>`
   margin: 0;
   padding: 0;
 
@@ -70,9 +75,23 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   margin-right: 1rem;
 `;
 
-const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) => {
-  const { nickname, voteStatus } = useRecoilValue(userState);
-  const { storeId: votedPrevStoreId } = voteStatus.find(vote => vote.categoryCode === categoryCode);
+interface SameCategoryCheckerType {
+  storeId: string;
+  categoryCode: CategoryCode | 'none';
+  setPhase: (state: string) => void;
+  setTaskQueue: (state: any) => void;
+}
+
+interface VoteType {
+  storeId: string;
+  email: string;
+  categoryCode: CategoryCode | 'none';
+  votedAt: number;
+}
+
+const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }: SameCategoryCheckerType) => {
+  const { nickname, voteStatus } = useRecoilValue(userState) as User;
+  const { storeId: votedPrevStoreId } = voteStatus.find(vote => vote.categoryCode === categoryCode) as VoteType;
 
   const results = useQueries({
     queries: [
@@ -84,9 +103,9 @@ const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) 
   const [store, votedPrevStore] = results;
 
   const onNext = () => {
-    setTaskQueue(taskQueue => [
+    setTaskQueue((taskQueue: any) => [
       ...taskQueue,
-      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
+      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf(), store: store.data }),
     ]);
 
     const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;
@@ -97,12 +116,12 @@ const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) 
   return (
     <Container>
       <Text className="up">
-        현재 <span className="bold red">{categoryInfo[categoryCode]?.ko} 카테고리</span> 표를
+        현재 <span className="bold red">{categoryInfo[categoryCode as CategoryCode]?.ko} 카테고리</span> 표를
       </Text>
       <Changes>
-        <span className="bold">{votedPrevStore.data.storeName}</span>
+        <span className="bold">{votedPrevStore.data?.storeName}</span>
         <ArrowIcon />
-        <span className="blue bold">{store.data.storeName ?? storeInfo.storeName}</span>
+        <span className="blue bold">{store.data?.storeName}</span>
       </Changes>
       <Text center>
         <span className="bold">변경</span>하시겠습니까?

@@ -4,6 +4,7 @@ import { BsBookmark } from 'react-icons/bs';
 import { MdOutlineWhereToVote } from 'react-icons/md';
 import { Loader } from '../common';
 import { SortedStores, ArchivedStores } from '.';
+import { SortedStoresProps } from './types';
 
 const Tabs = styled.div`
   border-top: 1px solid #ababab;
@@ -13,7 +14,11 @@ const Tabs = styled.div`
   margin-bottom: 30px;
 `;
 
-const Tab = styled.div`
+interface TabStyleProps {
+  selected: boolean;
+}
+
+const Tab = styled.div<TabStyleProps>`
   width: 250px;
   border-top: ${({ selected }) => (selected ? '2px solid var(--border-tertiary)' : '2px solid rgba(0,0,0,0)')};
   color: ${({ selected }) => (selected ? 'var(--font-color)' : '#ababab')};
@@ -38,7 +43,7 @@ const TabName = styled.p`
   margin: 0;
 `;
 
-const StoresViewer = ({ profileUserNickname, voteStores, emptyCategories }) => {
+const StoresViewer = ({ profileUserNickname, voteStores, emptyCategories }: SortedStoresProps) => {
   const [isVotedStoresTab, setIsVotedStoresTab] = React.useState(true);
 
   return (

@@ -6,7 +6,15 @@ const GroupWithMarginTop = styled(Group)`
   margin-top: 2.5rem;
 `;
 
-const Controller = ({ onNext, onClose, leftText, rightText, isDisable }) => (
+interface ControllerType {
+  isDisable?: boolean;
+  leftText: string;
+  rightText: string;
+  onClose: () => void;
+  onNext: () => void;
+}
+
+const Controller = ({ onNext, onClose, leftText, rightText, isDisable }: ControllerType) => (
   <GroupWithMarginTop position="apart" grow>
     <Button
       size="md"

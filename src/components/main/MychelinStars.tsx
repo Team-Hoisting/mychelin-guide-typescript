@@ -12,13 +12,22 @@ const Star = styled.img`
   margin: 1.2px;
 `;
 
-const MychelinStars = ({ starCount, propsTheme }) => {
+interface MychelinStarsProps {
+  starCount: number;
+  propsTheme?: string;
+}
+
+const MychelinStars = ({ starCount, propsTheme }: MychelinStarsProps) => {
   const globalTheme = useRecoilValue(themeState);
   const theme = !propsTheme ? globalTheme : propsTheme;
 
+  /**
+   * @tsconfig "downlevelIteration: true"
+   * 참고: https://stackoverflow.com/questions/74246843/type-iterableiteratornumber-can-only-be-iterated-through-when-using-the-d
+   */
   return (
     <Container>
-      {[...Array(starCount).keys()].map(val => (
+      {[...Array.from({ length: starCount }).keys()].map(val => (
         <Star key={val} src={`/images/star-${theme}.png`} />
       ))}
     </Container>

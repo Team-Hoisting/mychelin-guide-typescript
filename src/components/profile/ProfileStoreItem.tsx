@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 import { categoryInfo } from '../../constants';
+import { CategoryCode } from 'types';
 
 const jump = keyframes`
   0% {
@@ -16,7 +17,11 @@ const animation = css`
   animation: ${jump} 0.4s infinite alternate;
 `;
 
-const Container = styled.div`
+interface ContainerStyleProps {
+  isEditing: boolean;
+}
+
+const Container = styled.div<ContainerStyleProps>`
   width: 100%;
   overflow: hidden;
   height: 360px;
@@ -83,7 +88,11 @@ const StoreName = styled.p`
   word-wrap: normal;
 `;
 
-const Overlay = styled.div`
+interface OverlayStyleProps {
+  isOverlaid: boolean;
+}
+
+const Overlay = styled.div<OverlayStyleProps>`
   display: ${({ isOverlaid }) => (isOverlaid ? 'block' : 'none')};
   position: absolute;
   top: 0%;
@@ -92,14 +101,28 @@ const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const ProfileStoreItem = ({ categoryCode, storeId, storeName, isEditing = false, isOverlaid = false }) => (
+interface ProfileStoreItemProps {
+  categoryCode?: CategoryCode;
+  storeId: string;
+  storeName: string;
+  isEditing?: boolean;
+  isOverlaid?: boolean;
+}
+
+const ProfileStoreItem = ({
+  categoryCode,
+  storeId,
+  storeName,
+  isEditing = false,
+  isOverlaid = false,
+}: ProfileStoreItemProps) => (
   <Container isEditing={isEditing}>
     <Link to={`/store/${storeId}`}>
       <ImageContainer>
         <Img
           src={`/img/stores/${storeId}`}
-          onError={e => {
-            e.target.src = '/img/default/store.png';
+          onError={(e: SyntheticEvent<HTMLImageElement>) => {
+            e.currentTarget.src = '/img/default/store.png';
           }}
         />
       </ImageContainer>

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/tabindex-no-positive */
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';

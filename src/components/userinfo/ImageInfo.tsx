@@ -65,7 +65,7 @@ const Information = () => {
   const user = useRecoilValue(userState);
   const imageRef = React.useRef(null);
 
-  const uploadImage = async e => {
+  const uploadImage = async (e: any) => {
     try {
       const [fileToUpload] = e.target.files;
       const formData = new FormData();
@@ -80,7 +80,7 @@ const Information = () => {
       if (success) {
         window.location.reload();
       }
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(e);
     }
   };
@@ -100,14 +100,14 @@ const Information = () => {
       <Title>프로필 정보</Title>
       <AvatarWrapper>
         <Avatar
-          src={`/img/users/${user.nickname}`}
-          onError={e => {
+          src={`/img/users/${user?.nickname}`}
+          onError={(e: any) => {
             e.target.src = '/img/default/user.png';
           }}
           ref={imageRef}
         />
         <NicknameBox>
-          <div className="nickname">{user.nickname}</div>
+          <div className="nickname">{user?.nickname}</div>
           <div className="btn-group">
             <input type="file" accept="image/*" onChange={uploadImage} className="hidden" />
             <Button>이미지 변경</Button>

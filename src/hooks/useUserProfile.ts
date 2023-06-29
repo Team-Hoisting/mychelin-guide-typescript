@@ -3,7 +3,7 @@ import { fetchUserProfileInfoByNickname } from '../api/users';
 import userQueryKey from '../constants/userQueryKey';
 import categoryCodes from '../constants/categoryCodes';
 
-const useUserProfile = nickname => {
+const useUserProfile = (nickname: string) => {
   const { data } = useQuery({
     queryKey: [...userQueryKey, nickname, 'profile'],
     queryFn: fetchUserProfileInfoByNickname(nickname),
@@ -33,7 +33,7 @@ const useUserProfile = nickname => {
     },
   });
 
-  return data;
+  return data!;
 };
 
 export default useUserProfile;

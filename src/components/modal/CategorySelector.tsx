@@ -9,6 +9,7 @@ import { fetchStore } from '../../api/stores';
 import { vote } from '../../api/votes';
 import { CategoryBox } from '../common/index';
 import Controller from './Controller';
+import { CategoryCode, User } from 'types';
 
 const Container = styled.div`
   padding: 0rem 0.5rem;
@@ -70,42 +71,67 @@ const Selected = styled.div`
   }
 `;
 
-const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, categoryCode, setCategoryCode }) => {
-  const { email, voteStatus } = useRecoilValue(userState);
+interface CategorySelector {
+  setIsOpened: (state: boolean) => void;
+  setPhase: (state: string) => void;
+  setTaskQueue: (state: any) => void;
+  storeId: string;
+  categoryCode: string;
+  setCategoryCode: (state: CategoryCode | 'none') => void;
+}
+
+const CategorySelector = ({
+  setIsOpened,
+  setPhase,
+  setTaskQueue,
+  storeId,
+  categoryCode,
+  setCategoryCode,
+}: CategorySelector) => {
+  const { email, voteStatus } = useRecoilValue(userState) as User;
 
   const { data: store } = useQuery({
     queryKey: ['storeInfo', storeId],
     queryFn: fetchStore(storeId),
   });
 
+  interface Vote {
+    categoryCode: string;
+    email: string;
+    storeId: string;
+    votedAt: number;
+  }
+
   const onNext = () => {
-    const sameCategoryCount = voteStatus.filter(vote => vote.categoryCode === categoryCode).length;
-    const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;
+    const sameCategoryCount = voteStatus.filter((vote: Vote) => vote.categoryCode === categoryCode).length;
+    const sameStoreCount = voteStatus.filter((vote: Vote) => vote.storeId === storeId).length;
 
     if (sameCategoryCount !== 0) setPhase('category');
     else {
-      setTaskQueue(taskQueue => [
+      setTaskQueue((taskQueue: any) => [
         ...taskQueue,
-        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
+        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf(), store }),
       ]);
 
       setPhase(sameStoreCount !== 0 ? 'store' : 'success');
     }
   };
 
-  const isDuplicate = storeId === voteStatus.find(vote => vote.categoryCode === categoryCode)?.storeId;
+  const isDuplicate = storeId === voteStatus.find((vote: Vote) => vote.categoryCode === categoryCode)?.storeId;
 
   return (
     <Container>
       <StoreInfo>
-        <StoreName>{store.storeName ?? storeInfo.storeName}</StoreName>
-        <span className="address">{store.address ?? storeInfo.address}</span>
+        <StoreName>{store?.storeName ?? store?.storeName}</StoreName>
+        <span className="address">{store?.address}</span>
       </StoreInfo>
       <Selected>
         {categoryCode !== 'none' ? (
           <CategoryBox
-            categoryName={categoryInfo[categoryCode].ko}
-            categoryImgFile={categoryInfo[categoryCode].imgFile}
+            selected={false}
+            clickHandler={() => {}}
+            categoryName={categoryInfo[categoryCode as CategoryCode].ko}
+            categoryImgFile={categoryInfo[categoryCode as CategoryCode].imgFile}
             changeOnHover={false}
             underlineOnHover={false}
             colored
@@ -120,6 +146,7 @@ const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, catego
 
           return (
             <CategoryBox
+              selected={false}
               categoryName={categoryInfo[code].ko}
               categoryImgFile={categoryInfo[code].imgFile}
               colored={categoryCode === code}

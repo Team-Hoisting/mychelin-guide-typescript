@@ -28,6 +28,8 @@ const signinSchema = z.object({
     .regex(/^[A-Za-z0-9]{6,20}$/, { message: '영문 또는 숫자를 6~20자 입력하세요.' }),
 });
 
+type signinSchema = z.infer<typeof signinSchema>;
+
 const signupSchema = signinSchema
   .and(
     z.object({
@@ -42,5 +44,7 @@ const signupSchema = signinSchema
     path: ['confirmPassword'],
     message: '패스워드가 일치하지 않습니다.',
   });
+
+type signupSchema = z.infer<typeof signupSchema>;
 
 export { nicknameSchema, passwordSchema, signinSchema, signupSchema };

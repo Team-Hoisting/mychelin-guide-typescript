@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import userState from '../../recoil/atoms/userState';
 import { Loader } from '../common';
 import Controller from './Controller';
+import { User } from 'types';
+import { AxiosError } from 'axios';
 
 const Container = styled.div`
   background-color: var(--bg-color);
@@ -30,7 +32,13 @@ const Text = styled.div`
   margin-bottom: 1.2rem;
 `;
 
-const SuccessVerifier = ({ setIsOpened, taskQueue, storeId }) => {
+interface SuccessVerifierType {
+  setIsOpened: (state: boolean) => void;
+  taskQueue: any;
+  storeId: string;
+}
+
+const SuccessVerifier = ({ setIsOpened, taskQueue, storeId }: SuccessVerifierType) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [user, setUser] = useRecoilState(userState);
@@ -40,15 +48,15 @@ const SuccessVerifier = ({ setIsOpened, taskQueue, storeId }) => {
     try {
       setIsLoading(true);
 
-      taskQueue.forEach(async task => {
+      taskQueue.forEach(async (task: any) => {
         const data = await task();
-        setUser({ ...user, voteStatus: data.voteStatus });
+        setUser({ ...user, voteStatus: data.voteStatus } as User);
 
         if (data.newStore) {
           queryClient.setQueryData(['storeInfo', storeId], data.newStore);
         }
       });
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(e);
     } finally {
       setIsLoading(false);
@@ -67,7 +75,7 @@ const SuccessVerifier = ({ setIsOpened, taskQueue, storeId }) => {
       <Controller
         leftText="마이페이지"
         rightText="닫기"
-        onNext={() => navigate(`/profile/${user.nickname}`)}
+        onNext={() => navigate(`/profile/${user?.nickname}`)}
         onClose={() => setIsOpened(false)}
       />
     </Container>
