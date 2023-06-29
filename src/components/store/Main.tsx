@@ -124,7 +124,7 @@ const Main = ({ store }: MainProps) => {
         <InfoContainer>
           <Info>
             <AddressTitle>
-              <span>주소</span> : {store?.address}
+              <span>주소</span> : {store?.address || '없음'}
             </AddressTitle>
             <PhoneTitle>
               <span>전화번호</span> : {store?.phoneNumber || '없음'}
