@@ -11,7 +11,7 @@ import { AxiosError } from 'axios';
 interface MutationPropsType<TVariables, TData> {
   mutationFn: MutationFunction<TData, TVariables>;
   onMutate: (variables: TVariables) => Updater<TData | undefined, TData | undefined>;
-  queryKey: Array<string | number>;
+  queryKey: Array<string | number | undefined>;
 }
 
 const useDataMutation = <TVariables, TData>({
