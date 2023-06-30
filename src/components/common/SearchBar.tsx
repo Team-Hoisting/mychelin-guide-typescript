@@ -7,6 +7,141 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { searchInputState, categoryState } from '../../recoil/atoms';
 import { fetchSearchedStores } from '../../api/stores';
 import { useDebounce, useOnClickOutside } from '../../hooks/index.js';
+import { StoresDataType } from 'types';
+
+interface SearchBarProps {
+  hasDropdown: boolean;
+  inputRef: React.RefObject<HTMLInputElement>;
+  width?: string;
+  submitHandler?: null | (() => void);
+  placeholder?: string;
+  defaultValue?: string;
+}
+
+const SearchBar = ({
+  hasDropdown,
+  inputRef,
+  width = '500px',
+  submitHandler = null,
+  placeholder = '맛집을 검색해보세요!',
+  defaultValue = '',
+}: SearchBarProps) => {
+  const [dropdownStores, setDropdownStores] = React.useState<StoresDataType | []>([]);
+  const [openDropdown, setOpenDropdown] = React.useState(false);
+  const setSearchInput = useSetRecoilState(searchInputState);
+  const setCategory = useSetRecoilState(categoryState);
+
+  const dropdownRef = useOnClickOutside(() => setOpenDropdown(false));
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const handleSearchSubmit = async () => {
+    const userSearch = inputRef.current?.value.trim();
+    if (!userSearch) return;
+
+    setSearchInput(userSearch);
+
+    if (pathname !== '/') navigate('/');
+
+    setCategory('AL00');
+    setOpenDropdown(false);
+  };
+
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const userSearch = e.target.value.trim();
+
+    if (!userSearch) {
+      setOpenDropdown(false);
+      setSearchInput('');
+    } else {
+      setOpenDropdown(true);
+      setDropdownStores(await fetchSearchedStores(userSearch));
+    }
+  };
+
+  const debouncedSearchHandler = useDebounce(handleSearchChange, 330);
+
+  const handleRefocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.target.value.trim()) debouncedSearchHandler(e);
+  };
+
+  const alterFocus = (e: React.KeyboardEvent<HTMLLIElement | HTMLInputElement>, storeId?: string) => {
+    e.preventDefault();
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab' && e.key !== 'Enter') return;
+
+    // 1. e.target이 input 요소일 때
+    if (e.target instanceof HTMLInputElement) {
+      if (e.key === 'ArrowUp') (dropdownRef.current?.lastElementChild as HTMLElement).focus();
+      else (dropdownRef.current?.firstElementChild as HTMLElement).focus();
+    }
+
+    // 2. e.target이 li 요소일 때
+    if (e.target instanceof HTMLLIElement) {
+      const currentActive = document.activeElement;
+
+      if (e.key === 'Enter') {
+        navigate(`/store/${storeId}`);
+        setOpenDropdown(false);
+        return;
+      }
+
+      if (e.key === 'ArrowUp') {
+        if (currentActive?.previousElementSibling) (currentActive.previousElementSibling as HTMLElement)?.focus();
+        else (currentActive?.parentElement?.lastElementChild as HTMLElement)?.focus();
+      }
+
+      if (e.key === 'ArrowDown' || e.key === 'Tab') {
+        if (currentActive?.nextElementSibling) (currentActive.nextElementSibling as HTMLElement)?.focus();
+        else (currentActive?.parentElement?.firstElementChild as HTMLElement)?.focus();
+      }
+    }
+  };
+
+  return (
+    <Container>
+      <SearchForm
+        onSubmit={e => {
+          e.preventDefault();
+
+          if (submitHandler) submitHandler();
+          else handleSearchSubmit();
+        }}>
+        <Bar
+          width={width}
+          placeholder={placeholder}
+          ref={inputRef}
+          defaultValue={defaultValue}
+          onChange={debouncedSearchHandler}
+          onFocus={handleRefocus}
+          onKeyDown={e => alterFocus(e)}
+        />
+        <SearchButton tabIndex={1}>
+          <SearchIcon />
+        </SearchButton>
+      </SearchForm>
+      {hasDropdown && openDropdown && (
+        <Dropdown ref={dropdownRef}>
+          {dropdownStores.length ? (
+            dropdownStores.map(({ storeName, storeId }) => (
+              <DropdownResult key={storeName} tabIndex={0} onKeyDown={e => alterFocus(e, storeId)}>
+                <Link to={`/store/${storeId}`} onClick={() => setOpenDropdown(false)}>
+                  <div>{storeName}</div>
+                </Link>
+              </DropdownResult>
+            ))
+          ) : (
+            <NoMatch>
+              <NoMatchMessage>결과가 없습니다.</NoMatchMessage>
+              <Link to={`/searchmap?keyword=${inputRef.current?.value.trim()}`}>
+                <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
+              </Link>
+            </NoMatch>
+          )}
+        </Dropdown>
+      )}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   position: relative;
@@ -114,134 +249,5 @@ const RegisterSuggestion = styled.p`
     font-weight: 500;
   }
 `;
-
-interface SearchBarProps {
-  hasDropdown: boolean;
-  inputRef: React.RefObject<HTMLInputElement>;
-  width?: string;
-  submitHandler?: null | (() => void);
-  placeholder?: string;
-  defaultValue?: string;
-}
-
-const SearchBar = ({
-  hasDropdown,
-  inputRef,
-  width = '500px',
-  submitHandler = null,
-  placeholder = '맛집을 검색해보세요!',
-  defaultValue = '',
-}: SearchBarProps) => {
-  const [dropdownStores, setDropdownStores] = React.useState([]);
-  const [openDropdown, setOpenDropdown] = React.useState(false);
-  const dropdownRef = useOnClickOutside(() => setOpenDropdown(false));
-  const setSearchInput = useSetRecoilState(searchInputState);
-  const setCategory = useSetRecoilState(categoryState);
-
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-
-  const handleSearchSubmit = async () => {
-    const userSearch = inputRef.current?.value.trim();
-
-    if (!userSearch) return;
-
-    setSearchInput(userSearch);
-    if (pathname !== '/') navigate('/');
-
-    setCategory('AL00');
-    setOpenDropdown(false);
-  };
-
-  const handleSearchChange = async (e: React.FocusEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {
-    const userSearch = e.target.value.trim();
-
-    if (!userSearch) {
-      setOpenDropdown(false);
-      setSearchInput('');
-
-      return;
-    }
-
-    const fetched = await fetchSearchedStores(userSearch);
-
-    setOpenDropdown(true);
-    setDropdownStores(fetched);
-  };
-
-  const debouncedSearchHandler = useDebounce(handleSearchChange, 330);
-
-  const handleRefocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.value.trim()) debouncedSearchHandler(e);
-  };
-
-  const alterFocus = (e: React.KeyboardEvent<HTMLLIElement>, storeId: string) => {
-    e.preventDefault();
-
-    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab' && e.key !== 'Enter') return;
-
-    if (e.key === 'Enter') {
-      navigate(`/store/${storeId}`);
-
-      setOpenDropdown(false);
-    }
-
-    const currentActive = document.activeElement;
-
-    if (e.key === 'ArrowUp') {
-      if (currentActive?.previousElementSibling) (currentActive.previousElementSibling as HTMLElement)?.focus();
-      else (currentActive?.parentElement?.lastElementChild as HTMLElement)?.focus();
-    }
-
-    if (e.key === 'ArrowDown' || e.key === 'Tab') {
-      if (currentActive?.nextElementSibling) (currentActive.nextElementSibling as HTMLElement)?.focus();
-      else (currentActive?.parentElement?.firstElementChild as HTMLElement)?.focus();
-    }
-  };
-
-  return (
-    <Container>
-      <SearchForm
-        onSubmit={e => {
-          e.preventDefault();
-
-          if (submitHandler) submitHandler();
-          else handleSearchSubmit();
-        }}>
-        <Bar
-          width={width}
-          placeholder={placeholder}
-          ref={inputRef}
-          defaultValue={defaultValue}
-          onChange={debouncedSearchHandler}
-          onFocus={handleRefocus}
-        />
-        <SearchButton tabIndex={1}>
-          <SearchIcon />
-        </SearchButton>
-      </SearchForm>
-      {hasDropdown && openDropdown && (
-        <Dropdown ref={dropdownRef}>
-          {dropdownStores.length ? (
-            dropdownStores.map(({ storeName, storeId }) => (
-              <DropdownResult key={storeName} tabIndex={0} onKeyDown={e => alterFocus(e, storeId)}>
-                <Link to={`/store/${storeId}`} onClick={() => setOpenDropdown(false)}>
-                  <div>{storeName}</div>
-                </Link>
-              </DropdownResult>
-            ))
-          ) : (
-            <NoMatch>
-              <NoMatchMessage>결과가 없습니다.</NoMatchMessage>
-              <Link to={`/searchmap?keyword=${inputRef.current?.value.trim()}`}>
-                <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
-              </Link>
-            </NoMatch>
-          )}
-        </Dropdown>
-      )}
-    </Container>
-  );
-};
 
 export default SearchBar;

@@ -12,8 +12,106 @@ import { useOnClickOutside } from '../../hooks/index.js';
 import { User } from 'types';
 import { AxiosError } from 'axios';
 
+const Header = () => {
+  const [user, setUser] = useRecoilState<User | null>(userState);
+  const setSearchInput = useSetRecoilState(searchInputState);
+  const setCategoryState = useSetRecoilState(categoryState);
+  const [theme, setTheme] = useRecoilState(themeState);
+  const [openDropdown, setOpenDropdown] = React.useState(false);
+  const searchBarRef = React.useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+
+  const resetMainPage = () => {
+    setSearchInput('');
+    if (searchBarRef.current) searchBarRef.current.value = '';
+    setCategoryState('AL00');
+  };
+
+  const { pathname } = useLocation();
+  const { id } = useParams();
+
+  const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
+  const userDropdownRef = useOnClickOutside(() => setOpenDropdown(false));
+
+  return (
+    <>
+      <Container>
+        <Wrapper hasSearchBar={hasSearchBar}>
+          <Link to="/" onClick={resetMainPage}>
+            <LogoImage
+              src={`/images/mychelin-guide-logo-${theme}.png`}
+              alt="마이슐랭 가이드 로고"
+            />
+          </Link>
+          {hasSearchBar ? <SearchBar hasDropdown={true} inputRef={searchBarRef} /> : <></>}
+          <ConfigsContainer>
+            <Link to="/searchmap">
+              <RegisterButton>당신만의 맛집을 알려주세요</RegisterButton>
+            </Link>
+            {theme === 'dark' ? <LightModeIcon onClick={toggleTheme} /> : <DarkModeIcon onClick={toggleTheme} />}
+            <UserIconWrapper
+              onClick={e => {
+                e.stopPropagation();
+
+                if (user) setOpenDropdown(!openDropdown);
+                else navigate('/signin', { state: pathname });
+              }}>
+              {!user ? (
+                <UserIcon />
+              ) : (
+                <UserImage
+                  src={`/img/users/${user.nickname}`}
+                  onError={e => {
+                    if (e.target instanceof HTMLImageElement) e.target.src = '/img/default/user.png';
+                  }}
+                />
+              )}
+            </UserIconWrapper>
+            <UserDropdown opened={openDropdown} ref={userDropdownRef}>
+              <Link to={`/profile/${user?.nickname}`}>
+                <DropdownButton onClick={() => setOpenDropdown(false)}>마이페이지</DropdownButton>
+              </Link>
+              <Link to="/info">
+                <DropdownButton onClick={() => setOpenDropdown(false)}>회원정보 수정</DropdownButton>
+              </Link>
+              <Link to="/searchmap">
+                <DropdownButton onClick={() => setOpenDropdown(false)}>맛집 등록</DropdownButton>
+              </Link>
+              <SignoutButton
+                onClick={async () => {
+                  try {
+                    await logout();
+
+                    setUser(null);
+                    setOpenDropdown(false);
+
+                    toast.success('로그아웃 되었습니다.');
+                    navigate('/');
+                  } catch (e) {
+                    if (e instanceof AxiosError) throw new Error(e.message);
+                  }
+                }}>
+                Sign Out
+              </SignoutButton>
+            </UserDropdown>
+          </ConfigsContainer>
+        </Wrapper>
+      </Container>
+      <SpaceFiller />
+    </>
+  );
+};
+
 const Container = styled.div`
   position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -161,125 +259,8 @@ const SignoutButton = styled(DropdownButton)`
   border-top: 1px solid #e0e0e0;
 `;
 
-const Spacer = styled.div`
+const SpaceFiller = styled.div`
   height: 4rem;
 `;
-
-const Header = () => {
-  const [user, setUser] = useRecoilState<User | null>(userState);
-  const setSearchInput = useSetRecoilState(searchInputState);
-  const setCategoryState = useSetRecoilState(categoryState);
-  const [theme, setTheme] = useRecoilState(themeState);
-  const [openDropdown, setOpenDropdown] = React.useState(false);
-  const searchBarRef = React.useRef<HTMLInputElement | null>(null);
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    document.body.dataset.theme = theme;
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-
-    setTheme(nextTheme);
-  };
-
-  const handleThemeIconClick = () => {
-    toggleTheme();
-  };
-
-  const resetMainPage = () => {
-    setSearchInput('');
-    if (searchBarRef.current) searchBarRef.current.value = '';
-    setCategoryState('AL00');
-  };
-
-  const { pathname } = useLocation();
-  const { id } = useParams();
-
-  const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
-
-  const userDropdownRef = useOnClickOutside(() => setOpenDropdown(false));
-
-  return (
-    <>
-      <Container>
-        <Wrapper hasSearchBar={hasSearchBar}>
-          <div>
-            <Link to="/" onClick={() => resetMainPage()}>
-              <LogoImage
-                src={`/images/mychelin-guide-logo-${theme}.png`}
-                alt="마이슐랭 가이드 로고"
-                onClick={() => {
-                  setSearchInput('');
-                  if (searchBarRef.current?.value) searchBarRef.current.value = '';
-                  setCategoryState('AL00');
-                }}
-              />
-            </Link>
-          </div>
-          {hasSearchBar ? <SearchBar hasDropdown={true} inputRef={searchBarRef} /> : <></>}
-          <ConfigsContainer>
-            <Link to="/searchmap">
-              <RegisterButton>당신만의 맛집을 알려주세요</RegisterButton>
-            </Link>
-            {theme === 'dark' ? (
-              <LightModeIcon onClick={handleThemeIconClick} />
-            ) : (
-              <DarkModeIcon onClick={handleThemeIconClick} />
-            )}
-            <UserIconWrapper
-              onClick={e => {
-                e.stopPropagation();
-
-                if (user) setOpenDropdown(!openDropdown);
-                else navigate('/signin', { state: pathname });
-              }}>
-              {!user ? (
-                <UserIcon />
-              ) : (
-                <UserImage
-                  src={`/img/users/${user.nickname}`}
-                  onError={e => {
-                    if (e.target instanceof HTMLImageElement) e.target.src = '/img/default/user.png';
-                  }}
-                />
-              )}
-            </UserIconWrapper>
-            <UserDropdown opened={openDropdown} ref={userDropdownRef}>
-              <Link to={`/profile/${user?.nickname}`}>
-                <DropdownButton onClick={() => setOpenDropdown(false)}>마이페이지</DropdownButton>
-              </Link>
-              <Link to="/info">
-                <DropdownButton onClick={() => setOpenDropdown(false)}>회원정보 수정</DropdownButton>
-              </Link>
-              <Link to="/searchmap">
-                <DropdownButton onClick={() => setOpenDropdown(false)}>맛집 등록</DropdownButton>
-              </Link>
-              <SignoutButton
-                onClick={async () => {
-                  try {
-                    await logout();
-
-                    setUser(null);
-                    setOpenDropdown(false);
-
-                    toast.success('로그아웃 되었습니다.');
-                    navigate('/');
-                  } catch (e) {
-                    if (e instanceof AxiosError) throw new Error(e.message);
-                  }
-                }}>
-                Sign Out
-              </SignoutButton>
-            </UserDropdown>
-          </ConfigsContainer>
-        </Wrapper>
-      </Container>
-      <Spacer />
-    </>
-  );
-};
 
 export default Header;
