@@ -8,43 +8,6 @@ import InputField from './InputField';
 import Button from '../common/Button';
 import { ZodType } from 'zod';
 
-const Container = styled.div`
-  h3 {
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    color: var(--font-color);
-    margin-bottom: 2rem;
-  }
-`;
-
-const Footer = styled.div`
-  margin-top: 2rem;
-  text-align: right;
-  font-size: 0.8rem;
-  a {
-    color: ${palette.gray[6]};
-    text-decoration: underline;
-    &:hover {
-      color: var(--font-color);
-    }
-  }
-`;
-
-const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
-
-  :disabled {
-    background-color: var(--button-disabled-color);
-    color: #fff;
-  }
-`;
-
-const formTitle = {
-  login: '로그인',
-  register: '회원가입',
-};
-
 interface AuthForm<ZTSchema, TSchema> {
   type: 'login' | 'register';
   formSchema: ZTSchema;
@@ -132,6 +95,43 @@ const AuthForm = <ZTSchema extends ZodType, TSchema extends {}>({
       <Footer>{type === 'register' ? <Link to="/signin">로그인</Link> : <Link to="/signup">회원가입</Link>}</Footer>
     </Container>
   );
+};
+
+const Container = styled.div`
+  h3 {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    color: var(--font-color);
+    margin-bottom: 2rem;
+  }
+`;
+
+const Footer = styled.div`
+  margin-top: 2rem;
+  text-align: right;
+  font-size: 0.8rem;
+  a {
+    color: ${palette.gray[6]};
+    text-decoration: underline;
+    &:hover {
+      color: var(--font-color);
+    }
+  }
+`;
+
+const ButtonWithMarginTop = styled(Button)`
+  margin-top: 1rem;
+
+  :disabled {
+    background-color: var(--button-disabled-color);
+    color: #fff;
+  }
+`;
+
+const formTitle = {
+  login: '로그인',
+  register: '회원가입',
 };
 
 export default AuthForm;

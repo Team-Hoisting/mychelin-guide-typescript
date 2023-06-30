@@ -2,10 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Group, Button } from '@mantine/core';
 
-const GroupWithMarginTop = styled(Group)`
-  margin-top: 2.5rem;
-`;
-
 interface ControllerType {
   isDisable?: boolean;
   leftText: string;
@@ -35,5 +31,9 @@ const Controller = ({ onNext, onClose, leftText, rightText, isDisable }: Control
     </Button>
   </GroupWithMarginTop>
 );
+
+const GroupWithMarginTop = styled(Group)`
+  margin-top: 2.5rem;
+`;
 
 export default Controller;

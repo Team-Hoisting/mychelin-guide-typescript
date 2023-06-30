@@ -6,33 +6,6 @@ import { Button } from '../common/index';
 import userState from '../../recoil/atoms/userState';
 import { CommentType } from '../../hooks/useCommentsMutation';
 
-const Container = styled.div`
-  position: relative;
-`;
-
-const TextArea = styled.textarea.attrs(({ content }) => ({
-  rows: 3,
-  placeholder: '이 식당 어떠셨나요? 솔직한 후기를 알려주세요.',
-  value: content,
-}))`
-  display: block;
-  padding: 12px;
-  width: 100%;
-  font-size: 16px;
-  border-radius: 12px;
-  margin: 12px 0;
-  resize: none;
-
-  background-color: var(--bg-dark-color);
-  color: var(--font-color);
-  border: 2px solid var(--border-primary);
-
-  :focus {
-    border: 2px solid var(--border-primary);
-    outline: none;
-  }
-`;
-
 interface ButtonProps {
   $disabled: boolean;
   children: React.ReactNode;
@@ -102,5 +75,32 @@ const CommentsTextArea = ({ addComment, setCurrentPage }: CommentsTextAreaProps)
     </>
   );
 };
+
+const Container = styled.div`
+  position: relative;
+`;
+
+const TextArea = styled.textarea.attrs(({ content }) => ({
+  rows: 3,
+  placeholder: '이 식당 어떠셨나요? 솔직한 후기를 알려주세요.',
+  value: content,
+}))`
+  display: block;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 12px;
+  margin: 12px 0;
+  resize: none;
+
+  background-color: var(--bg-dark-color);
+  color: var(--font-color);
+  border: 2px solid var(--border-primary);
+
+  :focus {
+    border: 2px solid var(--border-primary);
+    outline: none;
+  }
+`;
 
 export default CommentsTextArea;

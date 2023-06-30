@@ -7,78 +7,6 @@ import { checkNickname } from '../../api/auth';
 import Button from '../common/Button';
 import { User } from 'types';
 
-const Container = styled.div`
-  position: relative;
-`;
-
-const Title = styled.h4`
-  margin: 0;
-  padding: 0;
-  font-weight: 500;
-  font-size: 13px;
-  letter-spacing: -0.07px;
-  color: var(--font-color);
-`;
-
-const Input = styled.input`
-  width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.5rem 0.1rem;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #ababab;
-  font-size: 1rem;
-  color: var(--font-color);
-
-  &:focus {
-    border-bottom: 1px solid #000;
-  }
-
-  & + ${Title} {
-    margin-top: 1rem;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  font-size: 0.5rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-  height: 3px;
-`;
-
-const ButtonWithPosition = styled(Button)`
-  position: absolute;
-  right: 0;
-  bottom: 15px;
-  padding: 0.5rem;
-  display: flex;
-  /* color: var(--font-secondary); */
-
-  &:disabled {
-    background-color: var(--bg-color);
-    color: var(--font-color);
-  }
-
-  &:not(:disabled) {
-    background-color: var(--font-secondary) !important;
-    color: #eee;
-  }
-`;
-
-interface HintProps {
-  isValid: boolean;
-}
-
-const Hint = styled.span<HintProps>`
-  margin-left: 1rem;
-  font-size: 0.5rem;
-  color: ${props => (props.isValid ? 'green' : 'red')};
-  position: absolute;
-  top: 2px;
-  left: 70px;
-`;
-
 interface FromInputType<TSchema extends FieldValues> {
   type: string;
   title: string;
@@ -165,5 +93,77 @@ const FormInput = <TSchema extends {}>({
     </Container>
   );
 };
+
+const Container = styled.div`
+  position: relative;
+`;
+
+const Title = styled.h4`
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: -0.07px;
+  color: var(--font-color);
+`;
+
+const Input = styled.input`
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.1rem;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #ababab;
+  font-size: 1rem;
+  color: var(--font-color);
+
+  &:focus {
+    border-bottom: 1px solid #000;
+  }
+
+  & + ${Title} {
+    margin-top: 1rem;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  color: red;
+  font-size: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  height: 3px;
+`;
+
+const ButtonWithPosition = styled(Button)`
+  position: absolute;
+  right: 0;
+  bottom: 15px;
+  padding: 0.5rem;
+  display: flex;
+  /* color: var(--font-secondary); */
+
+  &:disabled {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+  }
+
+  &:not(:disabled) {
+    background-color: var(--font-secondary) !important;
+    color: #eee;
+  }
+`;
+
+interface HintProps {
+  isValid: boolean;
+}
+
+const Hint = styled.span<HintProps>`
+  margin-left: 1rem;
+  font-size: 0.5rem;
+  color: ${props => (props.isValid ? 'green' : 'red')};
+  position: absolute;
+  top: 2px;
+  left: 70px;
+`;
 
 export default FormInput;

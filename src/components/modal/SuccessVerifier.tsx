@@ -9,29 +9,6 @@ import Controller from './Controller';
 import { User } from 'types';
 import { AxiosError } from 'axios';
 
-const Container = styled.div`
-  background-color: var(--bg-color);
-  color: var(--font-color);
-
-  img {
-    width: 60px;
-  }
-`;
-
-const Inner = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4rem 0 3rem 0;
-`;
-
-const Text = styled.div`
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-top: 1.2rem;
-  margin-bottom: 1.2rem;
-`;
-
 interface SuccessVerifierType {
   setIsOpened: (state: boolean) => void;
   taskQueue: any;
@@ -81,5 +58,28 @@ const SuccessVerifier = ({ setIsOpened, taskQueue, storeId }: SuccessVerifierTyp
     </Container>
   );
 };
+
+const Container = styled.div`
+  background-color: var(--bg-color);
+  color: var(--font-color);
+
+  img {
+    width: 60px;
+  }
+`;
+
+const Inner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 0 3rem 0;
+`;
+
+const Text = styled.div`
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+`;
 
 export default SuccessVerifier;

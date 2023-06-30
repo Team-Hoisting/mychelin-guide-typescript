@@ -6,14 +6,6 @@ import { Loader } from '../common';
 import { SortedStores, ArchivedStores } from '.';
 import { SortedStoresProps } from './types';
 
-const Tabs = styled.div`
-  border-top: 1px solid #ababab;
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-  margin-bottom: 30px;
-`;
-
 interface TabStyleProps {
   selected: boolean;
 }
@@ -72,5 +64,13 @@ const StoresViewer = ({ profileUserNickname, voteStores, emptyCategories }: Sort
     </>
   );
 };
+
+const Tabs = styled.div`
+  border-top: 1px solid #ababab;
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin-bottom: 30px;
+`;
 
 export default StoresViewer;

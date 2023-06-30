@@ -5,62 +5,6 @@ import axios from 'axios';
 import { userState } from '../../recoil/atoms';
 import Button from './Button';
 
-const Container = styled.div`
-  padding: 50px 0 38px;
-  border-bottom: 1px solid #ebebeb;
-
-  input[type='file'],
-  input[type='file']::-webkit-file-upload-button {
-    cursor: pointer;
-  }
-
-  .hidden {
-    position: absolute;
-    opacity: 0;
-    width: 90px;
-    height: 35px;
-  }
-`;
-
-const Title = styled.h2`
-  margin: 0;
-  padding: 0;
-  padding-bottom: 1rem;
-  font-size: 1.5rem;
-  margin-bottom: 3rem;
-  border-bottom: 2px solid var(--border-tertiary);
-`;
-
-const AvatarWrapper = styled.div`
-  display: flex;
-`;
-
-const Avatar = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-
-  border: 1px solid var(--border-primary);
-`;
-
-const NicknameBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 1.2rem;
-
-  .nickname {
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-
-  .btn-group {
-    display: flex;
-    margin-top: 0.5rem;
-  }
-`;
-
 const Information = () => {
   const user = useRecoilValue(userState);
   const imageRef = React.useRef(null);
@@ -118,5 +62,61 @@ const Information = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 50px 0 38px;
+  border-bottom: 1px solid #ebebeb;
+
+  input[type='file'],
+  input[type='file']::-webkit-file-upload-button {
+    cursor: pointer;
+  }
+
+  .hidden {
+    position: absolute;
+    opacity: 0;
+    width: 90px;
+    height: 35px;
+  }
+`;
+
+const Title = styled.h2`
+  margin: 0;
+  padding: 0;
+  padding-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid var(--border-tertiary);
+`;
+
+const AvatarWrapper = styled.div`
+  display: flex;
+`;
+
+const Avatar = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  border: 1px solid var(--border-primary);
+`;
+
+const NicknameBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1.2rem;
+
+  .nickname {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .btn-group {
+    display: flex;
+    margin-top: 0.5rem;
+  }
+`;
 
 export default Information;

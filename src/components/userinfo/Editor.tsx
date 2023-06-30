@@ -14,44 +14,6 @@ import { User } from 'types';
 import { AxiosError } from 'axios';
 import { ZodType } from 'zod';
 
-const Form = styled.form`
-  padding-top: 1.5rem;
-  position: relative;
-
-  input {
-    background-color: transparent;
-  }
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 0.5rem;
-
-  Button + Button {
-    margin-left: 1rem;
-  }
-`;
-
-const ButtonWithIncreased = styled(Button)`
-  font-size: 0.9rem;
-  border: 1px solid var(--border-primary);
-
-  &.confirm:disabled {
-    background-color: var(--bg-color);
-    color: var(--font-color);
-  }
-
-  &.confirm:not(:disabled) {
-    background-color: var(--font-secondary);
-    color: #eee;
-  }
-
-  :hover {
-    background: transparent;
-  }
-`;
-
 interface EditorType<ZTSchema, TSchema> {
   type: string;
   onClose: () => void;
@@ -155,5 +117,43 @@ const Editor = <ZTSchema extends ZodType, TSchema extends {}>({
     </Form>
   );
 };
+
+const Form = styled.form`
+  padding-top: 1.5rem;
+  position: relative;
+
+  input {
+    background-color: transparent;
+  }
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+
+  Button + Button {
+    margin-left: 1rem;
+  }
+`;
+
+const ButtonWithIncreased = styled(Button)`
+  font-size: 0.9rem;
+  border: 1px solid var(--border-primary);
+
+  &.confirm:disabled {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+  }
+
+  &.confirm:not(:disabled) {
+    background-color: var(--font-secondary);
+    color: #eee;
+  }
+
+  :hover {
+    background: transparent;
+  }
+`;
 
 export default Editor;

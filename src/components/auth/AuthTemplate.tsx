@@ -2,6 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/palette';
 
+interface AuthTemplateProps {
+  children?: JSX.Element;
+}
+
+const AuthTemplate = ({ children }: AuthTemplateProps) => (
+  <Container>
+    <WhiteArea>{children}</WhiteArea>
+  </Container>
+);
+
 const Container = styled.div`
   position: absolute;
   left: 0;
@@ -26,15 +36,5 @@ const WhiteArea = styled.div`
 
   background-color: var(--bg-dark-color);
 `;
-
-interface AuthTemplateProps {
-  children?: JSX.Element;
-}
-
-const AuthTemplate = ({ children }: AuthTemplateProps) => (
-  <Container>
-    <WhiteArea>{children}</WhiteArea>
-  </Container>
-);
 
 export default AuthTemplate;

@@ -7,49 +7,6 @@ import { ResultItem, ResultItemOnHover } from '.';
 import { fetchIsRegisteredByStoreIds } from '../../api/stores';
 import { KakaoResultType, ResultItemType } from './types';
 
-const Container = styled.ul`
-  margin: auto;
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ResultItemContainer = styled.li<{ selected: boolean }>`
-  position: relative;
-  transition: 0.2s ease-in-out;
-  list-style: none;
-
-  ${props =>
-    props.selected &&
-    `
-      border-bottom: 1px solid var(--primary-color);
-      scale: 1.02;
-    `}
-
-  :hover {
-    scale: 1.02;
-  }
-
-  :hover > main {
-    transition: 0.1s ease-in-out;
-    background-color: rgba(0, 0, 0, 0.8);
-
-    div {
-      display: flex;
-    }
-
-    img {
-      display: block;
-    }
-  }
-`;
-
-const ZeroResultText = styled.span`
-  margin: auto;
-  color: var(--font-color);
-  font-size: 20px;
-`;
-
 interface ResultListProps {
   keyword: string;
   result: Array<KakaoResultType>;
@@ -98,5 +55,48 @@ const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }: Resul
     </Container>
   );
 };
+
+const Container = styled.ul`
+  margin: auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ResultItemContainer = styled.li<{ selected: boolean }>`
+  position: relative;
+  transition: 0.2s ease-in-out;
+  list-style: none;
+
+  ${props =>
+    props.selected &&
+    `
+      border-bottom: 1px solid var(--primary-color);
+      scale: 1.02;
+    `}
+
+  :hover {
+    scale: 1.02;
+  }
+
+  :hover > main {
+    transition: 0.1s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    div {
+      display: flex;
+    }
+
+    img {
+      display: block;
+    }
+  }
+`;
+
+const ZeroResultText = styled.span`
+  margin: auto;
+  color: var(--font-color);
+  font-size: 20px;
+`;
 
 export default ResultList;

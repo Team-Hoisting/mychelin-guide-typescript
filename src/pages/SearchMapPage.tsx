@@ -7,39 +7,6 @@ import { ResultList, MoveResultPageBtn } from '../components/searchmap';
 import { SearchBar, Loader } from '../components/common';
 import useMapSearch from '../hooks/useMapSearch';
 
-const Container = styled.div`
-  display: flex;
-`;
-
-const MapContainer = styled.div`
-  width: 100%;
-  height: calc(100vh - 4rem);
-  z-index: 1;
-`;
-
-const SideSearch = styled.div`
-  padding: 10px;
-  width: 500px;
-  height: calc(100vh - 4rem);
-  overflow-y: scroll;
-  background-color: var(--bg-color);
-  z-index: 2;
-`;
-
-const SearchBarContainer = styled.div`
-  padding: 1rem;
-`;
-
-const Result = styled.div``;
-
-const PrevIcon = styled(RiArrowUpSLine)`
-  color: var(--border-tertiary);
-`;
-
-const NextIcon = styled(RiArrowDownSLine)`
-  color: var(--border-tertiary);
-`;
-
 const SearchMapPage = () => {
   const [params] = useSearchParams();
   const keyword = params.get('keyword') ?? '';
@@ -95,5 +62,38 @@ const SearchMapPage = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const MapContainer = styled.div`
+  width: 100%;
+  height: calc(100vh - 4rem);
+  z-index: 1;
+`;
+
+const SideSearch = styled.div`
+  padding: 10px;
+  width: 500px;
+  height: calc(100vh - 4rem);
+  overflow-y: scroll;
+  background-color: var(--bg-color);
+  z-index: 2;
+`;
+
+const SearchBarContainer = styled.div`
+  padding: 1rem;
+`;
+
+const Result = styled.div``;
+
+const PrevIcon = styled(RiArrowUpSLine)`
+  color: var(--border-tertiary);
+`;
+
+const NextIcon = styled(RiArrowDownSLine)`
+  color: var(--border-tertiary);
+`;
 
 export default SearchMapPage;

@@ -10,6 +10,57 @@ import ImgUploadModal from './ImgUploadModal';
 import { StoreDataType } from 'types';
 import { ArchiveType, ArchivesType } from 'hooks/useArchivesMutation';
 
+interface TitleProps {
+  storeData: StoreDataType | undefined;
+  archivesData: ArchivesType | undefined;
+  addArchive: (newArchive: ArchiveType) => void;
+  deleteArchive: (archiveToDelete: ArchiveType) => void;
+}
+
+const Title = ({ storeData, archivesData, addArchive, deleteArchive }: TitleProps) => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const user = useRecoilValue(userState);
+
+  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(storeData?.storeId!);
+
+  const handleAddArchiveClick = () => {
+    if (!user) {
+      navigate('/signin', { state: pathname });
+      return;
+    }
+    addArchive({ storeId: storeData?.storeId, email: user?.email });
+  };
+
+  const handleDeleteArchiveClick = () => {
+    deleteArchive({ storeId: storeData?.storeId, email: user?.email! });
+  };
+
+  const theme = useRecoilValue(themeState);
+
+  return (
+    <Container>
+      <StoreTitle>
+        <TitleText>{storeData?.storeName}</TitleText>
+        <StarContainer>
+          {[...Array(storeData?.starsCount).keys()].map(val => (
+            <Star key={val} src={`/images/star-${theme}.png`} />
+          ))}
+        </StarContainer>
+      </StoreTitle>
+      <Side>
+        {isUserVoted && <ImgUploadModal user={user} />}
+        <ModalBox storeId={storeData?.storeId!} width="120px" />
+        {archivesData?.isUserArchived ? (
+          <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
+        ) : (
+          <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
+        )}
+      </Side>
+    </Container>
+  );
+};
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -61,56 +112,5 @@ const FillBookMarkIcon = styled(BsFillBookmarkFill)`
 
   color: #fe9602;
 `;
-
-interface TitleProps {
-  storeData: StoreDataType | undefined;
-  archivesData: ArchivesType | undefined;
-  addArchive: (newArchive: ArchiveType) => void;
-  deleteArchive: (archiveToDelete: ArchiveType) => void;
-}
-
-const Title = ({ storeData, archivesData, addArchive, deleteArchive }: TitleProps) => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const user = useRecoilValue(userState);
-
-  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(storeData?.storeId!);
-
-  const handleAddArchiveClick = () => {
-    if (!user) {
-      navigate('/signin', { state: pathname });
-      return;
-    }
-    addArchive({ storeId: storeData?.storeId, email: user?.email });
-  };
-
-  const handleDeleteArchiveClick = () => {
-    deleteArchive({ storeId: storeData?.storeId, email: user?.email! });
-  };
-
-  const theme = useRecoilValue(themeState);
-
-  return (
-    <Container>
-      <StoreTitle>
-        <TitleText>{storeData?.storeName}</TitleText>
-        <StarContainer>
-          {[...Array(storeData?.starsCount).keys()].map(val => (
-            <Star key={val} src={`/images/star-${theme}.png`} />
-          ))}
-        </StarContainer>
-      </StoreTitle>
-      <Side>
-        {isUserVoted && <ImgUploadModal user={user} />}
-        <ModalBox storeId={storeData?.storeId!} width="120px" />
-        {archivesData?.isUserArchived ? (
-          <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
-        ) : (
-          <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
-        )}
-      </Side>
-    </Container>
-  );
-};
 
 export default Title;

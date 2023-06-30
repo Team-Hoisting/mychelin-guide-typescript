@@ -5,17 +5,6 @@ import { useArchivesMutation } from '../hooks/index';
 import { CommentsList, StoreDetail } from '../components/store/index';
 import { SkinnyContainer } from '../components/common';
 
-const Container = styled.div`
-  width: 100%;
-  padding: 12px 0;
-  font-size: 20px;
-`;
-
-const Center = styled.div`
-  width: 80%;
-  margin: 0 auto;
-`;
-
 const StoreDetailPage = () => {
   const { storeId } = useParams();
 
@@ -32,5 +21,16 @@ const StoreDetailPage = () => {
     </SkinnyContainer>
   );
 };
+
+const Container = styled.div`
+  width: 100%;
+  padding: 12px 0;
+  font-size: 20px;
+`;
+
+const Center = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
 
 export default StoreDetailPage;

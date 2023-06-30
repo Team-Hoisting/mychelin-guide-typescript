@@ -11,6 +11,71 @@ import Controller from './Controller';
 import { CategoryCode, User } from 'types';
 import { StoreType } from 'components/searchmap/types';
 
+interface SameStoreCheckerType {
+  storeId: string;
+  categoryCode: CategoryCode | 'none';
+  setIsOpened: (state: boolean) => void;
+  setTaskQueue: (state: any) => void;
+  setPhase: (state: string) => void;
+}
+
+interface VoteType {
+  storeId: string;
+  email: string;
+  categoryCode: CategoryCode;
+  votedAt: number;
+}
+
+const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, setPhase }: SameStoreCheckerType) => {
+  const { nickname, voteStatus } = useRecoilValue(userState) as User;
+  const { categoryCode: prevCategoryCode } = voteStatus.find(vote => vote.storeId === storeId) as VoteType;
+
+  const { data: store } = useQuery({
+    queryKey: ['storeInfo', storeId],
+    queryFn: fetchStore(storeId),
+  });
+
+  const onNext = () => {
+    setTaskQueue((taskQueue: any) => [...taskQueue, () => removeVote(nickname, prevCategoryCode)]);
+
+    setPhase('success');
+  };
+
+  return (
+    <Container>
+      <Inner>
+        <Title>매장 중복</Title>
+        <Text>
+          하나의 매장에는 <span className="em">하나의 투표만</span> 부여할 수 있습니다.
+        </Text>
+        <Text>
+          <span className="em">&quot;{store?.storeName}&quot;</span> 의 투표 카테고리를 변경합니다.
+        </Text>
+      </Inner>
+      <Changes>
+        <Box>
+          <Image src={`/categoryIcons/${categoryInfo[prevCategoryCode as CategoryCode].imgFile}.png`} alt="logo" />
+          {categoryInfo[prevCategoryCode as CategoryCode].ko}
+        </Box>
+        <ArrowIcon />
+        <Box>
+          <Image src={`/categoryIcons/${categoryInfo[categoryCode as CategoryCode].imgFile}.png`} alt="logo" />
+          {categoryInfo[categoryCode as CategoryCode].ko}
+        </Box>
+      </Changes>
+      <Controller
+        leftText="확인"
+        rightText="취소"
+        onNext={onNext}
+        onClose={() => {
+          setTaskQueue([]);
+          setIsOpened(false);
+        }}
+      />
+    </Container>
+  );
+};
+
 const Container = styled.div`
   background-color: var(--bg-color);
   color: var(--font-color);
@@ -65,70 +130,5 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   margin-left: 4rem;
   margin-right: 4rem;
 `;
-
-interface SameStoreCheckerType {
-  storeId: string;
-  categoryCode: CategoryCode | 'none';
-  setIsOpened: (state: boolean) => void;
-  setTaskQueue: (state: any) => void;
-  setPhase: (state: string) => void;
-}
-
-interface VoteType {
-  storeId: string;
-  email: string;
-  categoryCode: CategoryCode | 'none';
-  votedAt: number;
-}
-
-const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, setPhase }: SameStoreCheckerType) => {
-  const { nickname, voteStatus } = useRecoilValue(userState) as User;
-  const { categoryCode: prevCategoryCode } = voteStatus.find(vote => vote.storeId === storeId) as VoteType;
-
-  const { data: store } = useQuery({
-    queryKey: ['storeInfo', storeId],
-    queryFn: fetchStore(storeId),
-  });
-
-  const onNext = () => {
-    setTaskQueue((taskQueue: any) => [...taskQueue, () => removeVote(nickname, prevCategoryCode)]);
-
-    setPhase('success');
-  };
-
-  return (
-    <Container>
-      <Inner>
-        <Title>매장 중복</Title>
-        <Text>
-          하나의 매장에는 <span className="em">하나의 투표만</span> 부여할 수 있습니다.
-        </Text>
-        <Text>
-          <span className="em">&quot;{store?.storeName}&quot;</span> 의 투표 카테고리를 변경합니다.
-        </Text>
-      </Inner>
-      <Changes>
-        <Box>
-          <Image src={`/categoryIcons/${categoryInfo[prevCategoryCode as CategoryCode].imgFile}.png`} alt="logo" />
-          {categoryInfo[prevCategoryCode as CategoryCode].ko}
-        </Box>
-        <ArrowIcon />
-        <Box>
-          <Image src={`/categoryIcons/${categoryInfo[categoryCode as CategoryCode].imgFile}.png`} alt="logo" />
-          {categoryInfo[categoryCode as CategoryCode].ko}
-        </Box>
-      </Changes>
-      <Controller
-        leftText="확인"
-        rightText="취소"
-        onNext={onNext}
-        onClose={() => {
-          setTaskQueue([]);
-          setIsOpened(false);
-        }}
-      />
-    </Container>
-  );
-};
 
 export default SameStoreChecker;

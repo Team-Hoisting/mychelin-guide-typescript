@@ -1,11 +1,6 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
 const { kakao } = window as any;
 
 const StorePositionMap = ({ x, y }: { x: string | undefined; y: string | undefined }) => {
@@ -28,5 +23,10 @@ const StorePositionMap = ({ x, y }: { x: string | undefined; y: string | undefin
 
   return <Container ref={mapContainerRef} />;
 };
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 export default StorePositionMap;

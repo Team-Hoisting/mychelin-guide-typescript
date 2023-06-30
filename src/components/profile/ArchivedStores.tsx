@@ -3,20 +3,6 @@ import useArchivedInfiniteQuery from '../../hooks/useArchivedInfiniteQuery';
 import { ScrollObserver } from '../common';
 import ProfileStoreItem from './ProfileStoreItem';
 
-const StoresGrid = styled.div`
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(3, 1fr);
-`;
-
-const NoArchivedItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  height: 500px;
-`;
-
 interface ArchiveStoresProps {
   profileUserNickname: string;
 }
@@ -44,5 +30,19 @@ const ArchivedStores = ({ profileUserNickname }: ArchiveStoresProps) => {
     </>
   );
 };
+
+const StoresGrid = styled.div`
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+`;
+
+const NoArchivedItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 500px;
+`;
 
 export default ArchivedStores;

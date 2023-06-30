@@ -7,17 +7,6 @@ import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 import { useCommentsMutation, useComments } from '../../hooks/index.js';
 import { CommentType } from 'hooks/useCommentsMutation';
 
-const CommentsContainer = styled.div`
-  font-size: 18px;
-  width: 100%;
-  min-width: 1000px;
-  height: 800px;
-`;
-
-const Label = styled.label`
-  font-weight: 800;
-`;
-
 interface CommentsDataType {
   data: CommentType[];
   totalPages: number;
@@ -53,5 +42,16 @@ const CommentsList = () => {
     </CommentsContainer>
   );
 };
+
+const CommentsContainer = styled.div`
+  font-size: 18px;
+  width: 100%;
+  min-width: 1000px;
+  height: 800px;
+`;
+
+const Label = styled.label`
+  font-weight: 800;
+`;
 
 export default CommentsList;

@@ -11,24 +11,6 @@ import useDragAndDrop from '../../hooks/useDragAndDrop';
 
 import { SortedStoresProps } from './types';
 
-const Container = styled.div`
-  text-align: right;
-`;
-
-const EditButton = styled(Button)`
-  margin: 5px 5px 15px 5px;
-  width: 100px;
-  height: 40px;
-  font-size: 15px;
-  font-weight: 450;
-`;
-
-const StoresGrid = styled.div`
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(3, 1fr);
-`;
-
 const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }: SortedStoresProps) => {
   const user = useRecoilValue(userState);
 
@@ -103,5 +85,23 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }: Sort
     </Container>
   );
 };
+
+const Container = styled.div`
+  text-align: right;
+`;
+
+const EditButton = styled(Button)`
+  margin: 5px 5px 15px 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 15px;
+  font-weight: 450;
+`;
+
+const StoresGrid = styled.div`
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+`;
 
 export default SortedStores;

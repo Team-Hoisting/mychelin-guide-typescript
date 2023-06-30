@@ -3,6 +3,19 @@ import styled from 'styled-components';
 import categoryInfo from '../../constants/categoryInfo';
 import { CategoryCode } from 'types';
 
+interface EmptyStoreItemProps {
+  categoryCode: CategoryCode;
+}
+
+const EmptyStoreItem = ({ categoryCode }: EmptyStoreItemProps) => (
+  <Container>
+    <CategoryTitle>
+      <CategoryIcon src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
+      <CategoryName>아직 최애 {categoryInfo[categoryCode].ko} 식당이 없습니다.</CategoryName>
+    </CategoryTitle>
+  </Container>
+);
+
 const Container = styled.div`
   padding: 15px;
   width: 100%;
@@ -33,18 +46,5 @@ const CategoryName = styled.h5`
   font-size: 20px;
   color: #ababab;
 `;
-
-interface EmptyStoreItemProps {
-  categoryCode: CategoryCode;
-}
-
-const EmptyStoreItem = ({ categoryCode }: EmptyStoreItemProps) => (
-  <Container>
-    <CategoryTitle>
-      <CategoryIcon src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
-      <CategoryName>아직 최애 {categoryInfo[categoryCode].ko} 식당이 없습니다.</CategoryName>
-    </CategoryTitle>
-  </Container>
-);
 
 export default EmptyStoreItem;

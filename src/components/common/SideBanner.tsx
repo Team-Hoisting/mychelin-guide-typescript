@@ -1,67 +1,14 @@
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
-
-import userState from '../../recoil/atoms/userState';
-
-import categoryCodes from '../../constants/categoryCodes';
-
+import { categoryCodes } from '../../constants';
 import VotedCategoryItem from '../sidebanner/VotedCategoryItem';
-import { User, CategoryCode } from '../../types';
+import { User } from '../../types';
 
 const PAGEITEMNUM = 4;
-
-const Container = styled.div`
-  position: fixed;
-  margin: 0;
-  padding: 5px;
-  top: 140px;
-  right: 50px;
-  width: 100px;
-  height: fit-content;
-
-  border-radius: 10px;
-  text-align: center;
-  z-index: 999;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  background-color: var(--bg-secondary-color);
-  color: var(--font-color);
-`;
-const Title = styled.h4`
-  margin: 8px auto;
-  width: 60px;
-  font-size: 15px;
-  text-align: center;
-`;
-
-const CarouselContainer = styled(Carousel)`
-  margin: 5px;
-`;
-
-const Slide = styled(Carousel.Slide)`
-  display: flex;
-  height: 100%;
-  line-height: 100%;
-`;
-
-const SlideContainer = styled.div`
-  margin: auto;
-`;
-
-const NextPageBtn = styled(RiArrowDownSLine)`
-  width: 30px;
-  height: 30px;
-`;
-
-const PrevPageBtn = styled(RiArrowUpSLine)`
-  width: 30px;
-  height: 30px;
-`;
 
 interface SideBannerProps {
   user: User;
@@ -120,4 +67,52 @@ const SideBanner = ({ user }: SideBannerProps) => {
     </>
   );
 };
+
+const Container = styled.div`
+  position: fixed;
+  margin: 0;
+  padding: 5px;
+  top: 140px;
+  right: 50px;
+  width: 100px;
+  height: fit-content;
+
+  border-radius: 10px;
+  text-align: center;
+  z-index: 999;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  background-color: var(--bg-secondary-color);
+  color: var(--font-color);
+`;
+const Title = styled.h4`
+  margin: 8px auto;
+  width: 60px;
+  font-size: 15px;
+  text-align: center;
+`;
+
+const CarouselContainer = styled(Carousel)`
+  margin: 5px;
+`;
+
+const Slide = styled(Carousel.Slide)`
+  display: flex;
+  height: 100%;
+  line-height: 100%;
+`;
+
+const SlideContainer = styled.div`
+  margin: auto;
+`;
+
+const NextPageBtn = styled(RiArrowDownSLine)`
+  width: 30px;
+  height: 30px;
+`;
+
+const PrevPageBtn = styled(RiArrowUpSLine)`
+  width: 30px;
+  height: 30px;
+`;
+
 export default SideBanner;

@@ -2,11 +2,10 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal } from '@mantine/core';
-import userState from '../../recoil/atoms/userState';
-import themeState from '../../recoil/atoms/themeState';
+import { userState, themeState } from '../../recoil/atoms';
 import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier, ToggleButton } from '../modal';
 import { Loader } from '.';
-import { VoteDataType, StoreDataType, CategoryCode } from 'types';
+import { StoreDataType, CategoryCode } from 'types';
 import { StoreType } from 'components/searchmap/types';
 
 interface PopupModalProps {

@@ -3,19 +3,6 @@ import styled from 'styled-components';
 import { nicknameSchema, passwordSchema } from '../../schema';
 import Unit from './Unit';
 
-const Container = styled.div`
-  padding-top: 38px;
-  max-width: 480px;
-  background-color: var(--bg-color);
-`;
-
-const Title = styled.h3`
-  margin: 0;
-  padding: 0;
-  font-size: 1.3rem;
-  letter-spacing: -0.27px;
-`;
-
 const defaultValuesForNickname = {
   nickname: '',
 };
@@ -32,5 +19,18 @@ const LoginInfo = () => (
     <Unit type="password" title="비밀번호" formSchema={passwordSchema} defaultValues={defaultValuesForPassword} />
   </Container>
 );
+
+const Container = styled.div`
+  padding-top: 38px;
+  max-width: 480px;
+  background-color: var(--bg-color);
+`;
+
+const Title = styled.h3`
+  margin: 0;
+  padding: 0;
+  font-size: 1.3rem;
+  letter-spacing: -0.27px;
+`;
 
 export default LoginInfo;

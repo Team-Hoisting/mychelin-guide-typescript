@@ -1,5 +1,24 @@
-import { SyntheticEvent } from 'react';
 import styled from 'styled-components';
+
+interface ProfileHeaderProps {
+  profileUserNickname: string;
+  isCertified: boolean;
+}
+
+const ProfileHeader = ({ profileUserNickname, isCertified }: ProfileHeaderProps) => (
+  <Container>
+    <ProfileImg
+      src={`/img/users/${profileUserNickname}`}
+      onError={e => {
+        (e.target as HTMLImageElement).src = '/img/default/user.png';
+      }}
+    />
+    <NickName>
+      {profileUserNickname}
+      {isCertified && <CertifiedIcon />}
+    </NickName>
+  </Container>
+);
 
 const Container = styled.div`
   display: flex;
@@ -25,25 +44,5 @@ const CertifiedIcon = styled.img.attrs({ src: '/images/certified.png' })`
   margin: auto 5px;
   height: 30px;
 `;
-
-interface ProfileHeaderProps {
-  profileUserNickname: string;
-  isCertified: boolean;
-}
-
-const ProfileHeader = ({ profileUserNickname, isCertified }: ProfileHeaderProps) => (
-  <Container>
-    <ProfileImg
-      src={`/img/users/${profileUserNickname}`}
-      onError={(e: SyntheticEvent<HTMLImageElement>) => {
-        e.currentTarget.src = '/img/default/user.png';
-      }}
-    />
-    <NickName>
-      {profileUserNickname}
-      {isCertified && <CertifiedIcon />}
-    </NickName>
-  </Container>
-);
 
 export default ProfileHeader;

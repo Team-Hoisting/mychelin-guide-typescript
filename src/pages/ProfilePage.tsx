@@ -7,11 +7,6 @@ import { ProfileHeader, StoresViewer } from '../components/profile';
 
 import useUserProfile from '../hooks/useUserProfile';
 
-const ProfileWrapper = styled.main`
-  width: 85%;
-  margin: 0 auto;
-`;
-
 const ProfilePage = () => {
   const { nickname: profileUserNickname } = useParams();
   const { user, voteStores, emptyCategories } = useUserProfile(profileUserNickname!);
@@ -29,5 +24,10 @@ const ProfilePage = () => {
     </SkinnyContainer>
   );
 };
+
+const ProfileWrapper = styled.main`
+  width: 85%;
+  margin: 0 auto;
+`;
 
 export default ProfilePage;

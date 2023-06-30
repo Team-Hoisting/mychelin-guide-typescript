@@ -7,6 +7,32 @@ import Editor from './Editor';
 import { nicknameSchema, passwordSchema } from 'schema';
 import { DefaultValues } from 'react-hook-form';
 
+interface UnitType {
+  type: string;
+  title: string;
+  formSchema: typeof nicknameSchema | typeof passwordSchema;
+  defaultValues: nicknameSchema | passwordSchema;
+}
+
+const Unit = ({ type, title, formSchema, defaultValues }: UnitType) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const user = useRecoilValue(userState);
+
+  return (
+    <Container>
+      <Title>{title}</Title>
+      {!isOpen ? (
+        <>
+          <Content>{type === 'nickname' ? user?.nickname : '●●●●●●●●●'}</Content>
+          <ButtonWithPosition onClick={() => setIsOpen(true)}>변경</ButtonWithPosition>
+        </>
+      ) : (
+        <Editor type={type} onClose={() => setIsOpen(false)} formSchema={formSchema} defaultValues={defaultValues} /> // form
+      )}
+    </Container>
+  );
+};
+
 const Container = styled.div`
   padding: 25px 0 18px 0;
   position: relative;
@@ -35,31 +61,5 @@ const ButtonWithPosition = styled(Button)`
   right: 0;
   bottom: 16px;
 `;
-
-interface UnitType {
-  type: string;
-  title: string;
-  formSchema: typeof nicknameSchema | typeof passwordSchema;
-  defaultValues: nicknameSchema | passwordSchema;
-}
-
-const Unit = ({ type, title, formSchema, defaultValues }: UnitType) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const user = useRecoilValue(userState);
-
-  return (
-    <Container>
-      <Title>{title}</Title>
-      {!isOpen ? (
-        <>
-          <Content>{type === 'nickname' ? user?.nickname : '●●●●●●●●●'}</Content>
-          <ButtonWithPosition onClick={() => setIsOpen(true)}>변경</ButtonWithPosition>
-        </>
-      ) : (
-        <Editor type={type} onClose={() => setIsOpen(false)} formSchema={formSchema} defaultValues={defaultValues} /> // form
-      )}
-    </Container>
-  );
-};
 
 export default Unit;

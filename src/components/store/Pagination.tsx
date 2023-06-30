@@ -5,17 +5,6 @@ import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 import { CommentType } from '../../hooks/useCommentsMutation';
 
-const ButtonContainer = styled.div`
-  width: 100%;
-  margin: 24px 0;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  width: 30%;
-  margin: 0 auto;
-`;
-
 interface PaginationProps {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -104,5 +93,16 @@ const Pagination = ({ currentPage, setCurrentPage, commentsData, totalPages }: P
     </ButtonContainer>
   );
 };
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  margin: 24px 0;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  width: 30%;
+  margin: 0 auto;
+`;
 
 export default Pagination;

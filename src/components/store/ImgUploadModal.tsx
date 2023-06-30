@@ -12,60 +12,6 @@ import { Button as CommonButton } from '../common/index';
 import { User } from '../../types';
 import { FileWithPath } from '@mantine/dropzone';
 
-const iconSize = css`
-  width: 100px;
-  height: 100px;
-`;
-
-const PhotoIcon = styled(HiOutlinePhotograph)`
-  ${iconSize}
-`;
-
-const CancelIcon = styled(AiOutlineClose)`
-  ${iconSize}
-`;
-
-const UploadIcon = styled(BiUpload)`
-  ${iconSize}
-`;
-
-const Preview = styled.img.attrs({
-  alt: '선택한 이미지',
-})`
-  width: 400px;
-  object-fit: cover;
-`;
-
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-}
-
-const UploadButton = styled(CommonButton).attrs({
-  type: 'button',
-})<ButtonProps>`
-  margin-right: 0;
-  margin-left: auto;
-  margin-top: 12px;
-`;
-
-const Right = styled.div`
-  display: flex;
-`;
-
-const BeforeUploadButton = styled(Button)<ButtonProps>`
-  width: 120px;
-  height: 44px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  color: #000;
-
-  background: #e3e3e3;
-  &:hover {
-    background: #cfcfcf;
-  }
-`;
-
 interface ImgUploadModalProps {
   user: User | null;
 }
@@ -170,5 +116,59 @@ const ImgUploadModal = ({ user }: ImgUploadModalProps) => {
     </>
   );
 };
+
+const iconSize = css`
+  width: 100px;
+  height: 100px;
+`;
+
+const PhotoIcon = styled(HiOutlinePhotograph)`
+  ${iconSize}
+`;
+
+const CancelIcon = styled(AiOutlineClose)`
+  ${iconSize}
+`;
+
+const UploadIcon = styled(BiUpload)`
+  ${iconSize}
+`;
+
+const Preview = styled.img.attrs({
+  alt: '선택한 이미지',
+})`
+  width: 400px;
+  object-fit: cover;
+`;
+
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+const UploadButton = styled(CommonButton).attrs({
+  type: 'button',
+})<ButtonProps>`
+  margin-right: 0;
+  margin-left: auto;
+  margin-top: 12px;
+`;
+
+const Right = styled.div`
+  display: flex;
+`;
+
+const BeforeUploadButton = styled(Button)<ButtonProps>`
+  width: 120px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #000;
+
+  background: #e3e3e3;
+  &:hover {
+    background: #cfcfcf;
+  }
+`;
 
 export default ImgUploadModal;

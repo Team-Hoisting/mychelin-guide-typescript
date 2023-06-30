@@ -4,6 +4,45 @@ import styled, { keyframes, css } from 'styled-components';
 import { categoryInfo } from '../../constants';
 import { CategoryCode } from 'types';
 
+interface ProfileStoreItemProps {
+  categoryCode?: CategoryCode;
+  storeId: string;
+  storeName: string;
+  isEditing?: boolean;
+  isOverlaid?: boolean;
+}
+
+const ProfileStoreItem = ({
+  categoryCode,
+  storeId,
+  storeName,
+  isEditing = false,
+  isOverlaid = false,
+}: ProfileStoreItemProps) => (
+  <Container isEditing={isEditing}>
+    <Link to={`/store/${storeId}`}>
+      <ImageContainer>
+        <Img
+          src={`/img/stores/${storeId}`}
+          onError={(e: SyntheticEvent<HTMLImageElement>) => {
+            e.currentTarget.src = '/img/default/store.png';
+          }}
+        />
+      </ImageContainer>
+    </Link>
+    <NonImageContents>
+      {categoryCode && (
+        <CategoryTitle>
+          <CategoryIcon src={`/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`} />
+          <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
+        </CategoryTitle>
+      )}
+      <StoreName>{storeName}</StoreName>
+    </NonImageContents>
+    <Overlay isOverlaid={isOverlaid} />
+  </Container>
+);
+
 const jump = keyframes`
   0% {
     transform: scale(1);
@@ -100,44 +139,5 @@ const Overlay = styled.div<OverlayStyleProps>`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
 `;
-
-interface ProfileStoreItemProps {
-  categoryCode?: CategoryCode;
-  storeId: string;
-  storeName: string;
-  isEditing?: boolean;
-  isOverlaid?: boolean;
-}
-
-const ProfileStoreItem = ({
-  categoryCode,
-  storeId,
-  storeName,
-  isEditing = false,
-  isOverlaid = false,
-}: ProfileStoreItemProps) => (
-  <Container isEditing={isEditing}>
-    <Link to={`/store/${storeId}`}>
-      <ImageContainer>
-        <Img
-          src={`/img/stores/${storeId}`}
-          onError={(e: SyntheticEvent<HTMLImageElement>) => {
-            e.currentTarget.src = '/img/default/store.png';
-          }}
-        />
-      </ImageContainer>
-    </Link>
-    <NonImageContents>
-      {categoryCode && (
-        <CategoryTitle>
-          <CategoryIcon src={`/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`} />
-          <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
-        </CategoryTitle>
-      )}
-      <StoreName>{storeName}</StoreName>
-    </NonImageContents>
-    <Overlay isOverlaid={isOverlaid} />
-  </Container>
-);
 
 export default ProfileStoreItem;

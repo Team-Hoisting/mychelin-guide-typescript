@@ -2,14 +2,16 @@ import styled from 'styled-components';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { categoryState } from '../../recoil/atoms';
+import { FetchNextPageOptions, InfiniteQueryObserverResult } from '@tanstack/react-query';
+import { StoresDataType } from 'types';
 
-const Container = styled.div`
-  text-align: center;
-  margin: 10px;
-  opacity: 0;
-`;
-
-const ScrollObserver = ({ fetchNextPage }) => {
+const ScrollObserver = ({
+  fetchNextPage,
+}: {
+  fetchNextPage: (
+    options?: FetchNextPageOptions | undefined
+  ) => Promise<InfiniteQueryObserverResult<StoresDataType, unknown>>;
+}) => {
   const category = useRecoilValue(categoryState);
   const observerRef = React.useRef(null);
 
@@ -34,5 +36,11 @@ const ScrollObserver = ({ fetchNextPage }) => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  text-align: center;
+  margin: 10px;
+  opacity: 0;
+`;
 
 export default ScrollObserver;

@@ -38,6 +38,46 @@ const SubTitle = styled.div`
 
 const FirstVoteUser = styled.div``;
 
+export interface StoreDetailProps {
+  addArchive: (newArchive: ArchiveType) => void;
+  deleteArchive: (archiveToDelete: ArchiveType) => void;
+}
+
+const StoreDetail = ({ addArchive, deleteArchive }: StoreDetailProps) => {
+  const { storeId } = useParams();
+
+  const [{ data: archivesData }, { data: storeData }]: [
+    { data: ArchivesType | undefined },
+    { data: StoreDataType | undefined }
+  ] = useQueries({
+    queries: [
+      { queryKey: [...archiveQueryKey, storeId], queryFn: fetchArchives(storeId!) },
+      { queryKey: [...storeQueryKey, storeId], queryFn: fetchStore(storeId!) },
+    ],
+  });
+
+  return (
+    <Container>
+      <Title storeData={storeData} archivesData={archivesData} addArchive={addArchive} deleteArchive={deleteArchive} />
+      <SubTitle>
+        <FirstVoteUser>
+          최초 투표자 : <UserName>{storeData?.firstVoteUser}</UserName>
+        </FirstVoteUser>
+        <VerticalHr />
+        <VoteCntMsg>
+          투표 <span>{storeData?.totalVotesCnt}</span>개
+        </VoteCntMsg>
+        <VerticalHr />
+        <ArchivedCntMsg>
+          저장 <span>{archivesData?.totalArchivesCnt}</span>개
+        </ArchivedCntMsg>
+      </SubTitle>
+      <Main store={storeData} />
+      <Votes votesCount={storeData?.votesCount} />
+    </Container>
+  );
+};
+
 const UserName = styled.span`
   ${bold}
   position: relative;
@@ -67,45 +107,5 @@ const VoteCntMsg = styled.span`
     ${bold}
   }
 `;
-
-export interface StoreDetailProps {
-  addArchive: (newArchive: ArchiveType) => void;
-  deleteArchive: (archiveToDelete: ArchiveType) => void;
-}
-
-const StoreDetail = ({ addArchive, deleteArchive }: StoreDetailProps) => {
-  const { storeId } = useParams();
-
-  const [{ data: archivesData }, { data: storeData }]: [
-    { data: ArchivesType | undefined },
-    { data: StoreDataType | undefined }
-  ] = useQueries({
-    queries: [
-      { queryKey: [...archiveQueryKey, storeId], queryFn: fetchArchives(storeId) },
-      { queryKey: [...storeQueryKey, storeId], queryFn: fetchStore(storeId!) },
-    ],
-  });
-
-  return (
-    <Container>
-      <Title storeData={storeData} archivesData={archivesData} addArchive={addArchive} deleteArchive={deleteArchive} />
-      <SubTitle>
-        <FirstVoteUser>
-          최초 투표자 : <UserName>{storeData?.firstVoteUser}</UserName>
-        </FirstVoteUser>
-        <VerticalHr />
-        <VoteCntMsg>
-          투표 <span>{storeData?.totalVotesCnt}</span>개
-        </VoteCntMsg>
-        <VerticalHr />
-        <ArchivedCntMsg>
-          저장 <span>{archivesData?.totalArchivesCnt}</span>개
-        </ArchivedCntMsg>
-      </SubTitle>
-      <Main store={storeData} />
-      <Votes votesCount={storeData?.votesCount} />
-    </Container>
-  );
-};
 
 export default StoreDetail;

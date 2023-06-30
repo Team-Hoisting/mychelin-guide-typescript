@@ -3,6 +3,48 @@ import styled, { keyframes, css } from 'styled-components';
 import { StorePositionMap } from './index';
 import { StoreDataType } from 'types';
 
+interface MainProps {
+  store: StoreDataType | undefined;
+}
+
+const Main = ({ store }: MainProps) => {
+  const [isImgLoading, setisImgLoading] = React.useState(true);
+
+  const handleLoad = () => {
+    setisImgLoading(false);
+  };
+
+  return (
+    <Container>
+      {isImgLoading && <ImageSkeleton />}
+      <Image
+        src={`/img/stores/${store?.storeId}`}
+        isImgLoading={isImgLoading}
+        draggable={false}
+        onLoad={handleLoad}
+        onError={e => {
+          (e.target as HTMLImageElement).src = '/img/default/store.png';
+        }}
+      />
+      <DetailSide>
+        <MapContainer className="map">
+          <StorePositionMap x={store?.x} y={store?.y} />
+        </MapContainer>
+        <InfoContainer>
+          <Info>
+            <AddressTitle>
+              <span>주소</span> : {store?.address || '없음'}
+            </AddressTitle>
+            <PhoneTitle>
+              <span>전화번호</span> : {store?.phoneNumber || '없음'}
+            </PhoneTitle>
+          </Info>
+        </InfoContainer>
+      </DetailSide>
+    </Container>
+  );
+};
+
 const Container = styled.div`
   display: flex;
   height: 500px;
@@ -93,47 +135,5 @@ const Image = styled.img<{ isImgLoading: boolean }>`
   border-radius: 4px;
   object-fit: cover;
 `;
-
-interface MainProps {
-  store: StoreDataType | undefined;
-}
-
-const Main = ({ store }: MainProps) => {
-  const [isImgLoading, setisImgLoading] = React.useState(true);
-
-  const handleLoad = () => {
-    setisImgLoading(false);
-  };
-
-  return (
-    <Container>
-      {isImgLoading && <ImageSkeleton />}
-      <Image
-        src={`/img/stores/${store?.storeId}`}
-        isImgLoading={isImgLoading}
-        draggable={false}
-        onLoad={handleLoad}
-        onError={e => {
-          (e.target as HTMLImageElement).src = '/img/default/store.png';
-        }}
-      />
-      <DetailSide>
-        <MapContainer className="map">
-          <StorePositionMap x={store?.x} y={store?.y} />
-        </MapContainer>
-        <InfoContainer>
-          <Info>
-            <AddressTitle>
-              <span>주소</span> : {store?.address || '없음'}
-            </AddressTitle>
-            <PhoneTitle>
-              <span>전화번호</span> : {store?.phoneNumber || '없음'}
-            </PhoneTitle>
-          </Info>
-        </InfoContainer>
-      </DetailSide>
-    </Container>
-  );
-};
 
 export default Main;

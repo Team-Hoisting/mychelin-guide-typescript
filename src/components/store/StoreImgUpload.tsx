@@ -2,6 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import ImgUploadModal from './ImgUploadModal';
 
+const StoreImgUpload = () => {
+  const [isOpened, setIsOpened] = React.useState(false); // 모달 토글
+
+  <>
+    <button>이미지업로드</button>
+  </>;
+};
+
 const Label = styled.label.attrs({
   htmlFor: 'input-file',
 })`
@@ -20,11 +28,4 @@ const ImgUploadInput = styled.input.attrs({
   display: none;
 `;
 
-const StoreImgUpload = () => {
-  const [isOpened, setIsOpened] = React.useState(false); // 모달 토글
-
-  <>
-    <button>이미지업로드</button>
-  </>;
-};
 export default StoreImgUpload;

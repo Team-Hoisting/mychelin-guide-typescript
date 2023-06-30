@@ -1,11 +1,55 @@
 import React from 'react';
-import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { useNavigate, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { AiOutlineClose } from 'react-icons/ai';
 import userState from '../../recoil/atoms/userState';
 import { CommentType } from 'hooks/useCommentsMutation';
+
+interface CommentsProps {
+  commentData: CommentType;
+  deleteComment: (commentId: string) => void;
+  hasBorder: boolean;
+}
+
+const Comments = ({ commentData, deleteComment, hasBorder }: CommentsProps) => {
+  const { nickname, isCertified, content, email, commentId } = commentData;
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
+
+  const handleDeleteBtnClick = (commentId: string | undefined) => () => {
+    if (commentId) deleteComment(commentId);
+  };
+
+  const handleProfileClick = (nickname: string) => () => {
+    navigate(`/profile/${nickname}`, { state: pathname });
+  };
+
+  return (
+    <>
+      <Comment>
+        <Profile
+          src={`/img/users/${commentData?.nickname}`}
+          onClick={handleProfileClick(nickname)}
+          onError={e => {
+            (e.target as HTMLImageElement).src = '/img/default/user.png';
+          }}
+        />
+        <div>
+          <User>
+            <NickName>{nickname}</NickName>
+            {isCertified && <CertifiedIcon />}
+          </User>
+          <Content>{content}</Content>
+        </div>
+        {user && email === user.email && <CloseBtn onClick={handleDeleteBtnClick(commentId)} />}
+      </Comment>
+      {hasBorder && <Divider />}
+    </>
+  );
+};
 
 const Comment = styled.div`
   position: relative;
@@ -56,49 +100,5 @@ const NickName = styled.p`
   font-weight: 600;
   margin: 0 4px;
 `;
-
-interface CommentsProps {
-  commentData: CommentType;
-  deleteComment: (commentId: string) => void;
-  hasBorder: boolean;
-}
-
-const Comments = ({ commentData, deleteComment, hasBorder }: CommentsProps) => {
-  const { nickname, isCertified, content, email, commentId } = commentData;
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
-  const user = useRecoilValue(userState);
-
-  const handleDeleteBtnClick = (commentId: string | undefined) => () => {
-    if (commentId) deleteComment(commentId);
-  };
-
-  const handleProfileClick = (nickname: string) => () => {
-    navigate(`/profile/${nickname}`, { state: pathname });
-  };
-
-  return (
-    <>
-      <Comment>
-        <Profile
-          src={`/img/users/${commentData?.nickname}`}
-          onClick={handleProfileClick(nickname)}
-          onError={e => {
-            (e.target as HTMLImageElement).src = '/img/default/user.png';
-          }}
-        />
-        <div>
-          <User>
-            <NickName>{nickname}</NickName>
-            {isCertified && <CertifiedIcon />}
-          </User>
-          <Content>{content}</Content>
-        </div>
-        {user && email === user.email && <CloseBtn onClick={handleDeleteBtnClick(commentId)} />}
-      </Comment>
-      {hasBorder && <Divider />}
-    </>
-  );
-};
 
 export default Comments;

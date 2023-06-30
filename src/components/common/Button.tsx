@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/palette';
 
+const Button = (props: ButtonProps) =>
+  props.to ? <CommonLink to={props.to} {...props} /* $red={props.red} */ /> : <CommonButton {...props} />;
+
 interface ButtonStyleProps {
   red?: boolean;
   full?: boolean;
@@ -101,8 +104,5 @@ const CommonButton = styled.button<ButtonProps>`
 const CommonLink = styled(Link)<ButtonProps>`
   ${buttonStyle}
 `;
-
-const Button = (props: ButtonProps) =>
-  props.to ? <CommonLink to={props.to} {...props} /* $red={props.red} */ /> : <CommonButton {...props} />;
 
 export default Button;
