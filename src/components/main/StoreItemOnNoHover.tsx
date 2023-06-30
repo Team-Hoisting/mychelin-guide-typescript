@@ -1,9 +1,53 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MychelinStars } from '.';
 import { CategoryTag } from '../common';
 import { CategoryCode } from 'types';
+
+interface StoreItemOnNoHoverProps {
+  storeId: string;
+  storeName: string;
+  starsCount: number;
+  votesCount: [CategoryCode, number][];
+}
+
+const StoreItemOnNoHover = ({ storeId, storeName, starsCount, votesCount }: StoreItemOnNoHoverProps) => {
+  return (
+    <Container>
+      <Link to="/detail">
+        <ImageContainer>
+          <Img
+            src={`img/stores/${storeId}`}
+            onError={e => {
+              e.currentTarget.src = 'img/default/store.png';
+            }}
+          />
+        </ImageContainer>
+      </Link>
+      <Contents>
+        <StoreInfoMain>
+          <Name>{storeName}</Name>
+          <MychelinStars starsCount={starsCount} />
+        </StoreInfoMain>
+        <VotesContainer>
+          {votesCount.length ? (
+            votesCount.map((category, idx) => (
+              <CategoryTag
+                key={idx}
+                categoryCode={Object.keys(category)[0]}
+                totalVotes={Object.values(category)[0] as number}
+                renderName={false}
+              />
+            ))
+          ) : (
+            <Placeholder />
+          )}
+        </VotesContainer>
+      </Contents>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   width: 100%;
@@ -64,49 +108,5 @@ const Placeholder = styled.div`
   height: 100px;
   width: 100px;
 `;
-
-interface StoreItemOnNoHoverProps {
-  storeId: string;
-  storeName: string;
-  starsCount: number;
-  votesCount: [CategoryCode, number][];
-}
-
-const StoreItemOnNoHover = ({ storeId, storeName, starsCount, votesCount }: StoreItemOnNoHoverProps) => {
-  return (
-    <Container>
-      <Link to="/detail">
-        <ImageContainer>
-          <Img
-            src={`img/stores/${storeId}`}
-            onError={(e: SyntheticEvent<HTMLImageElement>) => {
-              e.currentTarget.src = 'img/default/store.png';
-            }}
-          />
-        </ImageContainer>
-      </Link>
-      <Contents>
-        <StoreInfoMain>
-          <Name>{storeName}</Name>
-          <MychelinStars starsCount={starsCount} />
-        </StoreInfoMain>
-        <VotesContainer>
-          {votesCount.length ? (
-            votesCount.map((ctg, idx) => (
-              <CategoryTag
-                key={idx}
-                categoryCode={Object.keys(ctg)[0]}
-                votedCnt={Object.values(ctg)[0] as number}
-                renderName={false}
-              />
-            ))
-          ) : (
-            <Placeholder />
-          )}
-        </VotesContainer>
-      </Contents>
-    </Container>
-  );
-};
 
 export default StoreItemOnNoHover;

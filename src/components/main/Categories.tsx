@@ -6,15 +6,6 @@ import { categoryInfo, categoryCodes } from '../../constants';
 import { CategoryBox } from '../common';
 import { CategoryCode } from 'types';
 
-const Container = styled.div`
-  height: 80px;
-  margin: 20px 0 20px 0;
-  display: grid;
-  grid-template-columns: repeat(13, 1fr);
-  position: relative;
-  align-items: center;
-`;
-
 const fullCategoryCodes = ['AL00', ...categoryCodes];
 
 const Categories = () => {
@@ -36,5 +27,14 @@ const Categories = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  height: 80px;
+  margin: 20px 0 20px 0;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  position: relative;
+  align-items: center;
+`;
 
 export default Categories;
