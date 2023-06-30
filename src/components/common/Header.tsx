@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BsMoon } from '@react-icons/all-files/bs/BsMoon';
-import { BsSun } from '@react-icons/all-files/bs/BsSun';
+import { HiOutlineSun } from '@react-icons/all-files/hi/HiOutlineSun';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { searchInputState, categoryState, themeState } from '../../recoil/atoms';
@@ -106,8 +106,8 @@ const LogoImage = styled.img`
   cursor: pointer;
 `;
 
-const LightModeIcon = styled(BsSun)`
-  font-size: 18px;
+const LightModeIcon = styled(HiOutlineSun)`
+  font-size: 22px;
   color: #ffff00ea;
   margin: 0;
   padding: 0;
@@ -115,7 +115,7 @@ const LightModeIcon = styled(BsSun)`
 `;
 
 const DarkModeIcon = styled(BsMoon)`
-  font-size: 18px;
+  font-size: 20px;
   color: #3c3c3c;
   margin: 0;
   padding: 0;
