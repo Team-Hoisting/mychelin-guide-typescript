@@ -3,12 +3,6 @@ import styled from 'styled-components';
 import { StoreItem } from '.';
 import { StoresDataType } from 'types';
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-`;
-
 interface TopThreeStoresProps {
   stores: StoresDataType | undefined;
 }
@@ -20,5 +14,11 @@ const TopThreeStores = ({ stores }: TopThreeStoresProps) => (
     ))}
   </Container>
 );
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+`;
 
 export default TopThreeStores;

@@ -3,6 +3,22 @@ import { useRecoilValue } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import { themeState } from '../../recoil/atoms';
 
+const Footer = () => {
+  const theme = useRecoilValue(themeState);
+  const { pathname } = useLocation();
+
+  return pathname === '/signin' || pathname === '/signup' ? (
+    <></>
+  ) : (
+    <Container>
+      <a href="https://github.com/Team-Hoisting/mychelin-guide-frontend" target="_blank" rel="noreferrer noreopener">
+        <GithubLink src="/images/github-logo.svg" alt="Github" theme={theme} />
+      </a>
+      <Copyright>Copyright © 2023 Team Hoisting All Rights Reserved</Copyright>
+    </Container>
+  );
+};
+
 const Container = styled.footer`
   width: 100%;
   height: 4rem;
@@ -24,21 +40,5 @@ const GithubLink = styled.img`
   width: 25px;
   ${({ theme }) => theme === 'dark' && 'filter: invert(100%) brightness(120%)'};
 `;
-
-const Footer = () => {
-  const theme = useRecoilValue(themeState);
-  const { pathname } = useLocation();
-
-  return pathname === '/signin' || pathname === '/signup' ? (
-    <></>
-  ) : (
-    <Container>
-      <a href="https://github.com/Team-Hoisting/mychelin-guide-frontend" target="_blank" rel="noreferrer noreopener">
-        <GithubLink src="/images/github-logo.svg" alt="Github" theme={theme} />
-      </a>
-      <Copyright>Copyright © 2023 Team Hoisting All Rights Reserved</Copyright>
-    </Container>
-  );
-};
 
 export default Footer;

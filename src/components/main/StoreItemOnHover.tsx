@@ -2,6 +2,22 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Button, ModalBox } from '../common';
 
+interface StoreItemOnHoverProps {
+  storeId: string;
+}
+
+const StoreItemOnHover = ({ storeId }: StoreItemOnHoverProps) => (
+  <Container>
+    <HoverItemIcon />
+    <ButtonContainer>
+      <Link to={`/store/${storeId}`}>
+        <RoundedButton gray>상세보기</RoundedButton>
+      </Link>
+      <ModalBox storeId={storeId} />
+    </ButtonContainer>
+  </Container>
+);
+
 const Container = styled.main`
   z-index: 2;
   width: 100%;
@@ -37,21 +53,5 @@ const RoundedButton = styled(Button)`
   border-radius: 12px;
   font-size: 16px;
 `;
-
-interface StoreItemOnHoverProps {
-  storeId: string;
-}
-
-const StoreItemOnHover = ({ storeId }: StoreItemOnHoverProps) => (
-  <Container>
-    <HoverItemIcon />
-    <ButtonContainer>
-      <Link to={`/store/${storeId}`}>
-        <RoundedButton gray>상세보기</RoundedButton>
-      </Link>
-      <ModalBox storeId={storeId} />
-    </ButtonContainer>
-  </Container>
-);
 
 export default StoreItemOnHover;

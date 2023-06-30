@@ -3,6 +3,22 @@ import styled from 'styled-components';
 import { StoreItemOnNoHover, StoreItemOnHover } from '.';
 import { StoreDataType } from '../../types';
 
+interface StoreItemProps {
+  store: StoreDataType;
+  place?: number | null;
+}
+
+const StoreItem = ({ store, place = null }: StoreItemProps) => {
+  const { storeId, storeName, starsCount = 0, votesCount } = store;
+
+  return (
+    <Container place={place}>
+      <StoreItemOnHover storeId={store.storeId} />
+      <StoreItemOnNoHover storeId={storeId} storeName={storeName} starsCount={starsCount} votesCount={votesCount} />
+    </Container>
+  );
+};
+
 interface ContainerProps {
   place: number | null;
 }
@@ -52,21 +68,5 @@ const Container = styled.div<ContainerProps>`
     `}
   }
 `;
-
-interface StoreItemProps {
-  store: StoreDataType;
-  place?: number | null;
-}
-
-const StoreItem = ({ store, place = null }: StoreItemProps) => {
-  const { storeId, storeName, starsCount = 0, votesCount } = store;
-
-  return (
-    <Container place={place}>
-      <StoreItemOnHover storeId={store.storeId} />
-      <StoreItemOnNoHover storeId={storeId} storeName={storeName} starsCount={starsCount} votesCount={votesCount} />
-    </Container>
-  );
-};
 
 export default StoreItem;
