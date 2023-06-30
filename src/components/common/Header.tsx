@@ -36,7 +36,11 @@ const Header = () => {
       <Container>
         <Wrapper hasSearchBar={hasSearchBar}>
           <Link to="/" onClick={resetMainPage}>
-            <LogoImage src={`/images/mychelin-guide-logo-${theme}.png`} alt="마이슐랭 가이드 로고" />
+            <LogoImage
+              src={`/images/mychelin-guide-logo-${theme}.png`}
+              alt="마이슐랭 가이드 로고"
+              onClick={resetMainPage}
+            />
           </Link>
           {hasSearchBar ? <SearchBar hasDropdown={true} inputRef={searchBarRef} /> : <></>}
           <Configs>
