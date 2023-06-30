@@ -38,6 +38,7 @@ const Copyright = styled.p`
 
 const GithubLink = styled.img`
   width: 25px;
+  height: 25px;
   ${({ theme }) => theme === 'dark' && 'filter: invert(100%) brightness(120%)'};
 `;
 

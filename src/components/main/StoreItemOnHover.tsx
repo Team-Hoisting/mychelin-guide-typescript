@@ -33,6 +33,7 @@ const HoverItemIcon = styled.img.attrs({
   src: '/images/fork-spoon.png',
 })`
   width: 60px;
+  height: 60px;
   display: none;
   margin-bottom: 30px;
 `;

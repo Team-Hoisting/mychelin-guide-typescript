@@ -89,6 +89,7 @@ const EachCategoryBox = styled.div<EachCategoryBoxProps>`
 
 const CategoryIcon = styled.img<CategoryIconProps>`
   width: ${({ width }) => width && width};
+  height: ${({ width }) => width && width}
   transition: 0.1s ease-in-out;
 `;
 

@@ -101,6 +101,7 @@ const Wrapper = styled.div<WrapperProps>`
 
 const LogoImage = styled.img`
   width: 150px;
+  height: 40px;
   cursor: pointer;
 `;
 
