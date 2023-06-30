@@ -78,6 +78,7 @@ const CommentsTextArea = ({ addComment, setCurrentPage }: CommentsTextAreaProps)
     }
 
     const newComment = {
+      commentId: 'undecided',
       storeId,
       content,
       email: user?.email,
