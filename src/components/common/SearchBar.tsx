@@ -68,8 +68,9 @@ const SearchBar = ({
   const closeDropdown = () => setOpenDropdown(false);
 
   const alterFocus = (e: React.KeyboardEvent<HTMLLIElement | HTMLInputElement>, storeId?: string) => {
-    e.preventDefault();
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab' && e.key !== 'Enter') return;
+
+    e.preventDefault();
 
     if (e.target instanceof HTMLInputElement) {
       if (e.key === 'ArrowUp') (dropdownRef.current?.lastElementChild as HTMLElement).focus();
