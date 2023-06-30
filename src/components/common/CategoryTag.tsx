@@ -2,6 +2,24 @@ import styled from 'styled-components';
 import { CategoryCode } from 'types';
 import { categoryInfo } from '../../constants';
 
+interface CategoryTagProps {
+  categoryCode: string;
+  totalVotes: number;
+  renderName: boolean | undefined;
+}
+
+const CategoryTag = ({ categoryCode, totalVotes, renderName = true }: CategoryTagProps) => {
+  const imgSrc = `/categoryIcons/${categoryInfo[categoryCode as CategoryCode].imgFile}.png`;
+
+  return (
+    <Container>
+      <CategoryIcon src={imgSrc} alt="" />
+      {renderName && <CatagoryName>{categoryInfo[categoryCode as CategoryCode].ko}</CatagoryName>}
+      <TotalVotes>{totalVotes}</TotalVotes>
+    </Container>
+  );
+};
+
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
@@ -28,29 +46,11 @@ const CatagoryName = styled.span`
   font-weight: 700;
 `;
 
-const VotedCnt = styled.span`
+const TotalVotes = styled.span`
   margin: 3px;
   font-size: 18px;
   font-weight: 700;
   line-height: 1.5;
 `;
-
-interface CategoryTagProps {
-  categoryCode: string;
-  votedCnt?: number;
-  renderName: boolean | undefined;
-}
-
-const CategoryTag = ({ categoryCode, votedCnt, renderName = true }: CategoryTagProps) => {
-  const imgSrc = `/categoryIcons/${categoryInfo[categoryCode as CategoryCode].imgFile}.png`;
-
-  return (
-    <Container>
-      <CategoryIcon src={imgSrc} alt="" />
-      {renderName && <CatagoryName>{categoryInfo[categoryCode as CategoryCode].ko}</CatagoryName>}
-      <VotedCnt>{votedCnt}</VotedCnt>
-    </Container>
-  );
-};
 
 export default CategoryTag;
