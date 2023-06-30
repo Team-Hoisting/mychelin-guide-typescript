@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BsMoon } from '@react-icons/all-files/bs/BsMoon';
-import { HiOutlineSun } from '@react-icons/all-files/hi/HiOutlineSun';
+import { BsMoon, BsSun } from 'react-icons/bs';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { searchInputState, categoryState, themeState } from '../../recoil/atoms';
@@ -28,9 +27,9 @@ const Header = () => {
   };
 
   const { pathname } = useLocation();
-  const { id } = useParams();
+  const { storeId } = useParams();
 
-  const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
+  const hasSearchBar = pathname === '/' || pathname === `/store/${storeId}`;
 
   return (
     <>
@@ -102,12 +101,11 @@ const Wrapper = styled.div<WrapperProps>`
 
 const LogoImage = styled.img`
   width: 150px;
-  height: 40px;
   cursor: pointer;
 `;
 
-const LightModeIcon = styled(HiOutlineSun)`
-  font-size: 22px;
+const LightModeIcon = styled(BsSun)`
+  font-size: 18px;
   color: #ffff00ea;
   margin: 0;
   padding: 0;
@@ -115,7 +113,7 @@ const LightModeIcon = styled(HiOutlineSun)`
 `;
 
 const DarkModeIcon = styled(BsMoon)`
-  font-size: 20px;
+  font-size: 18px;
   color: #3c3c3c;
   margin: 0;
   padding: 0;

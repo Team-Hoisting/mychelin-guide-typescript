@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
-import { AiOutlineArrowDown } from '@react-icons/all-files/ai/AiOutlineArrowDown';
+import { AiOutlineArrowDown } from 'react-icons/ai';
 import userState from '../../recoil/atoms/userState';
 import { fetchStore } from '../../api/stores';
 import { removeVote } from '../../api/votes';

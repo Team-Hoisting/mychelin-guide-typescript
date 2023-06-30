@@ -1,39 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BsBookmark } from '@react-icons/all-files/bs/BsBookmark';
-import { FaVoteYea } from '@react-icons/all-files/fa/FaVoteYea';
+import { BsBookmark } from 'react-icons/bs';
+import { MdOutlineWhereToVote } from 'react-icons/md';
 import { Loader } from '../common';
 import { SortedStores, ArchivedStores } from '.';
 import { SortedStoresProps } from './types';
-
-interface TabStyleProps {
-  selected: boolean;
-}
-
-const Tab = styled.div<TabStyleProps>`
-  width: 250px;
-  border-top: ${({ selected }) => (selected ? '2px solid var(--border-tertiary)' : '2px solid rgba(0,0,0,0)')};
-  color: ${({ selected }) => (selected ? 'var(--font-color)' : '#ababab')};
-  font-size: 20px;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-`;
-
-const ArchiveIcon = styled(BsBookmark)`
-  width: 30px;
-`;
-
-const VoteIcon = styled(FaVoteYea)`
-  width: 30px;
-`;
-
-const TabName = styled.p`
-  margin: 0;
-`;
 
 const StoresViewer = ({ profileUserNickname, voteStores, emptyCategories }: SortedStoresProps) => {
   const [isVotedStoresTab, setIsVotedStoresTab] = React.useState(true);
@@ -64,6 +35,35 @@ const StoresViewer = ({ profileUserNickname, voteStores, emptyCategories }: Sort
     </>
   );
 };
+
+interface TabStyleProps {
+  selected: boolean;
+}
+
+const Tab = styled.div<TabStyleProps>`
+  width: 250px;
+  border-top: ${({ selected }) => (selected ? '2px solid var(--border-tertiary)' : '2px solid rgba(0,0,0,0)')};
+  color: ${({ selected }) => (selected ? 'var(--font-color)' : '#ababab')};
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+`;
+
+const ArchiveIcon = styled(BsBookmark)`
+  width: 30px;
+`;
+
+const VoteIcon = styled(MdOutlineWhereToVote)`
+  width: 30px;
+`;
+
+const TabName = styled.p`
+  margin: 0;
+`;
 
 const Tabs = styled.div`
   border-top: 1px solid #ababab;

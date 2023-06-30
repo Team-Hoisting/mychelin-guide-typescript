@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, rem } from '@mantine/core';
-import { BiRightArrow } from '@react-icons/all-files/bi/BiRightArrow';
-import { BiLeftArrow } from '@react-icons/all-files/bi/BiLeftArrow';
+import { SlArrowRight, SlArrowLeft } from 'react-icons/sl';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 import { CommentType } from '../../hooks/useCommentsMutation';
 
@@ -50,7 +49,7 @@ const Pagination = ({ currentPage, setCurrentPage, commentsData, totalPages }: P
               height: rem(42),
             },
           })}>
-          <BiLeftArrow style={{ width: '14px', strokeWidth: '50' }} />
+          <SlArrowLeft style={{ width: '14px', strokeWidth: '50' }} />
         </Button>
         {currentPages.map(pageNum => (
           <Button
@@ -85,10 +84,9 @@ const Pagination = ({ currentPage, setCurrentPage, commentsData, totalPages }: P
               '&:hover': { backgroundColor: 'var(--button-hover-color);' },
               border: 0,
               height: rem(42),
-              width: rem(20),
             },
           })}>
-          <BiRightArrow style={{ width: '14px', strokeWidth: '50' }} />
+          <SlArrowRight style={{ width: '14px', strokeWidth: '50' }} />
         </Button>
       </ButtonGroup>
     </ButtonContainer>
@@ -104,6 +102,7 @@ const ButtonGroup = styled.div`
   display: flex;
   width: 30%;
   margin: 0 auto;
+  justify-content: center;
 `;
 
 export default Pagination;

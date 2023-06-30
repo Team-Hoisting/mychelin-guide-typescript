@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { RiArrowUpSLine } from '@react-icons/all-files/ri/RiArrowUpSLine';
-import { RiArrowDownSLine } from '@react-icons/all-files/ri/RiArrowDownSLine';
+import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
 
 import { ResultList, MoveResultPageBtn } from '../components/searchmap';
 import { SearchBar, Loader } from '../components/common';
