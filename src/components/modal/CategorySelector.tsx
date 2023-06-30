@@ -113,7 +113,7 @@ const CategorySelector = ({
     else {
       setTaskQueue((taskQueue: any) => [
         ...taskQueue,
-        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf(), store }),
+        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
       ]);
 
       setPhase(sameStoreCount !== 0 ? 'store' : 'success');

@@ -79,7 +79,7 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
 interface SameCategoryCheckerType {
   store: StoreType;
   storeId: string;
-  categoryCode: CategoryCode | 'none';
+  categoryCode: CategoryCode;
   setPhase: (state: string) => void;
   setTaskQueue: (state: any) => void;
 }

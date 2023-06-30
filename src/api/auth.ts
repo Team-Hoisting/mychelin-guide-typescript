@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { User } from '../types';
+import { signupSchema, signinSchema } from '../schema';
 
 // const BASE_URL = 'http://localhost:8888/api';
 
@@ -9,13 +11,13 @@ import axios from 'axios';
 
 const url = `/api/auth`;
 
-const signUp = async user => {
+const signUp = async (user: signupSchema) => {
   const response = await axios.post(`${url}/signup`, user);
 
   return response.data;
 };
 
-const signIn = async user => {
+const signIn = async (user: signinSchema) => {
   const response = await axios.post(`${url}/signin`, user);
 
   return response.data;
@@ -33,13 +35,13 @@ const check = async () => {
   return response.data;
 };
 
-const checkEmail = async email => {
+const checkEmail = async (email: string) => {
   const response = await axios.post(`${url}/checkEmail`, { email });
 
   return response;
 };
 
-const checkNickname = async nickname => {
+const checkNickname = async (nickname: string) => {
   const response = await axios.post(`${url}/checkNickname`, { nickname });
 
   return response;

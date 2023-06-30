@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { StoreType } from 'components/searchmap/types';
+import { CategoryCode, StoreDataType } from 'types';
 
 const url = `/api/votes`;
 
@@ -8,26 +10,34 @@ const fetchVotes = async () => {
   return response.data;
 };
 
-const fetchVotesByNickname = nickname => async () => {
+const fetchVotesByNickname = (nickname: string) => async () => {
   const response = await axios.get(`${url}/${nickname}`);
 
   return response.data;
 };
 
-// 구 모달 api
-const fetchPrevStore = (nickname, categoryCode) => async () => {
+const fetchPrevStore = (nickname: string, categoryCode: CategoryCode) => async () => {
   const response = await axios.get(`${url}/${nickname}/${categoryCode}`);
 
   return response.data;
 };
 
-const vote = async voteInfo => {
+type VoteInfo = {
+  storeId: string;
+  email?: string;
+  nickname?: string;
+  categoryCode: CategoryCode;
+  votedAt: number;
+  storeInfo: StoreType;
+};
+
+const vote = async (voteInfo: VoteInfo) => {
   const response = await axios.post(url, voteInfo);
 
   return response.data;
 };
 
-const reVote = async voteInfo => {
+const reVote = async (voteInfo: VoteInfo) => {
   const { storeId, nickname, categoryCode, votedAt, storeInfo } = voteInfo;
 
   const response = await axios.patch(`${url}/${nickname}/${categoryCode}`, { storeId, votedAt, storeInfo });
@@ -35,14 +45,14 @@ const reVote = async voteInfo => {
   return response.data;
 };
 
-const removeVote = async (nickname, categoryCode) => {
+const removeVote = async (nickname: string, categoryCode: CategoryCode) => {
   const response = await axios.delete(`${url}/${nickname}/${categoryCode}`);
 
   return response.data;
 };
 
 const fetchCategorySelectorData =
-  ({ storeId, nickname, categoryCode }) =>
+  ({ storeId, nickname, categoryCode }: { storeId: string; nickname: string; categoryCode: CategoryCode }) =>
   async () => {
     const response = await axios.get(`${url}/${storeId}/${nickname}/${categoryCode}`);
 

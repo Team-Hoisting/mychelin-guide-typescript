@@ -21,19 +21,19 @@ const fetchStore = (storeid: string) => async (): Promise<StoreDataType> => {
   return response.data;
 };
 
-const fetchVotedStoresByNickname = nickname => async () => {
+const fetchVotedStoresByNickname = (nickname: string) => async () => {
   const response = await axios.get(`${url}/voted/${nickname}`);
 
   return response.data;
 };
 
-const fetchArchivedStoreByNickname = (nickname, page, pageSize) => async () => {
+const fetchArchivedStoreByNickname = (nickname: string, page: number, pageSize: number) => async () => {
   const response = await axios.get(`${url}/archived/${nickname}?page=${page}&page_size=${pageSize}`);
 
   return response.data;
 };
 
-const fetchIsRegisteredByStoreIds = storeIds => async () => {
+const fetchIsRegisteredByStoreIds = (storeIds: string[]) => async () => {
   const urlString = `${url}/searchMap/isRegistered?${storeIds.map((id, idx) => `${idx}=${id}&`).join('')}`;
 
   const response = await axios.get(urlString.slice(0, -1));
