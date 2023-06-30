@@ -55,7 +55,7 @@ const SearchBar = ({
       setSearchInput('');
     } else {
       setOpenDropdown(true);
-      setDropdownStores(await fetchSearchedStores(userSearch));
+      setDropdownStores(await fetchSearchedStores(userSearch, pathname));
     }
   };
 
@@ -70,11 +70,11 @@ const SearchBar = ({
   const alterFocus = (e: React.KeyboardEvent<HTMLLIElement | HTMLInputElement>, storeId?: string) => {
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab' && e.key !== 'Enter') return;
 
-    e.preventDefault();
+    if (e.key !== 'Enter') e.preventDefault();
 
     if (e.target instanceof HTMLInputElement) {
       if (e.key === 'ArrowUp') (dropdownRef.current?.lastElementChild as HTMLElement).focus();
-      else (dropdownRef.current?.firstElementChild as HTMLElement).focus();
+      else if (e.key !== 'Enter') (dropdownRef.current?.firstElementChild as HTMLElement).focus();
     }
 
     if (e.target instanceof HTMLLIElement) {
