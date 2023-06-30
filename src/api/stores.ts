@@ -9,7 +9,7 @@ const fetchStores = async (url: string): Promise<StoresDataType> => {
   return response.data;
 };
 
-const fetchSearchedStores = async keyword => {
+const fetchSearchedStores = async (keyword: string) => {
   const response = await axios.get(`${url}/search?keyword=${keyword}`);
 
   return response.data;
