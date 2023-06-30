@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BsMoon, BsSun } from 'react-icons/bs';
+import { BsMoon } from '@react-icons/all-files/bs/BsMoon';
+import { BsSun } from '@react-icons/all-files/bs/BsSun';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { searchInputState, categoryState, themeState } from '../../recoil/atoms';

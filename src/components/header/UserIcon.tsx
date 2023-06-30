@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaRegUser } from 'react-icons/fa';
+import { FaRegUser } from '@react-icons/all-files/fa/FaRegUser';
 import { userState } from '../../recoil/atoms';
 import { useOnClickOutside } from '../../hooks/index.js';
 import { logout } from '../../api/auth';

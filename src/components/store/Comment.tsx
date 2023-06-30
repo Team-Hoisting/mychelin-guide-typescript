@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import userState from '../../recoil/atoms/userState';
 import { CommentType } from 'hooks/useCommentsMutation';
 

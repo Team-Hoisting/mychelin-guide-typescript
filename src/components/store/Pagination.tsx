@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, rem } from '@mantine/core';
-import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import { BiRightArrow } from '@react-icons/all-files/bi/BiRightArrow';
+import { BiLeftArrow } from '@react-icons/all-files/bi/BiLeftArrow';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 import { CommentType } from '../../hooks/useCommentsMutation';
 
@@ -49,7 +50,7 @@ const Pagination = ({ currentPage, setCurrentPage, commentsData, totalPages }: P
               height: rem(42),
             },
           })}>
-          <SlArrowLeft style={{ width: '14px', strokeWidth: '50' }} />
+          <BiLeftArrow style={{ width: '14px', strokeWidth: '50' }} />
         </Button>
         {currentPages.map(pageNum => (
           <Button
@@ -87,7 +88,7 @@ const Pagination = ({ currentPage, setCurrentPage, commentsData, totalPages }: P
               width: rem(20),
             },
           })}>
-          <SlArrowRight style={{ width: '14px', strokeWidth: '50' }} />
+          <BiRightArrow style={{ width: '14px', strokeWidth: '50' }} />
         </Button>
       </ButtonGroup>
     </ButtonContainer>

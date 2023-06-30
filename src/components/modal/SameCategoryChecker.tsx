@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { useQueries } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
-import { MdOutlineKeyboardDoubleArrowDown } from 'react-icons/md';
+import { AiOutlineArrowDown } from '@react-icons/all-files/ai/AiOutlineArrowDown';
 import userState from '../../recoil/atoms/userState';
 import { fetchStore } from '../../api/stores';
 import { reVote } from '../../api/votes';
@@ -132,7 +132,7 @@ const Text = styled.p<TextProps>`
     `}
 `;
 
-const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
+const ArrowIcon = styled(AiOutlineArrowDown)`
   font-size: 2rem;
   transform: rotate(-90deg);
   margin-left: 1rem;

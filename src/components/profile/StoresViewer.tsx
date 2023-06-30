@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BsBookmark } from 'react-icons/bs';
-import { MdOutlineWhereToVote } from 'react-icons/md';
+import { BsBookmark } from '@react-icons/all-files/bs/BsBookmark';
+import { FaVoteYea } from '@react-icons/all-files/fa/FaVoteYea';
 import { Loader } from '../common';
 import { SortedStores, ArchivedStores } from '.';
 import { SortedStoresProps } from './types';
@@ -27,7 +27,7 @@ const ArchiveIcon = styled(BsBookmark)`
   width: 30px;
 `;
 
-const VoteIcon = styled(MdOutlineWhereToVote)`
+const VoteIcon = styled(FaVoteYea)`
   width: 30px;
 `;
 

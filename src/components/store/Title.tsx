@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
+import { BsBookmark } from '@react-icons/all-files/bs/BsBookmark';
+import { BsFillBookmarkFill } from '@react-icons/all-files/bs/BsFillBookmarkFill';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import ModalBox from '../common/ModalBox';

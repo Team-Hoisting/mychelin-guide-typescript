@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { AiOutlineArrowRight } from 'react-icons/ai';
+import { AiOutlineArrowRight } from '@react-icons/all-files/ai/AiOutlineArrowRight';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { searchInputState, categoryState } from '../../recoil/atoms';
 import { fetchSearchedStores } from '../../api/stores';
