@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { StoresDataType } from 'types';
+import { useRecoilValue } from 'recoil';
+import { themeState } from '../../recoil/atoms';
 
 interface SearchResultDropdownProps {
   dropdownRef: React.RefObject<HTMLUListElement>;
@@ -17,26 +19,30 @@ const SearchResultDropdown = ({
   alterFocus,
   closeDropdown,
   dropdownStores,
-}: SearchResultDropdownProps) => (
-  <Dropdown ref={dropdownRef}>
-    {dropdownStores.length ? (
-      dropdownStores.map(({ storeName, storeId }) => (
-        <DropdownResult key={storeName} tabIndex={0} onKeyDown={e => alterFocus(e, storeId)}>
-          <Link to={`/store/${storeId}`} onClick={closeDropdown}>
-            <div>{storeName}</div>
+}: SearchResultDropdownProps) => {
+  const theme = useRecoilValue(themeState);
+
+  return (
+    <Dropdown ref={dropdownRef}>
+      {dropdownStores.length ? (
+        dropdownStores.map(({ storeName, storeId }) => (
+          <DropdownResult theme={theme} key={storeName} tabIndex={0} onKeyDown={e => alterFocus(e, storeId)}>
+            <Link to={`/store/${storeId}`} onClick={closeDropdown}>
+              <div>{storeName}</div>
+            </Link>
+          </DropdownResult>
+        ))
+      ) : (
+        <NoMatch>
+          <NoMatchMessage>결과가 없습니다.</NoMatchMessage>
+          <Link to={`/searchmap?keyword=${inputRef.current?.value.trim()}`}>
+            <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
           </Link>
-        </DropdownResult>
-      ))
-    ) : (
-      <NoMatch>
-        <NoMatchMessage>결과가 없습니다.</NoMatchMessage>
-        <Link to={`/searchmap?keyword=${inputRef.current?.value.trim()}`}>
-          <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
-        </Link>
-      </NoMatch>
-    )}
-  </Dropdown>
-);
+        </NoMatch>
+      )}
+    </Dropdown>
+  );
+};
 
 const Dropdown = styled.ul`
   list-style-type: none;
@@ -53,7 +59,11 @@ const Dropdown = styled.ul`
   overflow-y: scroll;
 `;
 
-const DropdownResult = styled.li`
+interface DropdownResultProps {
+  theme: string;
+}
+
+const DropdownResult = styled.li<DropdownResultProps>`
   padding: 10px;
   font-size: 18px;
   border-bottom: 0.5px solid #e8e8e8;
@@ -67,7 +77,7 @@ const DropdownResult = styled.li`
   }
 
   :focus {
-    outline: 1px solid #e8e8e8;
+    outline: ${({ theme }) => (theme === 'dark' ? '0px solid #e8e8e8' : '1px solid #e8e8e8')};
     color: var(--primary-color);
   }
 `;
