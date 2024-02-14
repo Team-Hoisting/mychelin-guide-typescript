@@ -15,6 +15,7 @@ import {
   ProfilePage,
   UserInfoPage,
 } from './pages';
+import storeDetailLoader from './components/store/storeDetailLoader';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
       {
         path: 'store/:storeId',
         element: <StoreDetailPage />,
-        // loader: storeDetailLoader(queryClient),
+        loader: storeDetailLoader(queryClient),
       },
     ],
   },

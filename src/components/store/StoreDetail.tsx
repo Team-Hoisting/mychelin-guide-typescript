@@ -3,9 +3,7 @@ import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
 import { Title, Votes, Main } from './index';
-import { archiveQueryKey, storeQueryKey } from '../../constants/index';
-import { fetchStore } from '../../api/stores';
-import fetchArchives from '../../api/archive';
+import { storeQuery, archivesQuery } from './queries/queries';
 import { ArchiveType, ArchivesType } from '../../hooks/useArchivesMutation';
 import { StoreDataType } from 'types';
 
@@ -43,17 +41,21 @@ export interface StoreDetailProps {
   deleteArchive: (archiveToDelete: ArchiveType) => void;
 }
 
+interface ArchivesQueryResult {
+  data: ArchivesType | undefined;
+}
+
+interface StoreQueryResult {
+  data: StoreDataType | undefined;
+}
+
+type StoreDetailQueryResult = [StoreQueryResult, ArchivesQueryResult];
+
 const StoreDetail = ({ addArchive, deleteArchive }: StoreDetailProps) => {
   const { storeId } = useParams();
 
-  const [{ data: archivesData }, { data: storeData }]: [
-    { data: ArchivesType | undefined },
-    { data: StoreDataType | undefined }
-  ] = useQueries({
-    queries: [
-      { queryKey: [...archiveQueryKey, storeId], queryFn: fetchArchives(storeId!) },
-      { queryKey: [...storeQueryKey, storeId], queryFn: fetchStore(storeId!) },
-    ],
+  const [{ data: storeData }, { data: archivesData }]: StoreDetailQueryResult = useQueries({
+    queries: [storeQuery(storeId), archivesQuery(storeId)],
   });
 
   return (

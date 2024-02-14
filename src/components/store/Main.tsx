@@ -27,9 +27,7 @@ const Main = ({ store }: MainProps) => {
         }}
       />
       <DetailSide>
-        <MapContainer className="map">
-          <StorePositionMap x={store?.x} y={store?.y} />
-        </MapContainer>
+        <MapContainer className="map">{/* <StorePositionMap x={store?.x} y={store?.y} /> */}</MapContainer>
         <InfoContainer>
           <Info>
             <AddressTitle>
